@@ -1,0 +1,50 @@
+backend:
+  name: git-gateway
+  branch: main
+local_backend: true
+media_folder: "assets"
+public_folder: "/assets"
+collections:
+  - name: "pages"
+    label: "Site Pages"
+    files:
+      - label: "Home Page"
+        name: "home"
+        file: "content/pages/home.yml"
+        fields:
+          - {label: "Hero Title", name: "hero_title", widget: "string"}
+          - {label: "Lead Paragraph", name: "lead_paragraph", widget: "text"}
+      - label: "Heritage (About) Page"
+        name: "about"
+        file: "content/pages/about.yml"
+        fields:
+          - {label: "Rector's Quote", name: "rector_quote", widget: "text"}
+          - {label: "Heritage Description", name: "heritage_body", widget: "markdown"}
+      - label: "Academics"
+        name: "academics"
+        file: "content/pages/academics.yml"
+        fields:
+          - {label: "Curriculum Overview", name: "curriculum_overview", widget: "markdown"}
+      - label: "Admissions"
+        name: "admissions"
+        file: "content/pages/admissions.yml"
+        fields:
+          - {label: "Process Description", name: "process", widget: "markdown"}
+  - name: "announcements"
+    label: "Announcements / Circulars"
+    folder: "content/announcements"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Date", name: "date", widget: "datetime"}
+      - {label: "Body Text", name: "body", widget: "markdown"}
+  - name: "tuition_fees"
+    label: "Tuition Fees"
+    folder: "content/tuition"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Program Name", name: "title", widget: "string"}
+      - {label: "Term Fee", name: "term_fee", widget: "number"}
+      - {label: "Acceptance Fee", name: "acceptance_fee", widget: "number"}
