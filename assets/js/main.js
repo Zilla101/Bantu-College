@@ -185,7 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <div style="text-align: center; padding: 2rem;">
                             <div style="width: 50px; height: 50px; background: rgba(230, 44, 32, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; border: 2px solid var(--color-red);"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-red)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
                             <h3 style="font-family: var(--font-heading); color: var(--color-slate); margin-bottom: 1rem;">Application Received!</h3>
-                            <p style="color: #666; font-size: 1.1rem;">Thank you for applying to Bantu College. Mr. Terna Iwar's admissions team will contact you within 48 hours to schedule the entrance examination.</p>
+                            <p style="color: #666; font-size: 1.1rem;">Thank you for applying to Bantu College. Mr. Kwaghtongo D. A.'s admissions team will contact you within 48 hours to schedule the entrance examination.</p>
                         </div>
                     `;
                 }, 1500);
@@ -193,6 +193,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+
 
 
 
