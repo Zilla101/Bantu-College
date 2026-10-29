@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Student Portal | Bantu College</title>
-<link rel="stylesheet" href="assets/css/style.css?v=7">
+<link rel="stylesheet" href="assets/css/style.css?v=10">
 
 <meta name="description" content="Official student portal for Bantu College. Check termly results, fee ledgers, sundry expenses, and disciplinary records.">
 <meta property="og:type" content="website">
@@ -26,7 +26,7 @@
 <li><a href="index.html">Main Website</a></li>
 <li><a href="academics.html">Academics</a></li>
 <li><a href="admissions.html">Admissions</a></li>
-<li><a href="admin-portal.html" style="color: var(--color-gold-dark); font-weight: 700;">Staff and Bursar Desk</a></li>
+<li><a href="admin-portal.html" style="color: var(--color-gold-dark); font-weight: 700;">Faculty and Bursar Desk</a></li>
 </ul>
 </nav>
 <a href="index.html" class="btn-outline" style="padding: 0.6rem 1.2rem; font-size: 0.9rem;">Exit Portal</a>
@@ -66,12 +66,14 @@
 
     <div class="portal-demo-notice">
       <strong style="color: var(--color-slate); display: block; margin-bottom: 0.35rem;">Sample Test Logins for Demonstration:</strong>
-      <p>Student 1: Admission No: <strong>BC/2026/014</strong> | PIN: <strong>1234</strong> (Basic 7)</p>
-      <p>Student 2: Admission No: <strong>BC/2026/021</strong> | PIN: <strong>5678</strong> (Basic 8)</p>
+      <p>1. Terseer Audu: Admission No: <strong>BC/2026/014</strong> | PIN: <strong>1234</strong> (Basic 7 | Cleared Fees: &#8358;0 Balance)</p>
+      <p>2. Dooshima Iorfa: Admission No: <strong>BC/2026/021</strong> | PIN: <strong>5678</strong> (Basic 8 | &#8358;150,000 Balance for Atomic Payment Testing)</p>
+      <p>3. Kator Chia: Admission No: <strong>BC/2026/015</strong> | PIN: <strong>2468</strong> (Basic 7 | &#8358;150,000 Balance)</p>
+      <p>4. Bemgba Agber: Admission No: <strong>BC/2026/017</strong> | PIN: <strong>1357</strong> (Basic 7 | &#8358;300,000 Balance)</p>
     </div>
 
     <p style="text-align: center; margin-top: 1.5rem; font-size: 0.85rem; color: #777;">
-      School Administration Portal: <a href="admin-portal.html" style="color: var(--color-slate); font-weight: 700;">Open Teacher and Bursar Desk</a>
+      School Administration Portal: <a href="admin-portal.html" style="color: var(--color-slate); font-weight: 700;">Open Faculty and Bursar Desk</a>
     </p>
   </div>
 </div>
@@ -119,7 +121,7 @@
       <div class="destination-card" onclick="selectDestination('tabFees')">
         <div>
           <h4>School Fees Ledger</h4>
-          <p>Check paid tuition, bank receipt references, and cleared balance.</p>
+          <p>Check paid tuition, bank receipt references, and make atomic fee payments.</p>
         </div>
         <span style="color: var(--color-gold-dark); font-size: 0.85rem; font-weight: 700; margin-top: 1rem; display: block;">Open Fees Ledger</span>
       </div>
@@ -142,6 +144,142 @@
     </div>
   </div>
 </div>
+
+<!-- Atomic Online Payment Modal -->
+<div id="atomicPaymentModal" class="portal-modal-overlay no-print">
+  <div class="portal-modal-card" style="max-width: 540px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 1rem; margin-bottom: 1.25rem;">
+      <h3 style="font-family: var(--font-heading); color: var(--color-slate); font-size: 1.35rem; margin: 0;">Atomic Online Tuition Payment</h3>
+      <button type="button" onclick="closePaymentModal()" style="background: none; border: none; font-size: 1.4rem; cursor: pointer; color: #777;">&times;</button>
+    </div>
+
+    <!-- Outstanding Balance Information Box -->
+    <div style="background: rgba(43, 42, 66, 0.04); border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.25rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+        <span style="font-size: 0.85rem; color: #666; font-weight: 700; text-transform: uppercase;">Outstanding Balance</span>
+        <strong id="modalOutstandingBalanceDisplay" style="font-size: 1.3rem; color: var(--color-red);">&#8358;150,000.00</strong>
+      </div>
+      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+        <button type="button" class="btn-outline" style="padding: 0.35rem 0.75rem; font-size: 0.75rem;" onclick="setPaymentAmountPreset('full')">Pay Full Balance</button>
+        <button type="button" class="btn-outline" style="padding: 0.35rem 0.75rem; font-size: 0.75rem;" onclick="setPaymentAmountPreset(50000)">&#8358;50,000 Installment</button>
+        <button type="button" class="btn-outline" style="padding: 0.35rem 0.75rem; font-size: 0.75rem;" onclick="setPaymentAmountPreset(100000)">&#8358;100,000 Installment</button>
+      </div>
+    </div>
+
+    <form id="atomicPaymentForm">
+      <div class="form-group">
+        <label for="payStudentNameDisplay">Student Full Name</label>
+        <input type="text" id="payStudentNameDisplay" readonly style="background: #f5f5f7; font-weight: 600;">
+      </div>
+      <div class="form-group">
+        <label for="payAmountInput">Payment Amount (Naira)</label>
+        <input type="number" id="payAmountInput" required min="1000" step="1000" style="font-size: 1.2rem; font-weight: 800; color: var(--color-slate);">
+      </div>
+      <div class="form-group">
+        <label for="payChannelSelect">Payment Channel</label>
+        <select id="payChannelSelect">
+          <option value="Paystack Debit Card">Paystack Debit Card (Mastercard / Visa / Verve)</option>
+          <option value="Direct Bank Transfer">Instant Bank Transfer (NIP Reference)</option>
+          <option value="USSD Quick Pay">USSD Banking Code</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="payNarrativeInput">Payment Description</label>
+        <input type="text" id="payNarrativeInput" value="Third Term Tuition Balance Clearance">
+      </div>
+
+      <div id="paymentProcessingNotice" style="display: none; background: rgba(186, 147, 79, 0.15); color: var(--color-gold-dark); padding: 1rem; border-radius: 10px; margin-bottom: 1rem; font-size: 0.9rem; font-weight: 700; text-align: center;">
+        Authorizing atomic transaction with bank gateway... Reconciling student ledger.
+      </div>
+
+      <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem;">
+        <button type="button" onclick="closePaymentModal()" class="btn-outline" style="padding: 0.7rem 1.4rem;">Cancel</button>
+        <button type="submit" id="submitPaymentBtn" class="btn-primary" style="padding: 0.7rem 1.6rem;">Authorize Atomic Payment</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Official Electronic Bursary Receipt Modal -->
+<div id="bursaryReceiptModal" class="portal-modal-overlay">
+  <div class="portal-modal-card receipt-modal-card">
+    
+    <div class="no-print" style="display: flex; justify-content: flex-end; margin-bottom: 0.5rem;">
+      <button type="button" onclick="closeReceiptModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #666;">&times;</button>
+    </div>
+
+    <!-- Printable Receipt Content -->
+    <div id="bursaryReceiptContent" class="receipt-printable-box">
+      <!-- Receipt Header -->
+      <div style="text-align: center; border-bottom: 2px solid var(--color-slate); padding-bottom: 0.75rem; margin-bottom: 1rem;">
+        <img src="assets/Bantu%20College%20Crest-01a.png" alt="Bantu College" style="max-height: 52px; margin: 0 auto 0.35rem;">
+        <h2 style="font-family: var(--font-heading); font-size: 1.35rem; color: var(--color-slate); margin: 0; text-transform: uppercase;">Bantu College, Benue State</h2>
+        <p style="font-size: 0.85rem; color: #555; margin: 0.15rem 0;">Bursary and Financial Services Directorate | Motto: Read to Lead</p>
+        <span style="display: inline-block; background: var(--color-slate); color: var(--color-gold); font-size: 0.8rem; font-weight: 700; padding: 0.25rem 0.85rem; border-radius: 4px; margin-top: 0.35rem; letter-spacing: 1px; text-transform: uppercase;">Official Electronic Payment Receipt</span>
+      </div>
+
+      <!-- Receipt Meta Grid -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem 1rem; font-size: 0.85rem; margin-bottom: 1rem; background: rgba(0,0,0,0.02); padding: 0.75rem 1rem; border-radius: 8px;">
+        <div>Receipt Number: <strong style="font-family: monospace;" id="rcptRef">BNT/27/TX0000</strong></div>
+        <div>Date and Time: <strong id="rcptDateTime">29 Oct 2026</strong></div>
+        <div>Scholar Name: <strong id="rcptStudentName">Student Name</strong></div>
+        <div>Admission Number: <strong id="rcptStudentId">BC/2026/000</strong></div>
+        <div>Academic Class: <strong id="rcptClass">Basic 7</strong></div>
+        <div>Payment Channel: <strong id="rcptChannel">Paystack Gateway</strong></div>
+      </div>
+
+      <!-- Financial Transaction Summary -->
+      <div style="border: 1px solid rgba(0,0,0,0.12); border-radius: 8px; overflow: hidden; margin-bottom: 1rem;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+          <thead style="background: rgba(43, 42, 66, 0.06);">
+            <tr>
+              <th style="padding: 0.5rem 0.75rem; text-align: left; border-bottom: 1px solid rgba(0,0,0,0.1);">Transaction Narrative</th>
+              <th style="padding: 0.5rem 0.75rem; text-align: right; border-bottom: 1px solid rgba(0,0,0,0.1);">Amount (NGN)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding: 0.6rem 0.75rem; border-bottom: 1px solid rgba(0,0,0,0.06);" id="rcptNarrative">Third Term Tuition Fee Clearance</td>
+              <td style="padding: 0.6rem 0.75rem; text-align: right; font-weight: 800; border-bottom: 1px solid rgba(0,0,0,0.06); color: #15803d;" id="rcptAmount">&#8358;150,000.00</td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <div style="padding: 0.6rem 0.75rem; background: rgba(0,0,0,0.02); font-size: 0.85rem; border-bottom: 1px solid rgba(0,0,0,0.06);">
+          <strong>Amount in Words:</strong> <span id="rcptAmountWords" style="font-style: italic;">One Hundred and Fifty Thousand Naira Only</span>
+        </div>
+
+        <div style="padding: 0.6rem 0.75rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 0.85rem;">
+          <div>Total Session Tuition: <strong id="rcptTotalBilled">&#8358;450,000.00</strong></div>
+          <div>Total Paid to Date: <strong id="rcptTotalPaid" style="color: #15803d;">&#8358;450,000.00</strong></div>
+          <div>Remaining Balance: <strong id="rcptBalance">&#8358;0.00</strong></div>
+          <div>Ledger Status: <strong id="rcptStatus" style="color: #15803d;">Cleared</strong></div>
+        </div>
+      </div>
+
+      <!-- Stamp and Signatures -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 0.75rem; border-top: 1px dashed rgba(0,0,0,0.15);">
+        <div class="bursary-digital-stamp">
+          Bantu College Bursary<br>
+          <span style="font-size: 0.7rem; color: #15803d;">Atomically Verified</span>
+        </div>
+        <div style="text-align: right; font-size: 0.8rem; color: #555;">
+          <p style="margin: 0; font-weight: 700; color: var(--color-slate);">Office of the Bursar</p>
+          <p style="margin: 0.15rem 0 0;">Bantu College Financial Services</p>
+          <p style="margin: 0.15rem 0 0; font-size: 0.75rem; color: #888;">Valid without physical seal when verified online</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="no-print" style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem;">
+      <button type="button" onclick="closeReceiptModal()" class="btn-outline" style="padding: 0.65rem 1.3rem;">Close</button>
+      <button type="button" onclick="printReceiptDirectly()" class="btn-primary" style="padding: 0.65rem 1.5rem;">Print Official Receipt (PDF)</button>
+    </div>
+
+  </div>
+</div>
+
 
 <!-- Dashboard Section (Hidden by Default) -->
 <div id="dashboardSection" style="display: none;">
@@ -172,7 +310,7 @@
     </div>
     <div class="portal-kpi-card">
       <div class="portal-kpi-label">Tuition Fee Status</div>
-      <div class="portal-kpi-val" style="color: #15803d;" id="kpiFeeStatus">Cleared</div>
+      <div class="portal-kpi-val" id="kpiFeeStatus">Cleared</div>
       <div style="font-size: 0.85rem; color: #666; margin-top: 0.25rem;">Balance: <strong id="kpiBalance">&#8358;0.00</strong></div>
     </div>
     <div class="portal-kpi-card">
@@ -197,11 +335,11 @@
 
   <!-- Tab 1: Academic Results -->
   <div id="tabResults" class="portal-tab-pane is-active printable-area">
-    <div style="background: #ffffff; padding: clamp(1.5rem, 4vw, 2.5rem); border-radius: 18px; border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 6px 20px -8px rgba(0,0,0,0.06); margin-bottom: 2rem;">
+    <div style="background: #ffffff; padding: clamp(1.2rem, 3.5vw, 2.25rem); border-radius: 18px; border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 6px 20px -8px rgba(0,0,0,0.06); margin-bottom: 2rem;">
       
-      <!-- Official Printable Header -->
-      <div class="print-compact-header" style="text-align: center; border-bottom: 2px solid var(--color-slate); padding-bottom: 0.85rem; margin-bottom: 0.85rem;">
-        <img src="assets/Bantu%20College%20Crest-01a.png" alt="Bantu College" style="max-height: 52px; margin-bottom: 0.25rem;">
+      <!-- Official Printable Header (Calibrated for A4 Single Page) -->
+      <div class="print-compact-header" style="text-align: center; border-bottom: 2px solid var(--color-slate); padding-bottom: 0.75rem; margin-bottom: 0.75rem;">
+        <img src="assets/Bantu%20College%20Crest-01a.png" alt="Bantu College" style="max-height: 48px; margin-bottom: 0.25rem;">
         <h3 style="font-family: var(--font-heading); font-size: 1.35rem; color: var(--color-slate); margin: 0;">Bantu College, Benue State</h3>
         <p style="font-size: 0.85rem; color: #555; margin: 0.15rem 0;">Motto: Read to Lead</p>
         <h4 style="font-size: 1.05rem; color: var(--color-red); margin-top: 0.35rem; text-transform: uppercase;">Official Termly Academic Report Sheet</h4>
@@ -210,7 +348,7 @@
         </p>
       </div>
 
-      <div class="print-biodata-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.75rem; margin-bottom: 0.85rem; font-size: 0.85rem;">
+      <div class="print-biodata-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.75rem; margin-bottom: 0.75rem; font-size: 0.85rem;">
         <div>Student Name: <strong id="reportStudentName">Terseer Audu</strong></div>
         <div>Admission Number: <strong id="reportStudentId">BC/2026/014</strong></div>
         <div>Class Position: <strong id="reportPosition">3rd of 42</strong></div>
@@ -219,7 +357,7 @@
 
       <!-- Grading Scale Reference Table -->
       <div class="no-print" style="background: rgba(0,0,0,0.02); padding: 0.75rem 1rem; border-radius: 8px; margin-bottom: 1rem; font-size: 0.85rem; display: flex; flex-wrap: wrap; gap: 1.25rem; color: #555;">
-        <span><strong>Grading System:</strong></span>
+        <span><strong>Official Grading System:</strong></span>
         <span>A (80 to 100): Excellent</span>
         <span>B2 (75 to 79.99): Very Good</span>
         <span>B3 (70 to 74.99): Good</span>
@@ -240,20 +378,20 @@
             </tr>
           </thead>
           <tbody id="resultsTableBody">
-            <!-- Injected via JavaScript -->
+            <!-- Injected dynamically from Unified Database -->
           </tbody>
         </table>
       </div>
 
       <!-- Remarks and Endorsements -->
-      <div class="print-remarks-box" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.85rem; margin-top: 0.85rem; padding-top: 0.85rem; border-top: 1px solid rgba(0,0,0,0.1);">
-        <div style="background: rgba(0,0,0,0.02); padding: 0.85rem; border-radius: 10px;">
+      <div class="print-remarks-box" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.75rem; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid rgba(0,0,0,0.1);">
+        <div style="background: rgba(0,0,0,0.02); padding: 0.75rem; border-radius: 10px;">
           <strong style="color: var(--color-slate); font-size: 0.8rem; text-transform: uppercase; display: block; margin-bottom: 0.2rem;">Form Teacher Remark</strong>
           <p style="font-size: 0.85rem; color: #333; margin: 0; line-height: 1.3;" id="formTeacherRemark">
             An exceptionally dedicated and attentive student who shows keen enthusiasm across Mathematics and Information Technology.
           </p>
         </div>
-        <div style="background: rgba(0,0,0,0.02); padding: 0.85rem; border-radius: 10px;">
+        <div style="background: rgba(0,0,0,0.02); padding: 0.75rem; border-radius: 10px;">
           <strong style="color: var(--color-slate); font-size: 0.8rem; text-transform: uppercase; display: block; margin-bottom: 0.2rem;">Principal Official Endorsement</strong>
           <p style="font-size: 0.85rem; color: #333; margin: 0 0 0.35rem 0; line-height: 1.3;" id="principalRemark">
             Commendable academic effort. Maintain this focus and moral discipline in the upcoming term.
@@ -263,7 +401,7 @@
       </div>
 
       <div style="text-align: right; margin-top: 1.5rem;" class="no-print">
-        <button onclick="window.print()" class="btn-primary" style="padding: 0.75rem 1.5rem;">Print Academic Report (PDF)</button>
+        <button onclick="triggerPrintCurrentTab()" class="btn-primary" style="padding: 0.75rem 1.5rem;">Print Academic Report (PDF)</button>
       </div>
 
     </div>
@@ -278,8 +416,11 @@
           <h3 style="font-family: var(--font-heading); font-size: 1.5rem; color: var(--color-slate); margin: 0;">School Fees Statement</h3>
           <p style="color: #666; font-size: 0.95rem; margin-top: 0.25rem;">2026/2027 Session Fee Statement | Bantu College Bursary</p>
         </div>
-        <div style="background: rgba(34, 197, 94, 0.12); padding: 0.6rem 1.2rem; border-radius: 10px; border: 1px solid rgba(34, 197, 94, 0.3);">
-          <span style="font-size: 0.85rem; color: #15803d; font-weight: 700; text-transform: uppercase;">Ledger Status: Verified and Cleared</span>
+        <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+          <div id="feesLedgerBadgeBox" style="background: rgba(34, 197, 94, 0.12); padding: 0.6rem 1.2rem; border-radius: 10px; border: 1px solid rgba(34, 197, 94, 0.3);">
+            <span style="font-size: 0.85rem; color: #15803d; font-weight: 700; text-transform: uppercase;" id="feesLedgerBadgeText">Ledger Status: Verified and Cleared</span>
+          </div>
+          <button id="openPaymentModalBtn" class="btn-primary no-print" onclick="openPaymentModal()" style="display: none; padding: 0.6rem 1.2rem; font-size: 0.85rem;">Pay Outstanding Fees Online</button>
         </div>
       </div>
 
@@ -293,18 +434,19 @@
               <th>Paid Amount</th>
               <th>Receipt Reference</th>
               <th>Status</th>
+              <th style="text-align: center;">Official Receipt</th>
             </tr>
           </thead>
           <tbody id="feesTableBody">
-            <!-- Injected via JavaScript -->
+            <!-- Injected dynamically -->
           </tbody>
         </table>
       </div>
 
       <div style="background: rgba(43, 42, 66, 0.03); border-radius: 14px; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
         <div>
-          <span style="font-size: 0.9rem; color: #666; display: block;">Session Tuition Billed: <strong>&#8358;450,000.00</strong></span>
-          <span style="font-size: 0.9rem; color: #666; display: block;">Total Paid to Date: <strong style="color: #15803d;">&#8358;450,000.00</strong></span>
+          <span style="font-size: 0.9rem; color: #666; display: block;">Session Tuition Billed: <strong id="feesTotalBilledDisplay">&#8358;450,000.00</strong></span>
+          <span style="font-size: 0.9rem; color: #666; display: block;">Total Paid to Date: <strong style="color: #15803d;" id="feesTotalPaidDisplay">&#8358;450,000.00</strong></span>
         </div>
         <div style="text-align: right;">
           <span style="font-size: 0.85rem; color: #666; text-transform: uppercase; font-weight: 700;">Outstanding Balance</span>
@@ -313,7 +455,7 @@
       </div>
 
       <div style="text-align: right; margin-top: 1.5rem;" class="no-print">
-        <button onclick="window.print()" class="btn-primary" style="padding: 0.75rem 1.5rem;">Print Fee Statement (PDF)</button>
+        <button onclick="triggerPrintCurrentTab()" class="btn-primary" style="padding: 0.75rem 1.5rem;">Print Fee Statement (PDF)</button>
       </div>
 
     </div>
@@ -340,13 +482,13 @@
             </tr>
           </thead>
           <tbody id="sundryTableBody">
-            <!-- Injected via JavaScript -->
+            <!-- Injected dynamically -->
           </tbody>
         </table>
       </div>
 
       <div style="text-align: right; margin-top: 1.5rem;" class="no-print">
-        <button onclick="window.print()" class="btn-primary" style="padding: 0.75rem 1.5rem;">Print Sundry Statement (PDF)</button>
+        <button onclick="triggerPrintCurrentTab()" class="btn-primary" style="padding: 0.75rem 1.5rem;">Print Sundry Statement (PDF)</button>
       </div>
 
     </div>
@@ -389,7 +531,7 @@
       </div>
 
       <div style="text-align: right; margin-top: 1.5rem;" class="no-print">
-        <button onclick="window.print()" class="btn-primary" style="padding: 0.75rem 1.5rem;">Print Conduct Evaluation (PDF)</button>
+        <button onclick="triggerPrintCurrentTab()" class="btn-primary" style="padding: 0.75rem 1.5rem;">Print Conduct Evaluation (PDF)</button>
       </div>
 
     </div>
@@ -408,116 +550,9 @@
 </div>
 </footer>
 
+<script src="assets/js/bantu-db.js?v=10"></script>
 <script>
-// Official Bantu College Grading Engine
-function getGradeAndRemark(totalScore) {
-  const score = parseFloat(totalScore);
-  if (score >= 80.00) return { grade: "A", remark: "Excellent", badgeClass: "portal-badge-a" };
-  if (score >= 75.00) return { grade: "B2", remark: "Very Good", badgeClass: "portal-badge-b2" };
-  if (score >= 70.00) return { grade: "B3", remark: "Good", badgeClass: "portal-badge-b3" };
-  if (score >= 60.00) return { grade: "C", remark: "Credit", badgeClass: "portal-badge-c" };
-  return { grade: "F", remark: "Fail", badgeClass: "portal-badge-f" };
-}
-
-// Student Database
-const studentDatabase = {
-  "BC/2026/014": {
-    pin: "1234",
-    name: "Terseer Audu",
-    initials: "TA",
-    email: "t.audu@bantucollege.edu",
-    class: "Basic 7 (JSS 1)",
-    position: "3rd of 42",
-    feeStatus: "Cleared",
-    balance: "&#8358;0.00",
-    attendance: "96.00%",
-    conduct: "Exemplary",
-    formTeacherRemark: "An exceptionally dedicated and attentive student who shows keen enthusiasm across Mathematics and Information Technology.",
-    principalRemark: "Commendable academic effort. Maintain this focus and moral discipline in the upcoming term.",
-    punctuality: "Excellent",
-    neatness: "Very Good",
-    peers: "Respectful and Cooperative",
-    leadership: "High Initiative",
-    incidentText: "No negative disciplinary infractions or official reprimands have been recorded for this scholar during the current session.",
-    rawScores: [
-      { subject: "English Studies", ca: 34, exam: 50 },
-      { subject: "Mathematics", ca: 36, exam: 52 },
-      { subject: "Social and Citizenship Education", ca: 30, exam: 45 },
-      { subject: "Nigerian History", ca: 32, exam: 48 },
-      { subject: "Physical and Health Education", ca: 35, exam: 46 },
-      { subject: "Intermediate Science", ca: 31, exam: 47 },
-      { subject: "Business Studies", ca: 28, exam: 44 },
-      { subject: "Pre Vocational Studies", ca: 33, exam: 45 },
-      { subject: "Cultural and Creative Arts", ca: 29, exam: 43 },
-      { subject: "Information Technology", ca: 38, exam: 54 },
-      { subject: "Literature", ca: 31, exam: 46 },
-      { subject: "Christian Religious Studies (CRS)", ca: 34, exam: 50 },
-      { subject: "French", ca: 26, exam: 40 },
-      { subject: "Tiv Language", ca: 35, exam: 49 },
-      { subject: "Chinese Language", ca: 27, exam: 38 }
-    ],
-    fees: [
-      { date: "15 Sep 2026", desc: "First Term Tuition Fee", billed: "&#8358;150,000.00", paid: "&#8358;150,000.00", ref: "BNT/26/TX0104", status: "Paid" },
-      { date: "05 Jan 2027", desc: "Second Term Tuition Fee", billed: "&#8358;150,000.00", paid: "&#8358;150,000.00", ref: "BNT/27/TX0882", status: "Paid" },
-      { date: "18 Apr 2027", desc: "Third Term Tuition Fee", billed: "&#8358;150,000.00", paid: "&#8358;150,000.00", ref: "BNT/27/TX1420", status: "Paid" }
-    ],
-    sundry: [
-      { desc: "School Uniform and Sportswear Kit", category: "Attire", amount: "&#8358;45,000.00", date: "10 Sep 2026", status: "Cleared" },
-      { desc: "Science Laboratory Manuals and Workbooks", category: "Academic Materials", amount: "&#8358;25,000.00", date: "12 Sep 2026", status: "Cleared" },
-      { desc: "Computer Practical and Coding Kit", category: "Technology", amount: "&#8358;20,000.00", date: "15 Sep 2026", status: "Cleared" },
-      { desc: "Benue Agricultural Heritage Excursion", category: "Excursions", amount: "&#8358;15,000.00", date: "20 Nov 2026", status: "Cleared" }
-    ]
-  },
-  "BC/2026/021": {
-    pin: "5678",
-    name: "Dooshima Iorfa",
-    initials: "DI",
-    email: "d.iorfa@bantucollege.edu",
-    class: "Basic 8 (JSS 2)",
-    position: "1st of 38",
-    feeStatus: "Cleared",
-    balance: "&#8358;0.00",
-    attendance: "98.00%",
-    conduct: "Exemplary",
-    formTeacherRemark: "A brilliant and responsible scholar who demonstrates remarkable leadership and diligence across all subjects.",
-    principalRemark: "Outstanding academic performance. An exemplary representative of Bantu College values.",
-    punctuality: "Excellent",
-    neatness: "Impeccable",
-    peers: "Warm and Helpful Leader",
-    leadership: "Outstanding",
-    incidentText: "No negative disciplinary infractions or official reprimands have been recorded for this scholar during the current session.",
-    rawScores: [
-      { subject: "English Studies", ca: 37, exam: 54 },
-      { subject: "Mathematics", ca: 38, exam: 55 },
-      { subject: "Social and Citizenship Education", ca: 33, exam: 49 },
-      { subject: "Nigerian History", ca: 36, exam: 52 },
-      { subject: "Physical and Health Education", ca: 34, exam: 48 },
-      { subject: "Intermediate Science", ca: 35, exam: 51 },
-      { subject: "Business Studies", ca: 33, exam: 48 },
-      { subject: "Pre Vocational Studies", ca: 32, exam: 47 },
-      { subject: "Cultural and Creative Arts", ca: 31, exam: 45 },
-      { subject: "Information Technology", ca: 39, exam: 56 },
-      { subject: "Literature", ca: 36, exam: 52 },
-      { subject: "Christian Religious Studies (CRS)", ca: 35, exam: 51 },
-      { subject: "French", ca: 30, exam: 44 },
-      { subject: "Tiv Language", ca: 37, exam: 53 },
-      { subject: "Chinese Language", ca: 29, exam: 43 }
-    ],
-    fees: [
-      { date: "15 Sep 2026", desc: "First Term Tuition Fee", billed: "&#8358;150,000.00", paid: "&#8358;150,000.00", ref: "BNT/26/TX0189", status: "Paid" },
-      { date: "05 Jan 2027", desc: "Second Term Tuition Fee", billed: "&#8358;150,000.00", paid: "&#8358;150,000.00", ref: "BNT/27/TX0914", status: "Paid" },
-      { date: "18 Apr 2027", desc: "Third Term Tuition Fee", billed: "&#8358;150,000.00", paid: "&#8358;150,000.00", ref: "BNT/27/TX1499", status: "Paid" }
-    ],
-    sundry: [
-      { desc: "Senior Junior Uniform Set and Blazer", category: "Attire", amount: "&#8358;45,000.00", date: "10 Sep 2026", status: "Cleared" },
-      { desc: "Advanced Science Workbooks and Lab Kit", category: "Academic Materials", amount: "&#8358;25,000.00", date: "12 Sep 2026", status: "Cleared" },
-      { desc: "Robotics and Algorithm Learning Module", category: "Technology", amount: "&#8358;20,000.00", date: "15 Sep 2026", status: "Cleared" },
-      { desc: "Historical Cultural Field Excursion", category: "Excursions", amount: "&#8358;15,000.00", date: "20 Nov 2026", status: "Cleared" }
-    ]
-  }
-};
-
-let currentLoggedInStudent = null;
+let activeLoggedInStudentId = null;
 
 // Authentication Handler
 document.getElementById("portalLoginForm").addEventListener("submit", function(e) {
@@ -526,17 +561,19 @@ document.getElementById("portalLoginForm").addEventListener("submit", function(e
   const pinInput = document.getElementById("accessPin").value.trim();
   const errorMsg = document.getElementById("loginErrorMsg");
 
-  if (studentDatabase[idInput] && studentDatabase[idInput].pin === pinInput) {
+  const db = getBantuDatabase();
+  const student = db.students[idInput];
+
+  if (student && student.pin === pinInput) {
     errorMsg.style.display = "none";
-    currentLoggedInStudent = studentDatabase[idInput];
-    currentLoggedInStudent.id = idInput;
+    activeLoggedInStudentId = idInput;
     
     // Prepare Dashboard Data
-    loadStudentDashboard(currentLoggedInStudent);
+    refreshStudentDashboard();
     
     // Show Destination Selection Dialog
     document.getElementById("authSection").style.display = "none";
-    document.getElementById("destModalGreeting").textContent = "Welcome, " + currentLoggedInStudent.name;
+    document.getElementById("destModalGreeting").textContent = "Welcome, " + student.name;
     document.getElementById("destinationModal").classList.add("is-active");
   } else {
     errorMsg.textContent = "Invalid Admission Number or PIN. Please check credentials or contact the office.";
@@ -549,7 +586,6 @@ function selectDestination(tabId) {
   document.getElementById("destinationModal").classList.remove("is-active");
   document.getElementById("dashboardSection").style.display = "block";
   
-  // Switch to selected tab
   tabBtns.forEach(b => b.classList.remove("is-active"));
   tabPanes.forEach(p => p.classList.remove("is-active"));
   
@@ -561,12 +597,17 @@ function selectDestination(tabId) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Load Dashboard Data with 2 Decimal Places Average and Strict Remarks
-function loadStudentDashboard(data) {
+// Refresh Student Dashboard from Unified Storage
+function refreshStudentDashboard() {
+  if (!activeLoggedInStudentId) return;
+  const db = getBantuDatabase();
+  const data = db.students[activeLoggedInStudentId];
+  if (!data) return;
+
   // Profile Header
   document.getElementById("studentAvatarInitials").textContent = data.initials;
   document.getElementById("studentFullName").textContent = data.name;
-  document.getElementById("studentDisplayId").textContent = data.id;
+  document.getElementById("studentDisplayId").textContent = activeLoggedInStudentId;
   document.getElementById("studentDisplayClass").textContent = data.class;
 
   // Calculate Scores, Total, and Average to 2 Decimal Places
@@ -574,7 +615,7 @@ function loadStudentDashboard(data) {
   const processedResults = data.rawScores.map(item => {
     const total = item.ca + item.exam;
     grandTotal += total;
-    const evaluation = getGradeAndRemark(total);
+    const evaluation = calculateGradeAndRemark(total);
     return {
       subject: item.subject,
       ca: item.ca,
@@ -588,20 +629,28 @@ function loadStudentDashboard(data) {
 
   const subjectCount = processedResults.length;
   const computedAverage = (grandTotal / subjectCount).toFixed(2);
-  const overallEval = getGradeAndRemark(computedAverage);
+  const overallEval = calculateGradeAndRemark(computedAverage);
 
   // KPIs
   document.getElementById("kpiAverage").textContent = computedAverage + "%";
   document.getElementById("kpiGrade").textContent = overallEval.grade + " (" + overallEval.remark + ")";
-  document.getElementById("kpiFeeStatus").textContent = data.feeStatus;
-  document.getElementById("kpiBalance").innerHTML = data.balance;
+  
+  const isCleared = data.balance === 0;
+  const kpiFeeEl = document.getElementById("kpiFeeStatus");
+  kpiFeeEl.textContent = isCleared ? "Cleared" : "Balance Due";
+  kpiFeeEl.style.color = isCleared ? "#15803d" : "var(--color-red)";
+  
+  const kpiBalEl = document.getElementById("kpiBalance");
+  kpiBalEl.innerHTML = "&#8358;" + data.balance.toLocaleString() + ".00";
+  kpiBalEl.style.color = isCleared ? "#15803d" : "var(--color-red)";
+
   document.getElementById("kpiAttendance").textContent = data.attendance;
   document.getElementById("kpiConduct").textContent = data.conduct;
 
   // Report Header Details
   document.getElementById("reportHeaderClass").textContent = data.class;
   document.getElementById("reportStudentName").textContent = data.name;
-  document.getElementById("reportStudentId").textContent = data.id;
+  document.getElementById("reportStudentId").textContent = activeLoggedInStudentId;
   document.getElementById("reportPosition").textContent = data.position;
   document.getElementById("reportAverageVal").textContent = computedAverage + "% (" + overallEval.grade + ")";
   document.getElementById("formTeacherRemark").textContent = data.formTeacherRemark;
@@ -614,9 +663,9 @@ function loadStudentDashboard(data) {
     const row = document.createElement("tr");
     row.innerHTML = `
       <td><strong>${item.subject}</strong></td>
-      <td style="text-align: center;">${item.ca}</td>
-      <td style="text-align: center;">${item.exam}</td>
-      <td style="text-align: center; font-weight: 700;">${item.total}</td>
+      <td style="text-align: center;">${item.ca.toFixed(2)}</td>
+      <td style="text-align: center;">${item.exam.toFixed(2)}</td>
+      <td style="text-align: center; font-weight: 700;">${item.total.toFixed(2)}</td>
       <td style="text-align: center;"><span class="portal-badge ${item.badgeClass}">${item.grade}</span></td>
       <td>${item.remark}</td>
     `;
@@ -631,13 +680,42 @@ function loadStudentDashboard(data) {
     row.innerHTML = `
       <td>${f.date}</td>
       <td><strong>${f.desc}</strong></td>
-      <td>${f.billed}</td>
-      <td style="color: #15803d; font-weight: 700;">${f.paid}</td>
+      <td>&#8358;${f.billed.toLocaleString()}.00</td>
+      <td style="color: #15803d; font-weight: 700;">&#8358;${f.paid.toLocaleString()}.00</td>
       <td><span style="font-family: monospace; font-size: 0.85rem; color: #555;">${f.ref}</span></td>
-      <td><span class="portal-badge portal-badge-green">${f.status}</span></td>
+      <td><span class="portal-badge ${f.status === 'Verified' ? 'portal-badge-green' : 'portal-badge-gold'}">${f.status}</span></td>
+      <td style="text-align: center;">
+        <button type="button" class="btn-outline" style="padding: 0.3rem 0.75rem; font-size: 0.75rem;" onclick="viewReceiptByRef('${f.ref}')">View Receipt</button>
+      </td>
     `;
     feesTbody.appendChild(row);
   });
+
+  // Total Billed, Paid, Balance
+  document.getElementById("feesTotalBilledDisplay").innerHTML = "&#8358;" + data.totalTuitionBilled.toLocaleString() + ".00";
+  document.getElementById("feesTotalPaidDisplay").innerHTML = "&#8358;" + data.totalTuitionPaid.toLocaleString() + ".00";
+  
+  const feesBalanceEl = document.getElementById("feesTotalBalance");
+  feesBalanceEl.innerHTML = "&#8358;" + data.balance.toLocaleString() + ".00";
+  feesBalanceEl.style.color = isCleared ? "#15803d" : "var(--color-red)";
+
+  const badgeBox = document.getElementById("feesLedgerBadgeBox");
+  const badgeText = document.getElementById("feesLedgerBadgeText");
+  const payBtn = document.getElementById("openPaymentModalBtn");
+
+  if (isCleared) {
+    badgeBox.style.background = "rgba(34, 197, 94, 0.12)";
+    badgeBox.style.borderColor = "rgba(34, 197, 94, 0.3)";
+    badgeText.style.color = "#15803d";
+    badgeText.textContent = "Ledger Status: Verified and Cleared";
+    payBtn.style.display = "none";
+  } else {
+    badgeBox.style.background = "rgba(230, 44, 32, 0.12)";
+    badgeBox.style.borderColor = "rgba(230, 44, 32, 0.3)";
+    badgeText.style.color = "var(--color-red)";
+    badgeText.textContent = "Ledger Status: Outstanding Balance Due";
+    payBtn.style.display = "inline-block";
+  }
 
   // Populate Sundry Table
   const sundryTbody = document.getElementById("sundryTableBody");
@@ -647,7 +725,7 @@ function loadStudentDashboard(data) {
     row.innerHTML = `
       <td><strong>${s.desc}</strong></td>
       <td>${s.category}</td>
-      <td style="font-weight: 700;">${s.amount}</td>
+      <td style="font-weight: 700;">&#8358;${s.amount.toLocaleString()}.00</td>
       <td>${s.date}</td>
       <td><span class="portal-badge portal-badge-green">${s.status}</span></td>
     `;
@@ -668,7 +746,7 @@ document.getElementById("logoutBtn").addEventListener("click", function() {
   document.getElementById("destinationModal").classList.remove("is-active");
   document.getElementById("authSection").style.display = "block";
   document.getElementById("portalLoginForm").reset();
-  currentLoggedInStudent = null;
+  activeLoggedInStudentId = null;
 });
 
 // Tab Switcher Handler
@@ -686,9 +764,142 @@ tabBtns.forEach(btn => {
   });
 });
 
-// Print Current Tab
+// Print Current Tab Isolating Active Document
 function triggerPrintCurrentTab() {
   window.print();
+}
+
+// Atomic Online Payment Functions
+function openPaymentModal() {
+  if (!activeLoggedInStudentId) return;
+  const db = getBantuDatabase();
+  const student = db.students[activeLoggedInStudentId];
+  if (!student) return;
+
+  document.getElementById("payStudentNameDisplay").value = student.name + " (" + activeLoggedInStudentId + ")";
+  document.getElementById("modalOutstandingBalanceDisplay").innerHTML = "&#8358;" + student.balance.toLocaleString() + ".00";
+  document.getElementById("payAmountInput").value = student.balance > 0 ? student.balance : 150000;
+  document.getElementById("paymentProcessingNotice").style.display = "none";
+  document.getElementById("submitPaymentBtn").disabled = false;
+  document.getElementById("atomicPaymentModal").classList.add("is-active");
+}
+
+function closePaymentModal() {
+  document.getElementById("atomicPaymentModal").classList.remove("is-active");
+}
+
+function setPaymentAmountPreset(preset) {
+  if (!activeLoggedInStudentId) return;
+  const db = getBantuDatabase();
+  const student = db.students[activeLoggedInStudentId];
+  if (!student) return;
+  const input = document.getElementById("payAmountInput");
+  if (preset === 'full') {
+    input.value = student.balance;
+  } else {
+    input.value = Math.min(preset, student.balance > 0 ? student.balance : preset);
+  }
+}
+
+document.getElementById("atomicPaymentForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+  const amount = parseFloat(document.getElementById("payAmountInput").value);
+  const channel = document.getElementById("payChannelSelect").value;
+  const narrative = document.getElementById("payNarrativeInput").value;
+  const notice = document.getElementById("paymentProcessingNotice");
+  const submitBtn = document.getElementById("submitPaymentBtn");
+
+  notice.style.display = "block";
+  submitBtn.disabled = true;
+
+  // Simulate atomic transaction handshake (ACID commit)
+  setTimeout(() => {
+    const result = processAtomicFeePayment(activeLoggedInStudentId, amount, channel, narrative);
+    notice.style.display = "none";
+    submitBtn.disabled = false;
+
+    if (result.success) {
+      closePaymentModal();
+      refreshStudentDashboard();
+      displayReceiptModal(result);
+    } else {
+      alert("Payment Failed: " + result.message);
+    }
+  }, 1200);
+});
+
+// Electronic Bursary Receipt Functions
+function displayReceiptModal(data) {
+  document.getElementById("rcptRef").textContent = data.reference;
+  document.getElementById("rcptDateTime").textContent = data.date + (data.time ? " " + data.time : "");
+  document.getElementById("rcptStudentName").textContent = data.studentName;
+  document.getElementById("rcptStudentId").textContent = data.studentId;
+  document.getElementById("rcptClass").textContent = data.studentClass;
+  document.getElementById("rcptChannel").textContent = data.channel;
+  document.getElementById("rcptNarrative").textContent = data.narrative;
+  document.getElementById("rcptAmount").innerHTML = "&#8358;" + data.amountPaid.toLocaleString() + ".00";
+  document.getElementById("rcptAmountWords").textContent = data.amountInWords;
+  
+  const db = getBantuDatabase();
+  const student = db.students[data.studentId];
+  if (student) {
+    document.getElementById("rcptTotalBilled").innerHTML = "&#8358;" + student.totalTuitionBilled.toLocaleString() + ".00";
+    document.getElementById("rcptTotalPaid").innerHTML = "&#8358;" + student.totalTuitionPaid.toLocaleString() + ".00";
+    document.getElementById("rcptBalance").innerHTML = "&#8358;" + student.balance.toLocaleString() + ".00";
+    document.getElementById("rcptStatus").textContent = student.feeStatus;
+    document.getElementById("rcptStatus").style.color = student.balance === 0 ? "#15803d" : "var(--color-red)";
+  }
+
+  document.getElementById("bursaryReceiptModal").classList.add("is-active");
+}
+
+function closeReceiptModal() {
+  document.getElementById("bursaryReceiptModal").classList.remove("is-active");
+}
+
+function viewReceiptByRef(reference) {
+  if (!activeLoggedInStudentId) return;
+  const receipt = getBantuReceiptByRef(activeLoggedInStudentId, reference);
+  if (receipt) {
+    displayReceiptModal(receipt);
+  } else {
+    alert("Receipt not found for reference: " + reference);
+  }
+}
+
+function printReceiptDirectly() {
+  const receiptBox = document.getElementById("bursaryReceiptContent");
+  const printWindow = window.open("", "_blank", "width=800,height=750");
+  printWindow.document.write(`
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <title>Bantu College Bursary Receipt - Official</title>
+      <link rel="stylesheet" href="assets/css/style.css?v=10">
+      <style>
+        body { background: #ffffff !important; padding: 20mm 15mm; font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        .receipt-printable-box { max-width: 620px; margin: 0 auto; border: 1px solid #ccc; padding: 24px; border-radius: 12px; }
+        @media print {
+          @page { size: A4 portrait; margin: 15mm; }
+          body { padding: 0; }
+          .receipt-printable-box { border: none; padding: 0; }
+        }
+      </style>
+    </head>
+    <body>
+      <div class="receipt-printable-box">
+        ${receiptBox.innerHTML}
+      </div>
+      <script>
+        window.onload = function() {
+          window.print();
+        };
+      <\/script>
+    </body>
+    </html>
+  `);
+  printWindow.document.close();
 }
 
 // Forgot Password Modal Handlers
@@ -708,9 +919,10 @@ document.getElementById("forgotPasswordForm").addEventListener("submit", functio
   const resetId = document.getElementById("resetAdmissionNo").value.trim().toUpperCase();
   const successBox = document.getElementById("resetSuccessMsg");
   
+  const db = getBantuDatabase();
   let targetEmail = "student registered school email";
-  if (studentDatabase[resetId] && studentDatabase[resetId].email) {
-    targetEmail = studentDatabase[resetId].email;
+  if (db.students[resetId] && db.students[resetId].email) {
+    targetEmail = db.students[resetId].email;
   }
   
   successBox.innerHTML = `<strong>Password Reset Link Sent:</strong><br>An official password reset token and verification instructions have been dispatched to <u>${targetEmail}</u>. Please access your inbox to set a new security PIN.`;
@@ -720,8 +932,17 @@ document.getElementById("forgotPasswordForm").addEventListener("submit", functio
     forgotModal.classList.remove("is-active");
   }, 4000);
 });
+
+// Cross Tab Real Time Synchronization Listener
+window.addEventListener("bantu_db_updated", function() {
+  refreshStudentDashboard();
+});
+window.addEventListener("storage", function(e) {
+  if (e.key === BANTU_STORAGE_KEY) {
+    refreshStudentDashboard();
+  }
+});
 </script>
 
 </body>
 </html>
-

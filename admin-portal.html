@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Faculty and Bursar Desk | Bantu College</title>
-<link rel="stylesheet" href="assets/css/style.css?v=8">
+<link rel="stylesheet" href="assets/css/style.css?v=10">
 
 <meta name="description" content="Secure faculty grade entry engine and bursary verification desk for Bantu College staff.">
 <meta property="og:type" content="website">
@@ -202,7 +202,7 @@
         </p>
         <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
           <span class="portal-badge portal-badge-green" style="font-size: 0.85rem; padding: 0.45rem 1rem;">Verification Engine: Operational</span>
-          <span class="portal-badge portal-badge-gold" style="font-size: 0.85rem; padding: 0.45rem 1rem;">Verified Term Tuition: &#8358;37,800,000.00</span>
+          <span class="portal-badge portal-badge-gold" style="font-size: 0.85rem; padding: 0.45rem 1rem;" id="bursarTotalVerifiedStat">Total Verified: Loading...</span>
         </div>
       </div>
 
@@ -234,7 +234,7 @@
             </tr>
           </thead>
           <tbody id="bursarTableBody">
-            <!-- Injected via JavaScript -->
+            <!-- Injected via JavaScript from unified database -->
           </tbody>
         </table>
       </div>
@@ -255,17 +255,8 @@
 </div>
 </footer>
 
+<script src="assets/js/bantu-db.js?v=10"></script>
 <script>
-// Official Bantu College Grading Engine
-function getGradeAndRemark(totalScore) {
-  const score = parseFloat(totalScore);
-  if (score >= 80.00) return { grade: "A", remark: "Excellent", badgeClass: "portal-badge-a" };
-  if (score >= 75.00) return { grade: "B2", remark: "Very Good", badgeClass: "portal-badge-b2" };
-  if (score >= 70.00) return { grade: "B3", remark: "Good", badgeClass: "portal-badge-b3" };
-  if (score >= 60.00) return { grade: "C", remark: "Credit", badgeClass: "portal-badge-c" };
-  return { grade: "F", remark: "Fail", badgeClass: "portal-badge-f" };
-}
-
 // Staff Credentials and Role Based Subject Mapping
 const staffAccounts = {
   "TCH/MTH/01": {
@@ -308,22 +299,7 @@ const staffAccounts = {
 
 let currentLoggedInStaff = null;
 let hasUnsavedScoreChanges = false;
-
-// Student Rosters Database
-const classRosters = {
-  "Basic 7": [
-    { name: "Terseer Audu", id: "BC/2026/014", ca: 36, exam: 52 },
-    { name: "Kator Chia", id: "BC/2026/015", ca: 30, exam: 42 },
-    { name: "Ngoundu Iorbee", id: "BC/2026/016", ca: 38, exam: 55 },
-    { name: "Bemgba Agber", id: "BC/2026/017", ca: 28, exam: 40 }
-  ],
-  "Basic 8": [
-    { name: "Dooshima Iorfa", id: "BC/2026/021", ca: 38, exam: 55 },
-    { name: "Msughter Utor", id: "BC/2026/022", ca: 34, exam: 48 },
-    { name: "Sewuese Tyowua", id: "BC/2026/023", ca: 35, exam: 50 },
-    { name: "Aondona Gbande", id: "BC/2026/024", ca: 29, exam: 41 }
-  ]
-};
+let currentStagedScores = [];
 
 // Staff Login Form Handler
 document.getElementById("staffLoginForm").addEventListener("submit", function(e) {
@@ -403,57 +379,86 @@ document.getElementById("staffLogoutBtn").addEventListener("click", function() {
   hasUnsavedScoreChanges = false;
 });
 
-// Load Scores for Selected Class and Subject
+// Load Scores for Selected Class and Subject from Unified Database
 function loadSubjectScoresForClass() {
   const selectedClass = document.getElementById("adminClassSelect").value;
-  const roster = classRosters[selectedClass] || [];
+  const selectedSubject = document.getElementById("adminSubjectSelect").value;
   const tbody = document.getElementById("adminScoreTableBody");
   tbody.innerHTML = "";
 
-  let scores = [];
+  const db = getBantuDatabase();
+  currentStagedScores = [];
+  let scoreTotals = [];
 
-  roster.forEach((student, index) => {
-    const total = student.ca + student.exam;
-    scores.push(total);
-    const evalData = getGradeAndRemark(total);
+  // Find students in this class
+  Object.keys(db.students).forEach((studentId, idx) => {
+    const student = db.students[studentId];
+    if (student.class.startsWith(selectedClass)) {
+      const subjectRecord = student.rawScores.find(s => s.subject.toLowerCase() === selectedSubject.toLowerCase()) || { ca: 30, exam: 45 };
+      const ca = parseFloat(subjectRecord.ca) || 0;
+      const exam = parseFloat(subjectRecord.exam) || 0;
+      const total = ca + exam;
+      scoreTotals.push(total);
 
-    const row = document.createElement("tr");
-    row.innerHTML = `
-      <td><strong>${student.name}</strong></td>
-      <td><span style="font-family: monospace; color: #555;">${student.id}</span></td>
-      <td style="text-align: center;">
-        <input type="number" min="0" max="40" value="${student.ca}" id="caInput_${index}" style="width: 80px; padding: 0.45rem; text-align: center; border-radius: 8px; border: 1px solid #ccc; font-weight: 600;" oninput="onScoreInputChange('${selectedClass}', ${index})">
-      </td>
-      <td style="text-align: center;">
-        <input type="number" min="0" max="60" value="${student.exam}" id="examInput_${index}" style="width: 80px; padding: 0.45rem; text-align: center; border-radius: 8px; border: 1px solid #ccc; font-weight: 600;" oninput="onScoreInputChange('${selectedClass}', ${index})">
-      </td>
-      <td style="text-align: center; font-weight: 700;" id="totalScoreCell_${index}">${total.toFixed(2)}</td>
-      <td style="text-align: center;"><span class="portal-badge ${evalData.badgeClass}" id="gradeBadge_${index}">${evalData.grade}</span></td>
-      <td id="remarkCell_${index}">${evalData.remark}</td>
-      <td style="text-align: center;" id="rowStatusCell_${index}"><span class="portal-badge portal-badge-green">Committed</span></td>
-    `;
-    tbody.appendChild(row);
+      currentStagedScores.push({
+        studentId: studentId,
+        name: student.name,
+        ca: ca,
+        exam: exam,
+        total: total
+      });
+
+      const evalData = calculateGradeAndRemark(total);
+
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td><strong>${student.name}</strong></td>
+        <td><span style="font-family: monospace; color: #555;">${studentId}</span></td>
+        <td style="text-align: center;">
+          <input type="number" min="0" max="40" value="${ca}" id="caInput_${currentStagedScores.length - 1}" style="width: 80px; padding: 0.45rem; text-align: center; border-radius: 8px; border: 1px solid #ccc; font-weight: 600;" oninput="onScoreInputChange(${currentStagedScores.length - 1})">
+        </td>
+        <td style="text-align: center;">
+          <input type="number" min="0" max="60" value="${exam}" id="examInput_${currentStagedScores.length - 1}" style="width: 80px; padding: 0.45rem; text-align: center; border-radius: 8px; border: 1px solid #ccc; font-weight: 600;" oninput="onScoreInputChange(${currentStagedScores.length - 1})">
+        </td>
+        <td style="text-align: center; font-weight: 700;" id="totalScoreCell_${currentStagedScores.length - 1}">${total.toFixed(2)}</td>
+        <td style="text-align: center;"><span class="portal-badge ${evalData.badgeClass}" id="gradeBadge_${currentStagedScores.length - 1}">${evalData.grade}</span></td>
+        <td id="remarkCell_${currentStagedScores.length - 1}">${evalData.remark}</td>
+        <td style="text-align: center;" id="rowStatusCell_${currentStagedScores.length - 1}"><span class="portal-badge portal-badge-green">Committed</span></td>
+      `;
+      tbody.appendChild(row);
+    }
   });
 
-  recalculateStatsDisplay(scores);
+  recalculateStatsDisplay(scoreTotals);
   setUnsavedState(false);
 }
 
 // When Teacher Types a Score
-function onScoreInputChange(className, studentIndex) {
-  const caVal = parseFloat(document.getElementById(`caInput_${studentIndex}`).value) || 0;
-  const examVal = parseFloat(document.getElementById(`examInput_${studentIndex}`).value) || 0;
-  const total = caVal + examVal;
-  const evalData = getGradeAndRemark(total);
+function onScoreInputChange(index) {
+  const caInput = document.getElementById(`caInput_${index}`);
+  const examInput = document.getElementById(`examInput_${index}`);
 
-  document.getElementById(`totalScoreCell_${studentIndex}`).textContent = total.toFixed(2);
-  const badge = document.getElementById(`gradeBadge_${studentIndex}`);
+  const caVal = parseFloat(caInput.value) || 0;
+  const examVal = parseFloat(examInput.value) || 0;
+  const total = caVal + examVal;
+  const evalData = calculateGradeAndRemark(total);
+
+  currentStagedScores[index].ca = caVal;
+  currentStagedScores[index].exam = examVal;
+  currentStagedScores[index].total = total;
+
+  document.getElementById(`totalScoreCell_${index}`).textContent = total.toFixed(2);
+  const badge = document.getElementById(`gradeBadge_${index}`);
   badge.className = `portal-badge ${evalData.badgeClass}`;
   badge.textContent = evalData.grade;
-  document.getElementById(`remarkCell_${studentIndex}`).textContent = evalData.remark;
+  document.getElementById(`remarkCell_${index}`).textContent = evalData.remark;
 
   // Mark Row as Unsaved
-  document.getElementById(`rowStatusCell_${studentIndex}`).innerHTML = `<span class="portal-badge portal-badge-gold">Staged</span>`;
+  document.getElementById(`rowStatusCell_${index}`).innerHTML = `<span class="portal-badge portal-badge-gold">Staged</span>`;
+
+  // Update dynamic preview stats
+  const previewScores = currentStagedScores.map(s => s.ca + s.exam);
+  recalculateStatsDisplay(previewScores);
 
   setUnsavedState(true);
 }
@@ -492,80 +497,105 @@ function recalculateStatsDisplay(scores) {
   }
 }
 
-// Save and Commit Class Scores Handler
+// Save and Commit Class Scores into Unified Shared Database
 function commitClassScores() {
   const selectedClass = document.getElementById("adminClassSelect").value;
   const selectedSubject = document.getElementById("adminSubjectSelect").value;
-  const roster = classRosters[selectedClass] || [];
 
-  let scores = [];
-
-  for (let i = 0; i < roster.length; i++) {
-    const caVal = parseFloat(document.getElementById(`caInput_${i}`).value);
-    const examVal = parseFloat(document.getElementById(`examInput_${i}`).value);
+  for (let i = 0; i < currentStagedScores.length; i++) {
+    const caVal = currentStagedScores[i].ca;
+    const examVal = currentStagedScores[i].exam;
 
     if (isNaN(caVal) || caVal < 0 || caVal > 40) {
-      alert(`Invalid Continuous Assessment score for ${roster[i].name}. Must be between 0 and 40.`);
+      alert(`Invalid Continuous Assessment score for ${currentStagedScores[i].name}. Must be between 0 and 40.`);
       return;
     }
     if (isNaN(examVal) || examVal < 0 || examVal > 60) {
-      alert(`Invalid Examination score for ${roster[i].name}. Must be between 0 and 60.`);
+      alert(`Invalid Examination score for ${currentStagedScores[i].name}. Must be between 0 and 60.`);
       return;
     }
-
-    roster[i].ca = caVal;
-    roster[i].exam = examVal;
-    scores.push(caVal + examVal);
-
-    // Update status badge in table
-    document.getElementById(`rowStatusCell_${i}`).innerHTML = `<span class="portal-badge portal-badge-green">Committed</span>`;
   }
 
-  recalculateStatsDisplay(scores);
-  setUnsavedState(false);
+  // Commit via unified engine
+  const result = saveSubjectScoresFromTeacher(selectedClass, selectedSubject, currentStagedScores);
 
-  alert(`Success: Scores for ${selectedSubject} in ${selectedClass} have been officially saved and committed to student record sheets.`);
+  if (result.success) {
+    for (let i = 0; i < currentStagedScores.length; i++) {
+      document.getElementById(`rowStatusCell_${i}`).innerHTML = `<span class="portal-badge portal-badge-green">Committed</span>`;
+    }
+    setUnsavedState(false);
+    alert(`Success: Scores for ${selectedSubject} in ${selectedClass} have been officially saved and committed to student record sheets.`);
+  }
 }
 
-// Bursar Transactions
-const bursarTransactions = [
-  { date: "15 Sep 2026", name: "Terseer Audu", id: "BC/2026/014", billed: 450000, paid: 450000, ref: "BNT/26/TX0104", verified: true },
-  { date: "18 Sep 2026", name: "Dooshima Iorfa", id: "BC/2026/021", billed: 450000, paid: 450000, ref: "BNT/26/TX0189", verified: true },
-  { date: "24 Sep 2026", name: "Kator Chia", id: "BC/2026/015", billed: 450000, paid: 300000, ref: "BNT/26/TX0245", verified: false },
-  { date: "28 Sep 2026", name: "Bemgba Agber", id: "BC/2026/017", billed: 450000, paid: 150000, ref: "BNT/26/TX0312", verified: false }
-];
-
+// Bursar Transactions Rendering from Unified Database
 function renderBursarTransactions() {
+  const db = getBantuDatabase();
   const tbody = document.getElementById("bursarTableBody");
   tbody.innerHTML = "";
 
-  bursarTransactions.forEach((tx, idx) => {
-    const outstanding = tx.billed - tx.paid;
+  let totalVerifiedRevenue = 0;
+
+  db.transactions.forEach((tx) => {
+    const student = db.students[tx.studentId];
+    const liveBalance = student ? student.balance : (typeof tx.balance !== "undefined" ? tx.balance : Math.max(0, tx.billed - tx.paid));
+    const txAmount = tx.amount || (tx.paid > 150000 ? 150000 : tx.paid);
+
+    if (tx.verified) {
+      totalVerifiedRevenue += txAmount;
+    }
+
     const row = document.createElement("tr");
     row.innerHTML = `
       <td>${tx.date}</td>
       <td><strong>${tx.name}</strong></td>
-      <td><span style="font-family: monospace; color: #555;">${tx.id}</span></td>
+      <td><span style="font-family: monospace; color: #555;">${tx.studentId}</span></td>
       <td>&#8358;${tx.billed.toLocaleString()}.00</td>
-      <td style="color: #15803d; font-weight: 700;">&#8358;${tx.paid.toLocaleString()}.00</td>
-      <td style="color: ${outstanding === 0 ? '#15803d' : 'var(--color-red)'}; font-weight: 700;">&#8358;${outstanding.toLocaleString()}.00</td>
+      <td style="color: #15803d; font-weight: 700;">&#8358;${txAmount.toLocaleString()}.00</td>
+      <td style="color: ${liveBalance === 0 ? '#15803d' : 'var(--color-red)'}; font-weight: 700;">&#8358;${liveBalance.toLocaleString()}.00</td>
       <td><span style="font-family: monospace; font-size: 0.85rem; color: #555;">${tx.ref}</span></td>
       <td>
         ${tx.verified 
           ? '<span class="portal-badge portal-badge-green">Verified</span>' 
-          : `<button class="btn-primary" style="padding: 0.4rem 0.85rem; font-size: 0.8rem;" onclick="verifyPayment(${idx})">Verify Payment</button>`
+          : `<button class="btn-primary" style="padding: 0.4rem 0.85rem; font-size: 0.8rem;" onclick="verifyPayment('${tx.ref}')">Verify Payment</button>`
         }
       </td>
     `;
     tbody.appendChild(row);
   });
+
+  document.getElementById("bursarTotalVerifiedStat").innerHTML = "Total Verified: &#8358;" + totalVerifiedRevenue.toLocaleString() + ".00";
 }
 
-function verifyPayment(index) {
-  bursarTransactions[index].verified = true;
-  renderBursarTransactions();
-  alert(`Payment reference ${bursarTransactions[index].ref} verified successfully. Student ledger updated.`);
+function verifyPayment(reference) {
+  const result = verifyBursarTransactionById(reference);
+  if (result.success) {
+    renderBursarTransactions();
+    alert(`Payment reference ${reference} verified successfully. Student ledger updated.`);
+  } else {
+    alert(result.message);
+  }
 }
+
+// Cross Tab Real Time Synchronization Listener
+window.addEventListener("bantu_db_updated", function() {
+  if (currentLoggedInStaff) {
+    if (currentLoggedInStaff.isTeacher && !hasUnsavedScoreChanges) {
+      loadSubjectScoresForClass();
+    } else if (currentLoggedInStaff.isBursar) {
+      renderBursarTransactions();
+    }
+  }
+});
+window.addEventListener("storage", function(e) {
+  if (e.key === BANTU_STORAGE_KEY && currentLoggedInStaff) {
+    if (currentLoggedInStaff.isTeacher && !hasUnsavedScoreChanges) {
+      loadSubjectScoresForClass();
+    } else if (currentLoggedInStaff.isBursar) {
+      renderBursarTransactions();
+    }
+  }
+});
 </script>
 
 </body>
