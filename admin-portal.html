@@ -462,6 +462,103 @@
     </div>
   </div>
 
+  <!-- Candidate Complete Dossier Modal -->
+  <div id="candidateDossierModal" class="portal-modal-overlay">
+    <div class="portal-modal-card candidate-dossier-card" style="padding: clamp(1.25rem, 3vw, 2rem);">
+      
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid var(--color-gold); padding-bottom: 0.85rem; margin-bottom: 1.25rem;">
+        <div>
+          <span style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--color-gold-dark); letter-spacing: 0.5px;">Bantu College Admissions Registry &bull; Candidate Dossier</span>
+          <h2 style="font-family: var(--font-heading); font-size: 1.5rem; color: var(--color-slate); margin: 0.2rem 0;" id="dossierCandidateName">Msughter Tyover</h2>
+          <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+            <span style="font-family: monospace; font-size: 0.85rem; font-weight: 700; color: #555;" id="dossierAppRef">BC/ADM/2026/001</span>
+            <span class="portal-badge portal-badge-gold" id="dossierStreamBadge">Basic 7A</span>
+            <span class="portal-badge" id="dossierStatusBadge">Offer Granted</span>
+          </div>
+        </div>
+        <button type="button" onclick="closeCandidateDossier()" style="background: none; border: none; font-size: 1.6rem; cursor: pointer; color: #666; line-height: 1;">&times;</button>
+      </div>
+
+      <!-- Dossier Section 1: Scholastic Biodata -->
+      <div style="background: rgba(43, 42, 66, 0.03); border: 1px solid rgba(0, 0, 0, 0.06); border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1rem;">
+        <strong style="color: var(--color-slate); display: block; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.65rem;">
+          1. Candidate Personal & Scholastic Biodata
+        </strong>
+        <div class="dossier-grid">
+          <div class="dossier-item"><span>Gender / Sex</span><strong id="dossierGender">Male</strong></div>
+          <div class="dossier-item"><span>Date of Birth</span><strong id="dossierDob">18 May 2014</strong></div>
+          <div class="dossier-item"><span>Application Date</span><strong id="dossierDate">12 Oct 2026</strong></div>
+          <div class="dossier-item" style="grid-column: span 2;"><span>Primary School Completed</span><strong id="dossierPrevSchool">St. Thomas Primary School, Makurdi</strong></div>
+        </div>
+      </div>
+
+      <!-- Dossier Section 2: Origin & Residential Location -->
+      <div style="background: rgba(43, 42, 66, 0.03); border: 1px solid rgba(0, 0, 0, 0.06); border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1rem;">
+        <strong style="color: var(--color-slate); display: block; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.65rem;">
+          2. Geographic Origin & Residential Address
+        </strong>
+        <div class="dossier-grid">
+          <div class="dossier-item"><span>Nationality</span><strong id="dossierNationality">Nigerian</strong></div>
+          <div class="dossier-item"><span>State of Origin</span><strong id="dossierState">Benue State</strong></div>
+          <div class="dossier-item"><span>Local Government Area (LGA)</span><strong id="dossierLga">Gwer East</strong></div>
+          <div class="dossier-item"><span>Residential City / Town</span><strong id="dossierCity">Makurdi</strong></div>
+          <div class="dossier-item" style="grid-column: span 2;"><span>Full Street Address</span><strong id="dossierAddress">Plot 14, Kashim Ibrahim Way, Old GRA, Makurdi</strong></div>
+        </div>
+      </div>
+
+      <!-- Dossier Section 3: Parent & Guardian Details -->
+      <div style="background: rgba(43, 42, 66, 0.03); border: 1px solid rgba(0, 0, 0, 0.06); border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1rem;">
+        <strong style="color: var(--color-slate); display: block; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.65rem;">
+          3. Parent & Legal Guardian Credentials
+        </strong>
+        <div class="dossier-grid">
+          <div class="dossier-item"><span>Guardian Full Name</span><strong id="dossierGuardianName">Engr. S. Tyover</strong></div>
+          <div class="dossier-item"><span>Relationship</span><strong id="dossierRelationship">Father</strong></div>
+          <div class="dossier-item"><span>Primary Telephone</span><strong id="dossierPhone">+234 803 214 5590</strong></div>
+          <div class="dossier-item"><span>Alternate Phone / WhatsApp</span><strong id="dossierAltPhone">+234 802 331 4420</strong></div>
+          <div class="dossier-item" style="grid-column: span 2;"><span>Official Email Address</span><strong id="dossierEmail">s.tyover@gmail.com</strong></div>
+        </div>
+      </div>
+
+      <!-- Dossier Section 4: Health Profile & Medical Safeguards -->
+      <div style="background: rgba(43, 42, 66, 0.03); border: 1px solid rgba(0, 0, 0, 0.06); border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1rem;">
+        <strong style="color: var(--color-slate); display: block; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.65rem;">
+          4. Health Profile, Clinical Vitals & Medical Safeguards
+        </strong>
+        <div class="dossier-grid">
+          <div class="dossier-item"><span>Blood Group</span><strong id="dossierBloodGroup" style="color: #15803d;">O+</strong></div>
+          <div class="dossier-item"><span>Genotype</span><strong id="dossierGenotype" style="color: #15803d;">AA</strong></div>
+          <div class="dossier-item"><span>Emergency Medical Contact</span><strong id="dossierEmergencyContact">Mrs. V. Tyover (+234 803 214 5591)</strong></div>
+          <div class="dossier-item"><span>Medical Fitness Document</span><div id="dossierMedicalDocSlot"><strong style="color: #555;">Pending Physical Submission</strong></div></div>
+          <div class="dossier-item" style="grid-column: span 2;"><span>Known Allergies / Pre-Existing Medical Conditions</span><strong id="dossierAllergies">None reported.</strong></div>
+        </div>
+      </div>
+
+      <!-- Dossier Section 5: Screening & Intake History -->
+      <div style="background: rgba(43, 42, 66, 0.03); border: 1px solid rgba(0, 0, 0, 0.06); border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.25rem;">
+        <strong style="color: var(--color-slate); display: block; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.65rem;">
+          5. Entrance Screening Assessment & Mail History
+        </strong>
+        <div class="dossier-grid">
+          <div class="dossier-item"><span>Entrance Screening Score</span><strong id="dossierScore">84.5%</strong></div>
+          <div class="dossier-item"><span>Screening Verdict</span><strong id="dossierVerdict">Satisfactory (High Merit)</strong></div>
+          <div class="dossier-item" style="grid-column: span 2;"><span>Transmitted Communications</span><div id="dossierMailLog" style="display: flex; gap: 0.35rem; flex-wrap: wrap; margin-top: 4px;"></div></div>
+        </div>
+      </div>
+
+      <!-- Dossier Actions Footer -->
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; border-top: 1px solid rgba(0,0,0,0.08); padding-top: 1rem;">
+        <div id="dossierQuickDecisionSlot" style="display: flex; gap: 0.4rem; align-items: center;">
+          <!-- Populated dynamically -->
+        </div>
+        <div>
+          <button type="button" onclick="closeCandidateDossier()" class="btn-outline" style="padding: 0.5rem 1.2rem; font-size: 0.85rem;">Close Dossier</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
 </div>
 
 </div>
@@ -1052,8 +1149,12 @@ function renderAdmissionsTable() {
       <td><span style="font-size: 0.78rem; color: #555; white-space: nowrap;">${app.date}</span></td>
       <td><span style="font-family: monospace; font-size: 0.78rem; font-weight: 700; color: var(--color-slate); white-space: nowrap;">${app.ref}</span></td>
       <td>
-        <strong style="font-size: 0.84rem; display: block; color: var(--color-slate);">${app.studentName}</strong>
-        <div style="font-size: 0.72rem; color: #666; margin-top: 1px;">${app.email}</div>
+        <button type="button" onclick="openCandidateDossier('${app.ref}')" style="background: none; border: none; padding: 0; text-align: left; cursor: pointer; color: inherit; width: 100%;" title="Click to view complete candidate dossier, location and health profile">
+          <strong style="font-size: 0.84rem; display: block; color: var(--color-slate); text-decoration: underline; text-underline-offset: 2px;">${app.studentName}</strong>
+          <div style="font-size: 0.72rem; color: #666; margin-top: 1px;">
+            ${app.gender ? '<span style="font-weight: 700; color: var(--color-gold-dark);">' + app.gender + '</span> &bull; ' : ''}${app.email}
+          </div>
+        </button>
       </td>
       <td><span class="portal-badge ${classBadgeColor}" style="font-weight: 700; font-size: 0.76rem; padding: 0.2rem 0.5rem; white-space: nowrap;">${app.entryLevel}</span></td>
       <td>${scoreHtml}</td>
@@ -1400,6 +1501,128 @@ if (admissionModalEl) {
   admissionModalEl.addEventListener("click", function(e) {
     if (e.target === admissionModalEl) {
       closeOfferModal();
+    }
+  });
+}
+
+let currentDossierRef = null;
+
+function openCandidateDossier(reference) {
+  const db = getBantuDatabase();
+  const app = (db.applications || []).find(a => a.ref === reference);
+  if (!app) {
+    alert("Candidate dossier record not found for " + reference);
+    return;
+  }
+  currentDossierRef = reference;
+
+  document.getElementById("dossierCandidateName").textContent = app.studentName;
+  document.getElementById("dossierAppRef").textContent = app.ref;
+  document.getElementById("dossierStreamBadge").textContent = app.entryLevel;
+  
+  const statusBadge = document.getElementById("dossierStatusBadge");
+  statusBadge.textContent = app.status;
+  if (app.status === "Offer Granted") statusBadge.className = "portal-badge portal-badge-green";
+  else if (app.status === "Admitted on Probation") statusBadge.className = "portal-badge portal-badge-b2";
+  else if (app.status === "Admission Declined") statusBadge.className = "portal-badge portal-badge-f";
+  else statusBadge.className = "portal-badge portal-badge-gold";
+
+  document.getElementById("dossierGender").textContent = app.gender || "Not Specified";
+  document.getElementById("dossierDob").textContent = app.dob || "Not Specified";
+  document.getElementById("dossierDate").textContent = app.date || "Not Specified";
+  document.getElementById("dossierPrevSchool").textContent = app.previousSchool || "Not Specified";
+
+  document.getElementById("dossierNationality").textContent = app.nationality || "Nigerian";
+  document.getElementById("dossierState").textContent = app.stateOfOrigin || "Benue State";
+  document.getElementById("dossierLga").textContent = app.lga || "Not Specified";
+  document.getElementById("dossierCity").textContent = app.city || "Makurdi";
+  document.getElementById("dossierAddress").textContent = app.address || "Not Specified";
+
+  document.getElementById("dossierGuardianName").textContent = app.guardianName || "Not Specified";
+  document.getElementById("dossierRelationship").textContent = app.relationship || "Guardian";
+  document.getElementById("dossierPhone").textContent = app.phone || "Not Specified";
+  document.getElementById("dossierAltPhone").textContent = app.altPhone || "Not Provided";
+  document.getElementById("dossierEmail").textContent = app.email || "Not Specified";
+
+  document.getElementById("dossierBloodGroup").textContent = app.bloodGroup || "Pending";
+  document.getElementById("dossierGenotype").textContent = app.genotype || "Pending";
+  document.getElementById("dossierEmergencyContact").textContent = app.emergencyContact || app.phone || "Guardian";
+  document.getElementById("dossierAllergies").textContent = app.medicalConditions || "None reported.";
+
+  const docSlot = document.getElementById("dossierMedicalDocSlot");
+  if (app.medicalDocName) {
+    docSlot.innerHTML = `
+      <span class="portal-badge portal-badge-green" style="font-size: 0.75rem; text-transform: none;">
+        Attached: ${app.medicalDocName} (${app.medicalDocSize || ''})
+      </span>
+    `;
+  } else {
+    docSlot.innerHTML = `<span style="color: #777; font-size: 0.82rem;">Pending Physical Submission</span>`;
+  }
+
+  // Screening & Score
+  const scoreEl = document.getElementById("dossierScore");
+  const verdictEl = document.getElementById("dossierVerdict");
+  if (app.examScore !== null && typeof app.examScore !== "undefined") {
+    scoreEl.textContent = `${app.examScore.toFixed(1)}%`;
+    const rec = getScoreRecommendation(app.examScore);
+    verdictEl.textContent = rec.verdict;
+    verdictEl.style.color = rec.color === "green" ? "#15803d" : rec.color === "gold" ? "#b45309" : "#b91c1c";
+  } else {
+    scoreEl.textContent = "Awaiting Assessment";
+    verdictEl.textContent = "Entrance Exam Pending";
+    verdictEl.style.color = "#555";
+  }
+
+  // Transmitted Communications History
+  const mailContainer = document.getElementById("dossierMailLog");
+  mailContainer.innerHTML = "";
+  (app.mailHistory || []).forEach(m => {
+    const pill = document.createElement("span");
+    pill.className = "portal-badge portal-badge-b3";
+    pill.style.fontSize = "0.72rem";
+    pill.textContent = `${m.title || m.type} (${m.timestamp.split(' at ')[0]})`;
+    mailContainer.appendChild(pill);
+  });
+  if ((app.mailHistory || []).length === 0) {
+    mailContainer.innerHTML = `<span style="font-size: 0.75rem; color: #888;">No transmissions recorded</span>`;
+  }
+
+  // Quick Decision Buttons
+  const decisionSlot = document.getElementById("dossierQuickDecisionSlot");
+  if (app.decision === "Admitted" || app.status === "Offer Granted" ||
+      app.decision === "Probation" || app.status === "Admitted on Probation" ||
+      app.decision === "Declined" || app.status === "Admission Declined") {
+    decisionSlot.innerHTML = `
+      <button type="button" class="btn-primary" style="padding: 0.45rem 1rem; font-size: 0.8rem;" onclick="closeCandidateDossier(); viewDecisionDocument('${app.ref}')">View Decision Letter</button>
+      <button type="button" class="btn-outline" style="padding: 0.45rem 0.85rem; font-size: 0.8rem;" onclick="closeCandidateDossier(); reopenDecision('${app.ref}')">Reconsider Decision</button>
+    `;
+  } else {
+    decisionSlot.innerHTML = `
+      <button type="button" class="btn-primary" style="padding: 0.45rem 0.9rem; font-size: 0.8rem;" onclick="closeCandidateDossier(); handleGrantFullAdmission('${app.ref}')">Grant Full Offer</button>
+      <button type="button" class="btn-outline" style="padding: 0.45rem 0.9rem; font-size: 0.8rem; border-color: #d97706; color: #b45309;" onclick="closeCandidateDossier(); handleAdmitOnProbation('${app.ref}')">Admit on Probation</button>
+      <button type="button" class="btn-outline" style="padding: 0.45rem 0.9rem; font-size: 0.8rem; border-color: var(--color-red); color: var(--color-red);" onclick="closeCandidateDossier(); handleDeclineAdmission('${app.ref}')">Decline</button>
+    `;
+  }
+
+  const modal = document.getElementById("candidateDossierModal");
+  modal.classList.add("is-active");
+  modal.style.display = "flex";
+}
+
+function closeCandidateDossier() {
+  const modal = document.getElementById("candidateDossierModal");
+  if (modal) {
+    modal.classList.remove("is-active");
+    modal.style.display = "none";
+  }
+}
+
+const dossierModalEl = document.getElementById("candidateDossierModal");
+if (dossierModalEl) {
+  dossierModalEl.addEventListener("click", function(e) {
+    if (e.target === dossierModalEl) {
+      closeCandidateDossier();
     }
   });
 }

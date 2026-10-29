@@ -81,15 +81,56 @@ Your admission registration has been officially recorded by the Bantu College Re
 </p>
 
 <div id="applicantSummaryCard" style="background: #ffffff; border: 1px solid rgba(186, 147, 79, 0.35); border-radius: 14px; padding: 1.5rem; text-align: left; margin-bottom: 1.5rem; box-shadow: 0 4px 14px rgba(0,0,0,0.05);">
-  <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.08); padding-bottom: 0.75rem; margin-bottom: 0.75rem;">
-    <span style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--color-gold-dark); letter-spacing: 0.5px;">Registration Reference</span>
-    <strong id="dispAppRef" style="font-family: monospace; font-size: 1rem; color: var(--color-slate);">BC/ADM/2026/000</strong>
+  <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.08); padding-bottom: 0.75rem; margin-bottom: 1rem;">
+    <div>
+      <span style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--color-gold-dark); letter-spacing: 0.5px; display: block;">Official Registration Reference</span>
+      <strong id="dispAppRef" style="font-family: monospace; font-size: 1.15rem; color: var(--color-slate);">BC/ADM/2026/000</strong>
+    </div>
+    <span class="portal-badge portal-badge-green" id="dispStatusBadge" style="font-size: 0.75rem; padding: 0.25rem 0.75rem;">Exam Scheduled</span>
   </div>
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem; font-size: 0.9rem;">
-    <div>Candidate: <strong id="dispStudentName">Registered Scholar</strong></div>
-    <div>Proposed Stream: <strong id="dispEntryLevel">Basic 7A</strong></div>
-    <div>Guardian: <strong id="dispGuardian">Guardian</strong></div>
-    <div>Contact Phone: <strong id="dispPhone">Phone</strong></div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 0.85rem 1.25rem; font-size: 0.88rem;">
+    <div>
+      <span style="font-size: 0.72rem; color: #777; text-transform: uppercase; display: block; font-weight: 700;">Candidate Scholar</span>
+      <strong id="dispStudentName" style="color: var(--color-slate); font-size: 0.95rem;">Registered Scholar</strong>
+      <span id="dispGender" style="font-size: 0.78rem; color: #555; display: block;">(Male)</span>
+    </div>
+
+    <div>
+      <span style="font-size: 0.72rem; color: #777; text-transform: uppercase; display: block; font-weight: 700;">Assigned Stream</span>
+      <strong id="dispEntryLevel" style="color: var(--color-gold-dark); font-size: 0.95rem;">Basic 7A</strong>
+    </div>
+
+    <div>
+      <span style="font-size: 0.72rem; color: #777; text-transform: uppercase; display: block; font-weight: 700;">Demographic Origin</span>
+      <strong id="dispOrigin" style="color: #333;">Makurdi, Benue State</strong>
+    </div>
+
+    <div>
+      <span style="font-size: 0.72rem; color: #777; text-transform: uppercase; display: block; font-weight: 700;">Residential Address</span>
+      <strong id="dispAddress" style="color: #333;">Plot 14, Kashim Ibrahim Way, Makurdi</strong>
+    </div>
+
+    <div>
+      <span style="font-size: 0.72rem; color: #777; text-transform: uppercase; display: block; font-weight: 700;">Parent / Legal Guardian</span>
+      <strong id="dispGuardian" style="color: #333;">Guardian Name</strong>
+      <span id="dispRelationship" style="font-size: 0.75rem; color: #666; display: block;">(Father)</span>
+    </div>
+
+    <div>
+      <span style="font-size: 0.72rem; color: #777; text-transform: uppercase; display: block; font-weight: 700;">Contact Telephone</span>
+      <strong id="dispPhone" style="color: #333;">+234...</strong>
+    </div>
+
+    <div>
+      <span style="font-size: 0.72rem; color: #777; text-transform: uppercase; display: block; font-weight: 700;">Clinical Health Vitals</span>
+      <strong id="dispMedicalVitals" style="color: #15803d;">Blood Group: O+ &bull; Genotype: AA</strong>
+    </div>
+
+    <div>
+      <span style="font-size: 0.72rem; color: #777; text-transform: uppercase; display: block; font-weight: 700;">Medical Fitness Document</span>
+      <strong id="dispMedicalDocStatus" style="color: var(--color-slate); font-size: 0.82rem;">Attached (Verified)</strong>
+    </div>
   </div>
 </div>
 
@@ -130,9 +171,24 @@ document.addEventListener("DOMContentLoaded", function() {
       currentAppData = JSON.parse(stored);
       document.getElementById("dispAppRef").textContent = currentAppData.ref;
       document.getElementById("dispStudentName").textContent = currentAppData.studentName;
+      document.getElementById("dispGender").textContent = `(${currentAppData.gender || 'Not Specified'})`;
       document.getElementById("dispEntryLevel").textContent = currentAppData.entryLevel;
+      document.getElementById("dispOrigin").textContent = `${currentAppData.lga || 'Makurdi'}, ${currentAppData.stateOfOrigin || 'Benue State'}`;
+      document.getElementById("dispAddress").textContent = `${currentAppData.address || 'Residential Address'}, ${currentAppData.city || 'Makurdi'}`;
       document.getElementById("dispGuardian").textContent = currentAppData.guardianName;
+      document.getElementById("dispRelationship").textContent = `(${currentAppData.relationship || 'Guardian'})`;
       document.getElementById("dispPhone").textContent = currentAppData.phone;
+      document.getElementById("dispMedicalVitals").textContent = `Blood: ${currentAppData.bloodGroup || 'Pending'} \u2022 Genotype: ${currentAppData.genotype || 'Pending'}`;
+      
+      const docStatusEl = document.getElementById("dispMedicalDocStatus");
+      if (currentAppData.medicalDocName) {
+        docStatusEl.textContent = `Attached: ${currentAppData.medicalDocName} (${currentAppData.medicalDocSize || ''})`;
+        docStatusEl.style.color = "#15803d";
+      } else {
+        docStatusEl.textContent = "Pending Physical Clearance Submission";
+        docStatusEl.style.color = "#777";
+      }
+
       if (currentAppData.email) {
         document.getElementById("dispEmailText").textContent = currentAppData.email;
       }
@@ -151,8 +207,15 @@ document.addEventListener("DOMContentLoaded", function() {
 function printExamDocket() {
   const ref = currentAppData ? currentAppData.ref : document.getElementById("dispAppRef").textContent;
   const name = currentAppData ? currentAppData.studentName : document.getElementById("dispStudentName").textContent;
+  const gender = currentAppData ? (currentAppData.gender || "Not Specified") : "Not Specified";
   const stream = currentAppData ? currentAppData.entryLevel : document.getElementById("dispEntryLevel").textContent;
+  const originStr = currentAppData ? `${currentAppData.lga || 'Makurdi'}, ${currentAppData.stateOfOrigin || 'Benue State'}` : "Benue State";
+  const addressStr = currentAppData ? `${currentAppData.address || 'Makurdi'}, ${currentAppData.city || 'Makurdi'}` : "Makurdi";
   const guardian = currentAppData ? currentAppData.guardianName : document.getElementById("dispGuardian").textContent;
+  const relationship = currentAppData ? (currentAppData.relationship || "Guardian") : "Guardian";
+  const phone = currentAppData ? currentAppData.phone : document.getElementById("dispPhone").textContent;
+  const bloodGroup = currentAppData ? (currentAppData.bloodGroup || "Pending") : "Pending";
+  const genotype = currentAppData ? (currentAppData.genotype || "Pending") : "Pending";
   const examDate = currentAppData ? (currentAppData.examDate || "Saturday, 14 Nov 2026") : "Saturday, 14 Nov 2026";
   const examVenue = currentAppData ? (currentAppData.examVenue || "Bantu College Central Examination Hall, Makurdi") : "Bantu College Central Examination Hall, Makurdi";
 
@@ -249,11 +312,15 @@ function printExamDocket() {
           <div>Examination Date: <strong>${examDate}</strong></div>
         </div>
 
-        <div style="background: rgba(43, 42, 66, 0.04); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.25rem; font-size: 0.9rem;">
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem;">
-            <div>Candidate Name: <strong style="color: #2b2a42;">${name}</strong></div>
+        <div style="background: rgba(43, 42, 66, 0.04); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.25rem; font-size: 0.88rem;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 0.65rem 1rem;">
+            <div>Candidate Name: <strong style="color: #2b2a42;">${name} (${gender})</strong></div>
             <div>Proposed Stream: <strong style="color: #ba934f;">${stream}</strong></div>
-            <div>Parent/Guardian: <strong>${guardian}</strong></div>
+            <div>State of Origin: <strong>${originStr}</strong></div>
+            <div>Residential Address: <strong>${addressStr}</strong></div>
+            <div>Parent / Guardian: <strong>${guardian} (${relationship})</strong></div>
+            <div>Contact Telephone: <strong>${phone}</strong></div>
+            <div>Clinical Vitals: <strong>Blood: ${bloodGroup} &bull; Genotype: ${genotype}</strong></div>
             <div>Reporting Time: <strong style="color: #b91c1c;">08:30 AM Prompt</strong></div>
           </div>
         </div>
