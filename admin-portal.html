@@ -39,10 +39,10 @@
 <div id="staffAuthSection" class="no-print">
   <div class="portal-auth-card" style="max-width: 520px;">
     <div class="portal-auth-header">
-      <img src="assets/Bantu%20College%20Crest-02d.png" alt="Bantu College Crest">
+      <img src="assets/Bantu%20College%20Crest-02d.png" alt="Bantu College Crest" style="width: 95px; margin: 0 auto 1.25rem; display: block; filter: drop-shadow(0 4px 12px rgba(43, 42, 66, 0.18)) contrast(1.1);">
       <span style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--color-gold-dark); letter-spacing: 1px; display: block; margin-bottom: 0.25rem;">Authorized Personnel Only</span>
-      <h1 style="font-family: var(--font-heading); font-size: 1.8rem; color: var(--color-slate); margin-bottom: 0.35rem;">Staff Access Desk</h1>
-      <p style="color: #666; font-size: 0.95rem;">Subject Masters and Bursary Officers</p>
+      <h1 style="font-family: var(--font-heading); font-size: 1.95rem; font-weight: 800; color: var(--color-slate); margin-bottom: 0.35rem;">Staff Access Desk</h1>
+      <p style="color: #666; font-size: 0.95rem;">Subject Masters, Bursary and Administration</p>
     </div>
 
     <form id="staffLoginForm">
@@ -60,10 +60,11 @@
 
     <div class="portal-demo-notice" style="margin-top: 1.5rem;">
       <strong style="color: var(--color-slate); display: block; margin-bottom: 0.35rem;">Authorized Faculty Demonstration Logins:</strong>
-      <p>1. Mathematics Master: ID: <strong>TCH/MTH/01</strong> | PIN: <strong>1122</strong> (Mathematics Only)</p>
-      <p>2. English and Literature Master: ID: <strong>TCH/ENG/02</strong> | PIN: <strong>3344</strong> (English and Literature Only)</p>
-      <p>3. Science Master: ID: <strong>TCH/SCI/03</strong> | PIN: <strong>5566</strong> (Intermediate Science Only)</p>
-      <p>4. Bursar Officer: ID: <strong>BUR/FIN/01</strong> | PIN: <strong>9900</strong> (Bursary Verification Desk Only)</p>
+      <p>1. Principal: ID: <strong>PRN/EXEC/01</strong> | PIN: <strong>1001</strong> (Full Access: Admissions Intake, Academic Scores, Bursary)</p>
+      <p>2. Mathematics Master: ID: <strong>TCH/MTH/01</strong> | PIN: <strong>1122</strong> (Mathematics Only)</p>
+      <p>3. English and Literature Master: ID: <strong>TCH/ENG/02</strong> | PIN: <strong>3344</strong> (English and Literature Only)</p>
+      <p>4. Science Master: ID: <strong>TCH/SCI/03</strong> | PIN: <strong>5566</strong> (Intermediate Science Only)</p>
+      <p>5. Bursar Officer: ID: <strong>BUR/FIN/01</strong> | PIN: <strong>9900</strong> (Bursary Verification Desk and Admissions)</p>
     </div>
 
     <p style="text-align: center; margin-top: 1.5rem; font-size: 0.85rem; color: #777;">
@@ -93,6 +94,7 @@
   <div class="portal-tab-bar" style="margin-bottom: 2rem;" id="staffTabBar">
     <button class="portal-tab-btn is-active" id="tabBtnTeacher" data-staff-pane="teacherPane">Teacher Grade Entry Engine</button>
     <button class="portal-tab-btn" id="tabBtnBursar" data-staff-pane="bursarPane">Bursary and Transaction Verification</button>
+    <button class="portal-tab-btn" id="tabBtnAdmissions" data-staff-pane="admissionsPane">Admissions and Applicant Intake</button>
   </div>
 
   <!-- Pane 1: Teacher Grade Entry Engine -->
@@ -242,6 +244,46 @@
     </div>
   </div>
 
+  <!-- Pane 3: Admissions and Applicant Intake -->
+  <div id="admissionsPane" class="portal-tab-pane">
+    <div class="admin-card">
+      
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;">
+        <div>
+          <h2 style="font-family: var(--font-heading); font-size: 1.5rem; color: var(--color-slate); margin: 0;">Online Admissions Intake Desk</h2>
+          <p style="color: #666; font-size: 0.95rem; margin-top: 0.25rem;">
+            Review incoming scholar registrations, manage screening interview statuses, and grant offers of admission.
+          </p>
+        </div>
+        <div>
+          <span class="portal-badge portal-badge-green" id="admissionsCountBadge" style="font-size: 0.85rem; padding: 0.45rem 1rem;">Total Applicants: Loading...</span>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="portal-data-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Reference</th>
+              <th>Candidate Name</th>
+              <th>Proposed Class</th>
+              <th>Guardian Name</th>
+              <th>Contact Phone</th>
+              <th>Previous School</th>
+              <th>Status</th>
+              <th style="text-align: center;">Administrative Action</th>
+            </tr>
+          </thead>
+          <tbody id="admissionsTableBody">
+            <!-- Populated via JavaScript from unified database -->
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
 </div>
 
 </div>
@@ -259,6 +301,16 @@
 <script>
 // Staff Credentials and Role Based Subject Mapping
 const staffAccounts = {
+  "PRN/EXEC/01": {
+    pin: "1001",
+    name: "Mr. Kwaghtongo D. A.",
+    role: "Principal and Head of School",
+    department: "Office of the Principal",
+    isTeacher: true,
+    isBursar: true,
+    isPrincipal: true,
+    allowedSubjects: ["English Studies", "Mathematics", "Intermediate Science", "Nigerian History", "Social and Citizenship Education"]
+  },
   "TCH/MTH/01": {
     pin: "1122",
     name: "Mr. Kator Agber",
@@ -332,18 +384,41 @@ function loadStaffWorkspace() {
 
   const teacherTab = document.getElementById("tabBtnTeacher");
   const bursarTab = document.getElementById("tabBtnBursar");
+  const admissionsTab = document.getElementById("tabBtnAdmissions");
   const teacherPane = document.getElementById("teacherPane");
   const bursarPane = document.getElementById("bursarPane");
+  const admissionsPane = document.getElementById("admissionsPane");
 
-  if (currentLoggedInStaff.isTeacher) {
+  // Reset tab active states
+  [teacherTab, bursarTab, admissionsTab].forEach(t => {
+    t.classList.remove("is-active");
+    t.style.display = "none";
+  });
+  [teacherPane, bursarPane, admissionsPane].forEach(p => p.classList.remove("is-active"));
+
+  if (currentLoggedInStaff.isPrincipal) {
     teacherTab.style.display = "block";
-    bursarTab.style.display = "none";
-    teacherTab.classList.add("is-active");
-    bursarTab.classList.remove("is-active");
-    teacherPane.classList.add("is-active");
-    bursarPane.classList.remove("is-active");
+    bursarTab.style.display = "block";
+    admissionsTab.style.display = "block";
 
-    // Populate restricted subjects
+    admissionsTab.classList.add("is-active");
+    admissionsPane.classList.add("is-active");
+
+    const subjectSelect = document.getElementById("adminSubjectSelect");
+    subjectSelect.innerHTML = "";
+    currentLoggedInStaff.allowedSubjects.forEach(sub => {
+      const opt = document.createElement("option");
+      opt.value = sub;
+      opt.textContent = sub;
+      subjectSelect.appendChild(opt);
+    });
+
+    renderAdmissionsTable();
+  } else if (currentLoggedInStaff.isTeacher) {
+    teacherTab.style.display = "block";
+    teacherTab.classList.add("is-active");
+    teacherPane.classList.add("is-active");
+
     const subjectSelect = document.getElementById("adminSubjectSelect");
     subjectSelect.innerHTML = "";
     currentLoggedInStaff.allowedSubjects.forEach(sub => {
@@ -355,16 +430,35 @@ function loadStaffWorkspace() {
 
     loadSubjectScoresForClass();
   } else if (currentLoggedInStaff.isBursar) {
-    teacherTab.style.display = "none";
     bursarTab.style.display = "block";
+    admissionsTab.style.display = "block";
     bursarTab.classList.add("is-active");
-    teacherTab.classList.remove("is-active");
     bursarPane.classList.add("is-active");
-    teacherPane.classList.remove("is-active");
 
     renderBursarTransactions();
   }
 }
+
+// Tab Switching Listener for Staff Tab Bar
+document.querySelectorAll("#staffTabBar .portal-tab-btn").forEach(btn => {
+  btn.addEventListener("click", function() {
+    if (hasUnsavedScoreChanges) {
+      const leave = confirm("You have unsaved score changes. Do you want to switch sections without saving?");
+      if (!leave) return;
+    }
+    document.querySelectorAll("#staffTabBar .portal-tab-btn").forEach(b => b.classList.remove("is-active"));
+    document.querySelectorAll("#staffWorkspaceSection .portal-tab-pane").forEach(p => p.classList.remove("is-active"));
+
+    this.classList.add("is-active");
+    const targetPaneId = this.getAttribute("data-staff-pane");
+    const targetPane = document.getElementById(targetPaneId);
+    if (targetPane) targetPane.classList.add("is-active");
+
+    if (targetPaneId === "teacherPane") loadSubjectScoresForClass();
+    if (targetPaneId === "bursarPane") renderBursarTransactions();
+    if (targetPaneId === "admissionsPane") renderAdmissionsTable();
+  });
+});
 
 // Staff Logout Handler
 document.getElementById("staffLogoutBtn").addEventListener("click", function() {
@@ -577,22 +671,74 @@ function verifyPayment(reference) {
   }
 }
 
+// Admissions Intake Desk Rendering
+function renderAdmissionsTable() {
+  const db = getBantuDatabase();
+  const tbody = document.getElementById("admissionsTableBody");
+  tbody.innerHTML = "";
+
+  const applications = db.applications || [];
+  document.getElementById("admissionsCountBadge").textContent = `Total Applicants: ${applications.length}`;
+
+  applications.forEach(app => {
+    let badgeClass = "portal-badge-gold";
+    if (app.status === "Offer Granted") badgeClass = "portal-badge-green";
+    if (app.status === "Interview Scheduled") badgeClass = "portal-badge-b2";
+
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${app.date}</td>
+      <td><span style="font-family: monospace; font-size: 0.85rem; color: #555;">${app.ref}</span></td>
+      <td><strong>${app.studentName}</strong></td>
+      <td>${app.entryLevel}</td>
+      <td>${app.guardianName}</td>
+      <td>${app.phone}</td>
+      <td><span style="font-size: 0.85rem; color: #555;">${app.previousSchool}</span></td>
+      <td><span class="portal-badge ${badgeClass}">${app.status}</span></td>
+      <td style="text-align: center;">
+        ${app.status === "Offer Granted" 
+          ? '<span style="color: #15803d; font-weight: 700; font-size: 0.8rem;">Admitted</span>' 
+          : `<div style="display: flex; gap: 0.35rem; justify-content: center;">
+              ${app.status !== 'Interview Scheduled' ? `<button class="btn-outline" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="setApplicationStatus('${app.ref}', 'Interview Scheduled')">Interview</button>` : ''}
+              <button class="btn-primary" style="padding: 0.3rem 0.65rem; font-size: 0.75rem;" onclick="setApplicationStatus('${app.ref}', 'Offer Granted')">Grant Offer</button>
+            </div>`
+        }
+      </td>
+    `;
+    tbody.appendChild(row);
+  });
+}
+
+function setApplicationStatus(reference, newStatus) {
+  const result = updateApplicationStatus(reference, newStatus);
+  if (result.success) {
+    renderAdmissionsTable();
+    alert(`Success: ${reference} status updated to ${newStatus}.`);
+  } else {
+    alert(result.message);
+  }
+}
+
 // Cross Tab Real Time Synchronization Listener
 window.addEventListener("bantu_db_updated", function() {
   if (currentLoggedInStaff) {
-    if (currentLoggedInStaff.isTeacher && !hasUnsavedScoreChanges) {
-      loadSubjectScoresForClass();
-    } else if (currentLoggedInStaff.isBursar) {
-      renderBursarTransactions();
+    const activeBtn = document.querySelector("#staffTabBar .portal-tab-btn.is-active");
+    if (activeBtn) {
+      const pane = activeBtn.getAttribute("data-staff-pane");
+      if (pane === "teacherPane" && !hasUnsavedScoreChanges) loadSubjectScoresForClass();
+      if (pane === "bursarPane") renderBursarTransactions();
+      if (pane === "admissionsPane") renderAdmissionsTable();
     }
   }
 });
 window.addEventListener("storage", function(e) {
   if (e.key === BANTU_STORAGE_KEY && currentLoggedInStaff) {
-    if (currentLoggedInStaff.isTeacher && !hasUnsavedScoreChanges) {
-      loadSubjectScoresForClass();
-    } else if (currentLoggedInStaff.isBursar) {
-      renderBursarTransactions();
+    const activeBtn = document.querySelector("#staffTabBar .portal-tab-btn.is-active");
+    if (activeBtn) {
+      const pane = activeBtn.getAttribute("data-staff-pane");
+      if (pane === "teacherPane" && !hasUnsavedScoreChanges) loadSubjectScoresForClass();
+      if (pane === "bursarPane") renderBursarTransactions();
+      if (pane === "admissionsPane") renderAdmissionsTable();
     }
   }
 });

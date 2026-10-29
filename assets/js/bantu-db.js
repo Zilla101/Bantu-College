@@ -1,7 +1,7 @@
 // Bantu College Unified Local Database and Atomic Transaction Engine
-// Version 2.0 with Full Multi-Student Cohorts, 15 Subjects, and ACID Payment Engine
+// Version 3.0 with Admissions Application Engine, Multi-Student Cohorts, and ACID Payments
 const BANTU_STORAGE_KEY = "bantu_college_unified_db";
-const BANTU_DB_VERSION = 2;
+const BANTU_DB_VERSION = 3;
 
 // Utility: Convert Naira numerical amount to formal English words
 function convertNairaToWords(amount) {
@@ -343,6 +343,47 @@ const defaultDatabaseSeed = {
     { id: 4, date: "18 Sep 2026", name: "Dooshima Iorfa", studentId: "BC/2026/021", billed: 450000, paid: 300000, ref: "BNT/26/TX0189", verified: true, channel: "Direct Bank Transfer" },
     { id: 5, date: "18 Sep 2026", name: "Ngodoo Ugba", studentId: "BC/2026/022", billed: 450000, paid: 450000, ref: "BNT/26/TX0201", verified: true, channel: "Direct Bank Transfer" },
     { id: 6, date: "18 Sep 2026", name: "Sesugh Tyokaa", studentId: "BC/2026/025", billed: 450000, paid: 300000, ref: "BNT/26/TX0215", verified: true, channel: "Direct Bank Transfer" }
+  ],
+  applications: [
+    {
+      ref: "BNT/ADM/2026/0101",
+      date: "12 Oct 2026",
+      studentName: "Msughter Tyover",
+      dob: "2014-05-18",
+      entryLevel: "Basic 7 (JSS 1)",
+      guardianName: "Engr. S. Tyover",
+      email: "s.tyover@gmail.com",
+      phone: "+234 803 214 5590",
+      previousSchool: "St. Thomas Primary School, Makurdi",
+      status: "Offer Granted",
+      message: "Candidate was head boy and excels in mathematics."
+    },
+    {
+      ref: "BNT/ADM/2026/0102",
+      date: "19 Oct 2026",
+      studentName: "Seember Igbawase",
+      dob: "2013-11-04",
+      entryLevel: "Basic 8 (JSS 2)",
+      guardianName: "Dr. Mrs. A. Igbawase",
+      email: "a.igbawase@yahoo.com",
+      phone: "+234 812 770 3341",
+      previousSchool: "Grace International Academy, Gboko",
+      status: "Interview Scheduled",
+      message: "Transfer applicant seeking admission into Basic 8."
+    },
+    {
+      ref: "BNT/ADM/2026/0103",
+      date: "25 Oct 2026",
+      studentName: "Aondona Kwaghtondo",
+      dob: "2014-02-12",
+      entryLevel: "Basic 7 (JSS 1)",
+      guardianName: "Mr. T. Kwaghtondo",
+      email: "t.kwaghtondo@gmail.com",
+      phone: "+234 802 449 8812",
+      previousSchool: "University Staff School, Makurdi",
+      status: "Pending Review",
+      message: "Keen interest in natural sciences and computer coding."
+    }
   ]
 };
 
@@ -563,3 +604,53 @@ function getBantuReceiptByRef(studentId, transactionRef) {
     feeStatus: student.feeStatus
   };
 }
+
+// Admission Application Engine
+function submitAdmissionApplication(data) {
+  const db = getBantuDatabase();
+  if (!db.applications) db.applications = [];
+
+  const timestamp = Date.now().toString().slice(-4);
+  const randomSuffix = Math.floor(100 + Math.random() * 900);
+  const applicationRef = "BNT/ADM/2026/" + timestamp + randomSuffix;
+
+  const now = new Date();
+  const currentDate = now.toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric"
+  });
+
+  const entryLevelFormatted = data.entryLevel === "basic-8" ? "Basic 8 (JSS 2)" : "Basic 7 (JSS 1)";
+
+  const newApp = {
+    ref: applicationRef,
+    date: currentDate,
+    studentName: data.studentName,
+    dob: data.dob,
+    entryLevel: entryLevelFormatted,
+    guardianName: data.guardianName,
+    email: data.email,
+    phone: data.phone,
+    previousSchool: data.previousSchool,
+    message: data.message || "No additional comments provided.",
+    status: "Pending Review"
+  };
+
+  db.applications.unshift(newApp);
+  saveBantuDatabase(db);
+  return { success: true, reference: applicationRef, application: newApp };
+}
+
+function updateApplicationStatus(applicationRef, newStatus) {
+  const db = getBantuDatabase();
+  if (!db.applications) return { success: false, message: "No applications found." };
+  const app = db.applications.find(a => a.ref === applicationRef);
+  if (app) {
+    app.status = newStatus;
+    saveBantuDatabase(db);
+    return { success: true, message: `Application status updated to ${newStatus}.` };
+  }
+  return { success: false, message: "Application reference not found." };
+}
+

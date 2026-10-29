@@ -147,7 +147,7 @@ Admission forms are processed as they are received. We advise early registration
 <h2 id="apply" class="huge-heading" style="font-size: 2.3rem; margin-top: 4rem;">Application Form</h2>
 <p style="font-size: 1.05rem; color: #555; margin-bottom: 1.5rem;">Please fill out the information below to register a student for the entrance assessment:</p>
 
-<form name="admissions" method="POST" action="/success.html" class="admissions-form" id="admissionsForm">
+<form class="admissions-form" id="admissionsForm">
   <div class="form-grid">
     <div class="form-group">
       <label for="studentName">Student Full Name</label>
@@ -236,7 +236,42 @@ Admission forms are processed as they are received. We advise early registration
 <p style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem;">&copy; 2026 Bantu College. All rights reserved.</p>
 </div>
 </footer>
+<script src="assets/js/bantu-db.js?v=10"></script>
 <script src="assets/js/main.js?v=5" defer></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const form = document.getElementById("admissionsForm");
+  if (form) {
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const submitBtn = form.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Registering Application...";
+
+      const formData = {
+        studentName: document.getElementById("studentName").value.trim(),
+        dob: document.getElementById("dob").value,
+        entryLevel: document.getElementById("entryLevel").value,
+        guardianName: document.getElementById("guardianName").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        phone: document.getElementById("phone").value.trim(),
+        previousSchool: document.getElementById("previousSchool").value.trim(),
+        message: document.getElementById("message").value.trim()
+      };
+
+      const result = submitAdmissionApplication(formData);
+      if (result.success) {
+        sessionStorage.setItem("bantu_last_application", JSON.stringify(result.application));
+        window.location.href = "success.html?ref=" + encodeURIComponent(result.reference);
+      } else {
+        alert("Registration failed. Please check input fields.");
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Submit Application Form";
+      }
+    });
+  }
+});
+</script>
 </body>
 </html>
 

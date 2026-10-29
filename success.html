@@ -69,19 +69,59 @@
 </div>
 </div>
 <main class="section-padding" style="min-height: 70vh; display: flex; align-items: center; justify-content: center; text-align: center;">
-<div class="container">
-<div style="width: 70px; height: 70px; background: rgba(230, 44, 32, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; border: 2px solid var(--color-red);">
-<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-red)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<div class="container" style="max-width: 680px;">
+<div style="width: 70px; height: 70px; background: rgba(34, 197, 94, 0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; border: 2px solid #15803d;">
+<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#15803d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
 <polyline points="20 6 9 17 4 12"></polyline>
 </svg>
 </div>
-<h1 class="huge-heading" style="color: var(--color-slate); margin-bottom: 1rem; font-size: 3rem;">Application Received</h1>
-<p style="font-size: 1.15rem; max-width: 600px; margin: 0 auto 2.5rem auto; color: #444; line-height: 1.7;">
-Thank you for submitting your admission form. The administrative office of Mr. Kwaghtongo D. A. has received your submission and will contact you via phone or email regarding the entrance examination date.
+<h1 class="huge-heading" style="color: var(--color-slate); margin-bottom: 0.5rem; font-size: clamp(2rem, 4vw, 2.8rem);">Application Received</h1>
+<p style="font-size: 1.05rem; color: #555; margin-bottom: 1.5rem;">
+Your admission registration has been officially recorded by the Bantu College Registry.
 </p>
-<a href="index.html" class="btn-primary">Return to Homepage</a>
+
+<div id="applicantSummaryCard" style="background: #ffffff; border: 1px solid rgba(186, 147, 79, 0.35); border-radius: 14px; padding: 1.5rem; text-align: left; margin-bottom: 2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.05);">
+  <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.08); padding-bottom: 0.75rem; margin-bottom: 0.75rem;">
+    <span style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--color-gold-dark); letter-spacing: 0.5px;">Registration Reference</span>
+    <strong id="dispAppRef" style="font-family: monospace; font-size: 1rem; color: var(--color-slate);">BNT/ADM/2026/0000</strong>
+  </div>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem; font-size: 0.9rem;">
+    <div>Candidate: <strong id="dispStudentName">Registered Scholar</strong></div>
+    <div>Proposed Class: <strong id="dispEntryLevel">Basic 7 (JSS 1)</strong></div>
+    <div>Guardian: <strong id="dispGuardian">Guardian</strong></div>
+    <div>Contact: <strong id="dispPhone">Phone</strong></div>
+  </div>
+  <div style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px dashed rgba(0,0,0,0.1); font-size: 0.85rem; color: #666;">
+    Please keep your registration reference safe. The administrative office of <strong>Mr. Kwaghtongo D. A.</strong> will contact you regarding entrance examination scheduling.
+  </div>
+</div>
+
+<div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+  <a href="index.html" class="btn-primary">Return to Homepage</a>
+  <a href="assets/Bantu_College_Prospectus.pdf" target="_blank" class="btn-outline">Download Prospectus (PDF)</a>
+</div>
 </div>
 </main>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const params = new URLSearchParams(window.location.search);
+  const ref = params.get("ref");
+  const stored = sessionStorage.getItem("bantu_last_application");
+  if (stored) {
+    try {
+      const app = JSON.parse(stored);
+      document.getElementById("dispAppRef").textContent = app.ref;
+      document.getElementById("dispStudentName").textContent = app.studentName;
+      document.getElementById("dispEntryLevel").textContent = app.entryLevel;
+      document.getElementById("dispGuardian").textContent = app.guardianName;
+      document.getElementById("dispPhone").textContent = app.phone;
+    } catch(err) {}
+  } else if (ref) {
+    document.getElementById("dispAppRef").textContent = ref;
+  }
+});
+</script>
 <footer class="site-footer">
 <div class="container">
 <div class="footer-grid">
