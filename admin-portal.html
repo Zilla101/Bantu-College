@@ -330,17 +330,17 @@
       </div>
 
       <div class="table-responsive">
-        <table class="portal-data-table">
+        <table class="portal-data-table admissions-desk-table">
           <thead>
             <tr>
-              <th>Date</th>
-              <th>Reference</th>
-              <th>Candidate Name</th>
-              <th>Proposed Stream</th>
-              <th>Screening Score</th>
-              <th>Status</th>
-              <th>Email Dispatch Log</th>
-              <th style="text-align: center;">Administrative Decision</th>
+              <th style="width: 80px;">Date</th>
+              <th style="width: 110px;">Reference</th>
+              <th>Candidate</th>
+              <th style="width: 80px;">Stream</th>
+              <th style="width: 115px;">Exam Score</th>
+              <th style="width: 105px;">Status</th>
+              <th style="width: 120px;">Email Log</th>
+              <th style="width: 255px; text-align: center;">Administrative Decision</th>
             </tr>
           </thead>
           <tbody id="admissionsTableBody">
@@ -354,7 +354,7 @@
 
   <!-- Admission Offer & Dispatch Letter Modal -->
   <div id="admissionOfferModal" class="portal-modal-overlay">
-    <div class="portal-modal-card" style="max-width: 740px; padding: 2rem;">
+    <div class="portal-modal-card" style="width: 95%; max-width: 760px; padding: clamp(1.2rem, 3vw, 2rem); box-sizing: border-box; overflow-x: hidden;">
       
       <div class="no-print" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
         <div id="modalDocSwitcher" style="display: flex; gap: 0.4rem;">
@@ -381,7 +381,7 @@
         <div>Assigned Class Stream: <strong id="modalClassCurrentBadge" style="color: var(--color-slate); font-weight: 700;">Basic 7A</strong></div>
         <div style="display: flex; align-items: center; gap: 0.5rem;">
           <label for="modalClassArmSelect" style="font-size: 0.8rem; font-weight: 600; color: #555;">Reassign Stream:</label>
-          <select id="modalClassArmSelect" onchange="reassignModalApplicantClass(this.value)" style="padding: 0.35rem 0.65rem; font-size: 0.8rem; border-radius: 6px; border: 1px solid #ccc; background: #fff;">
+          <select id="modalClassArmSelect" class="portal-select-compact" onchange="reassignModalApplicantClass(this.value)" style="height: 30px; font-size: 0.8rem;">
             <option value="Basic 7A">Basic 7A (JSS 1A)</option>
             <option value="Basic 7B">Basic 7B (JSS 1B)</option>
             <option value="Basic 8A">Basic 8A (JSS 2A)</option>
@@ -393,7 +393,7 @@
       </div>
 
       <!-- Printable Official Admission Letter Content -->
-      <div id="admissionLetterPrintContent" style="background: #ffffff; border: 1px solid rgba(0,0,0,0.12); border-radius: 14px; padding: 1.75rem; box-shadow: 0 4px 14px rgba(0,0,0,0.04);">
+      <div id="admissionLetterPrintContent" style="background: #ffffff; border: 1px solid rgba(0,0,0,0.12); border-radius: 14px; padding: clamp(1rem, 2.5vw, 1.75rem); box-shadow: 0 4px 14px rgba(0,0,0,0.04); box-sizing: border-box; width: 100%; word-break: break-word; overflow-x: hidden;">
         
         <!-- Letterhead Header -->
         <div style="text-align: center; border-bottom: 2px solid var(--color-slate); padding-bottom: 0.75rem; margin-bottom: 1rem;">
@@ -987,25 +987,25 @@ function renderAdmissionsTable() {
     if (app.examScore !== null && typeof app.examScore !== "undefined") {
       const rec = getScoreRecommendation(app.examScore);
       scoreHtml = `
-        <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 0.2rem;">
-          <span class="portal-badge ${rec.badgeClass}" style="font-weight: 700; font-size: 0.78rem;">${app.examScore.toFixed(1)}% &bull; ${rec.verdict}</span>
-          <button type="button" style="background: none; border: none; font-size: 0.72rem; color: #555; cursor: pointer; text-decoration: underline; padding: 0;" onclick="promptEditScore('${app.ref}', ${app.examScore})">Edit Score</button>
+        <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 0.15rem;">
+          <span class="portal-badge ${rec.badgeClass}" style="font-weight: 700; font-size: 0.74rem; padding: 0.2rem 0.5rem; white-space: nowrap;">${app.examScore.toFixed(1)}% &bull; ${rec.verdict}</span>
+          <button type="button" style="background: none; border: none; font-size: 0.68rem; color: #555; cursor: pointer; text-decoration: underline; padding: 0; margin-top: 2px;" onclick="promptEditScore('${app.ref}', ${app.examScore})">Edit Score</button>
         </div>
       `;
     } else {
       scoreHtml = `
-        <div style="display: flex; gap: 0.3rem; align-items: center;">
-          <input type="number" id="scoreInput_${app.ref}" min="0" max="100" placeholder="%" style="width: 55px; padding: 0.25rem 0.35rem; font-size: 0.78rem; text-align: center; border-radius: 6px; border: 1px solid #ccc; font-weight: 700;">
-          <button type="button" class="btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.72rem;" onclick="saveScoreDirectly('${app.ref}')">Save</button>
+        <div style="display: flex; gap: 0.2rem; align-items: center;">
+          <input type="number" id="scoreInput_${app.ref}" min="0" max="100" placeholder="%" style="width: 46px; padding: 0.2rem 0.25rem; font-size: 0.74rem; text-align: center; border-radius: 6px; border: 1px solid #ccc; font-weight: 700;">
+          <button type="button" class="btn-outline" style="padding: 0.2rem 0.45rem; font-size: 0.7rem; border-radius: 6px;" onclick="saveScoreDirectly('${app.ref}')">Save</button>
         </div>
       `;
     }
 
     // Email Dispatch Log Badges
-    let mailLogHtml = '<div style="display: flex; flex-direction: column; gap: 0.25rem;">';
+    let mailLogHtml = '<div style="display: flex; flex-direction: column; gap: 0.2rem;">';
     const history = app.mailHistory || [];
     if (history.length === 0) {
-      mailLogHtml += '<span style="font-size: 0.75rem; color: #888;">No transmissions yet</span>';
+      mailLogHtml += '<span style="font-size: 0.72rem; color: #888; white-space: nowrap;">No transmissions yet</span>';
     } else {
       history.forEach(item => {
         let pillColor = "portal-badge-b3";
@@ -1013,7 +1013,7 @@ function renderAdmissionsTable() {
         if (item.type === "OFFER_GRANTED") { pillColor = "portal-badge-green"; label = "Offer Sent"; }
         if (item.type === "OFFER_PROBATION") { pillColor = "portal-badge-b2"; label = "Probation Sent"; }
         if (item.type === "OFFER_DECLINED") { pillColor = "portal-badge-f"; label = "Regret Sent"; }
-        mailLogHtml += `<button type="button" class="portal-badge ${pillColor}" style="border: none; cursor: pointer; text-align: left; font-size: 0.72rem; padding: 0.2rem 0.5rem;" onclick="viewDecisionDocument('${app.ref}', '${item.type}')" title="Click to view transmitted official letter">${label} &bull; ${item.timestamp.split(' at ')[0]}</button>`;
+        mailLogHtml += `<button type="button" class="portal-badge ${pillColor}" style="border: none; cursor: pointer; text-align: left; font-size: 0.7rem; padding: 0.18rem 0.45rem; white-space: nowrap;" onclick="viewDecisionDocument('${app.ref}', '${item.type}')" title="Click to view transmitted official letter">${label} &bull; ${item.timestamp.split(' at ')[0]}</button>`;
       });
     }
     mailLogHtml += '</div>';
@@ -1024,15 +1024,15 @@ function renderAdmissionsTable() {
         app.decision === "Probation" || app.status === "Admitted on Probation" ||
         app.decision === "Declined" || app.status === "Admission Declined") {
       decisionHtml = `
-        <div style="display: flex; flex-direction: column; gap: 0.35rem; align-items: center;">
-          <button class="btn-outline" style="padding: 0.35rem 0.8rem; font-size: 0.75rem;" onclick="viewDecisionDocument('${app.ref}')">View Decision Letter</button>
-          <button type="button" style="background: none; border: none; font-size: 0.7rem; color: #666; cursor: pointer; text-decoration: underline;" onclick="reopenDecision('${app.ref}')">Reconsider Decision</button>
+        <div style="display: flex; flex-direction: column; gap: 0.25rem; align-items: center;">
+          <button class="btn-outline" style="padding: 0.26rem 0.65rem; font-size: 0.72rem; border-radius: 980px; white-space: nowrap;" onclick="viewDecisionDocument('${app.ref}')">View Decision Letter</button>
+          <button type="button" style="background: none; border: none; font-size: 0.68rem; color: #666; cursor: pointer; text-decoration: underline;" onclick="reopenDecision('${app.ref}')">Reconsider Decision</button>
         </div>
       `;
     } else {
       decisionHtml = `
-        <div style="display: flex; gap: 0.3rem; justify-content: center; align-items: center; flex-wrap: wrap;">
-          <select id="assignArm_${app.ref}" style="padding: 0.25rem 0.4rem; font-size: 0.75rem; border-radius: 6px; border: 1px solid #ccc; font-weight: 600; background: #fff;" title="Assign Specific Class Arm">
+        <div class="admissions-actions-group">
+          <select class="portal-select-compact" id="assignArm_${app.ref}" title="Assign Specific Class Arm">
             <option value="Basic 7A" ${app.entryLevel === 'Basic 7A' ? 'selected' : ''}>Basic 7A</option>
             <option value="Basic 7B" ${app.entryLevel === 'Basic 7B' ? 'selected' : ''}>Basic 7B</option>
             <option value="Basic 8A" ${app.entryLevel === 'Basic 8A' ? 'selected' : ''}>Basic 8A</option>
@@ -1040,21 +1040,24 @@ function renderAdmissionsTable() {
             <option value="Basic 9A" ${app.entryLevel === 'Basic 9A' ? 'selected' : ''}>Basic 9A</option>
             <option value="Basic 9B" ${app.entryLevel === 'Basic 9B' ? 'selected' : ''}>Basic 9B</option>
           </select>
-          <button class="btn-primary" style="padding: 0.28rem 0.55rem; font-size: 0.75rem;" onclick="handleGrantFullAdmission('${app.ref}')" title="Grant Full Admission Offer">Full Offer</button>
-          <button class="btn-outline" style="padding: 0.28rem 0.55rem; font-size: 0.75rem; border-color: #d97706; color: #b45309;" onclick="handleAdmitOnProbation('${app.ref}')" title="Admit conditionally on Academic Probation">Probation</button>
-          <button class="btn-outline" style="padding: 0.28rem 0.55rem; font-size: 0.75rem; border-color: var(--color-red); color: var(--color-red);" onclick="handleDeclineAdmission('${app.ref}')" title="Decline Admission / Notice of Regret">Decline</button>
+          <button class="btn-primary" onclick="handleGrantFullAdmission('${app.ref}')" title="Grant Full Admission Offer">Full Offer</button>
+          <button class="btn-outline" style="border-color: #d97706; color: #b45309;" onclick="handleAdmitOnProbation('${app.ref}')" title="Admit conditionally on Academic Probation">Probation</button>
+          <button class="btn-outline" style="border-color: var(--color-red); color: var(--color-red);" onclick="handleDeclineAdmission('${app.ref}')" title="Decline Admission / Notice of Regret">Decline</button>
         </div>
       `;
     }
 
     const row = document.createElement("tr");
     row.innerHTML = `
-      <td>${app.date}</td>
-      <td><span style="font-family: monospace; font-size: 0.85rem; color: #555;">${app.ref}</span></td>
-      <td><strong>${app.studentName}</strong></td>
-      <td><span class="portal-badge ${classBadgeColor}" style="font-weight: 700; font-size: 0.82rem;">${app.entryLevel}</span></td>
+      <td><span style="font-size: 0.78rem; color: #555; white-space: nowrap;">${app.date}</span></td>
+      <td><span style="font-family: monospace; font-size: 0.78rem; font-weight: 700; color: var(--color-slate); white-space: nowrap;">${app.ref}</span></td>
+      <td>
+        <strong style="font-size: 0.84rem; display: block; color: var(--color-slate);">${app.studentName}</strong>
+        <div style="font-size: 0.72rem; color: #666; margin-top: 1px;">${app.email}</div>
+      </td>
+      <td><span class="portal-badge ${classBadgeColor}" style="font-weight: 700; font-size: 0.76rem; padding: 0.2rem 0.5rem; white-space: nowrap;">${app.entryLevel}</span></td>
       <td>${scoreHtml}</td>
-      <td><span class="portal-badge ${badgeClass}">${app.status}</span></td>
+      <td><span class="portal-badge ${badgeClass}" style="font-size: 0.74rem; padding: 0.2rem 0.5rem; white-space: nowrap;">${app.status}</span></td>
       <td>${mailLogHtml}</td>
       <td style="text-align: center;">${decisionHtml}</td>
     `;
@@ -1405,20 +1408,83 @@ function printAdmissionLetterDirectly() {
   const letterBox = document.getElementById("admissionLetterPrintContent");
   const docTitle = document.getElementById("letterDocBadge") ? document.getElementById("letterDocBadge").textContent : "Official Document";
   const printWindow = window.open("", "_blank", "width=850,height=800");
+  const baseUrl = window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
   printWindow.document.write(`
     <!DOCTYPE html>
     <html lang="en">
     <head>
       <meta charset="UTF-8">
+      <base href="${baseUrl}">
       <title>Bantu College - ${docTitle}</title>
-      <link rel="stylesheet" href="assets/css/style.css?v=10">
       <style>
-        body { background: #ffffff !important; padding: 15mm; font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-        .letter-printable-box { max-width: 680px; margin: 0 auto; border: 1px solid #ccc; padding: 24px; border-radius: 12px; }
+        :root {
+          --color-slate: #2B2A42;
+          --color-gold: #BA934F;
+          --color-gold-dark: #8F6B28;
+          --color-red: #8B0000;
+          --color-white: #ffffff;
+        }
+        * {
+          box-sizing: border-box;
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+        }
+        html, body {
+          background: #ffffff !important;
+          color: #111111 !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+          font-size: 13px;
+          line-height: 1.42;
+        }
+        body * {
+          visibility: visible !important;
+        }
+        .letter-printable-box {
+          max-width: 680px;
+          margin: 0 auto;
+          background: #ffffff;
+          padding: 24px;
+          border: 1px solid rgba(0, 0, 0, 0.12);
+          border-radius: 12px;
+        }
+        .bursary-digital-stamp {
+          display: inline-block;
+          border: 2px dashed #15803d;
+          color: #15803d;
+          border-radius: 8px;
+          padding: 0.35rem 0.7rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          transform: rotate(-2deg);
+          background: rgba(34, 197, 94, 0.06);
+          line-height: 1.2;
+          text-align: center;
+        }
+        @page {
+          size: A4 portrait;
+          margin: 10mm 14mm 10mm 14mm;
+        }
         @media print {
-          @page { size: A4 portrait; margin: 15mm; }
-          body { padding: 0; }
-          .letter-printable-box { border: none; padding: 0; }
+          html, body {
+            padding: 0 !important;
+            margin: 0 !important;
+            background: #ffffff !important;
+          }
+          .letter-printable-box {
+            border: none !important;
+            padding: 0 !important;
+            max-width: 100% !important;
+            width: 100% !important;
+            box-shadow: none !important;
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+          }
+          .no-print {
+            display: none !important;
+          }
         }
       </style>
     </head>
@@ -1427,9 +1493,18 @@ function printAdmissionLetterDirectly() {
         ${letterBox.innerHTML}
       </div>
       <script>
-        window.onload = function() {
+        function executePrint() {
+          window.focus();
           window.print();
-        };
+        }
+        const img = document.querySelector("img");
+        if (img && !img.complete) {
+          img.onload = () => setTimeout(executePrint, 150);
+          img.onerror = () => setTimeout(executePrint, 150);
+          setTimeout(executePrint, 800);
+        } else {
+          setTimeout(executePrint, 250);
+        }
       <\/script>
     </body>
     </html>

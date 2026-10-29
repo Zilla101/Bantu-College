@@ -1142,7 +1142,17 @@ details[open] summary {
     visibility: hidden;
   }
   .portal-tab-pane.is-active,
-  .portal-tab-pane.is-active * {
+  .portal-tab-pane.is-active *,
+  .letter-printable-box,
+  .letter-printable-box *,
+  .receipt-printable-box,
+  .receipt-printable-box *,
+  .docket-printable-box,
+  .docket-printable-box *,
+  #admissionLetterPrintContent,
+  #admissionLetterPrintContent *,
+  #bursaryReceiptContent,
+  #bursaryReceiptContent * {
     visibility: visible !important;
   }
   .portal-tab-pane.is-active {
@@ -1379,6 +1389,90 @@ details[open] summary {
   background: rgba(186, 147, 79, 0.25);
   color: var(--color-gold);
 }
+
+/* Compact Styled Class Stream Select for Admissions & Portal Desks */
+.portal-select-compact {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #ffffff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%232B2A42' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.55rem center;
+  background-size: 10px;
+  border: 1.5px solid rgba(186, 147, 79, 0.45);
+  border-radius: 980px;
+  color: var(--color-slate);
+  font-family: var(--font-subheading, -apple-system, sans-serif);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 0.28rem 1.65rem 0.28rem 0.75rem;
+  height: 28px;
+  line-height: 1.15;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+}
+.portal-select-compact:hover {
+  border-color: var(--color-gold);
+  background-color: #faf8f5;
+  box-shadow: 0 2px 6px rgba(186, 147, 79, 0.18);
+}
+.portal-select-compact:focus {
+  outline: none;
+  border-color: var(--color-slate);
+  box-shadow: 0 0 0 2px rgba(43, 42, 66, 0.15);
+}
+
+/* Compact Admissions Desk Table & Zero-Scroll Layout */
+.admissions-desk-table {
+  width: 100%;
+  font-size: 0.82rem;
+  border-collapse: collapse;
+}
+.admissions-desk-table th {
+  padding: 0.65rem 0.55rem;
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  background: rgba(43, 42, 66, 0.05);
+  border-bottom: 2px solid rgba(43, 42, 66, 0.12);
+  color: var(--color-slate);
+  white-space: nowrap;
+}
+.admissions-desk-table td {
+  padding: 0.55rem 0.55rem;
+  vertical-align: middle;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+.admissions-desk-table tr:hover td {
+  background: rgba(186, 147, 79, 0.035);
+}
+.admissions-actions-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  flex-wrap: nowrap;
+}
+.admissions-actions-group .btn-primary,
+.admissions-actions-group .btn-outline {
+  padding: 0.26rem 0.55rem;
+  font-size: 0.72rem;
+  min-height: 28px;
+  height: 28px;
+  line-height: 1.15;
+  border-radius: 980px;
+  white-space: nowrap;
+}
+
 
 
 
