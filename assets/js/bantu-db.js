@@ -1,7 +1,18 @@
 // Bantu College Unified Local Database and Atomic Transaction Engine
-// Version 3.0 with Admissions Application Engine, Multi-Student Cohorts, and ACID Payments
+// Version 4.0 with Sequential Admissions Registry, Automated Acceptance Notifications, and ACID Payments
 const BANTU_STORAGE_KEY = "bantu_college_unified_db";
-const BANTU_DB_VERSION = 3;
+const BANTU_DB_VERSION = 4;
+
+// Admissions Office Global Configuration Slot
+const BANTU_ADMISSIONS_CONFIG = {
+  officeName: "Bantu College Admissions & Registry Directorate",
+  officialSenderEmail: "admissions@bantucollege.edu",
+  principalName: "Mr. Kwaghtongo D. A.",
+  academicSession: "2026/2027",
+  acceptanceDeadlineDays: 14,
+  firstTermTuition: 150000,
+  annualTuition: 450000
+};
 
 // Utility: Convert Naira numerical amount to formal English words
 function convertNairaToWords(amount) {
@@ -334,6 +345,46 @@ const defaultDatabaseSeed = {
       sundry: [
         { desc: "Senior Junior Uniform Set and Blazer", category: "Attire", amount: 45000, date: "10 Sep 2026", status: "Cleared" }
       ]
+    },
+    "BC/2026/026": {
+      pin: "1234",
+      name: "Msughter Tyover",
+      initials: "MT",
+      email: "m.tyover@bantucollege.edu",
+      class: "Basic 7 (JSS 1)",
+      position: "Awaiting Assessment",
+      feeStatus: "Partial",
+      totalTuitionBilled: 450000,
+      totalTuitionPaid: 0,
+      balance: 450000,
+      attendance: "100.00%",
+      conduct: "Exemplary",
+      formTeacherRemark: "Newly admitted scholar for the 2026/2027 academic session. Completed registration.",
+      principalRemark: "Welcome to Bantu College. Read to Lead.",
+      punctuality: "Excellent",
+      neatness: "Excellent",
+      peers: "Respectful and Cooperative",
+      leadership: "Primary School Head Boy",
+      incidentText: "No negative disciplinary infractions or official reprimands have been recorded for this scholar during the current session.",
+      rawScores: [
+        { subject: "English Studies", ca: 30, exam: 45 },
+        { subject: "Mathematics", ca: 32, exam: 48 },
+        { subject: "Social and Citizenship Education", ca: 28, exam: 42 },
+        { subject: "Nigerian History", ca: 29, exam: 43 },
+        { subject: "Physical and Health Education", ca: 30, exam: 44 },
+        { subject: "Intermediate Science", ca: 31, exam: 46 },
+        { subject: "Business Studies", ca: 27, exam: 40 },
+        { subject: "Pre Vocational Studies", ca: 29, exam: 41 },
+        { subject: "Cultural and Creative Arts", ca: 28, exam: 40 },
+        { subject: "Information Technology", ca: 33, exam: 48 },
+        { subject: "Literature", ca: 29, exam: 42 },
+        { subject: "Christian Religious Studies (CRS)", ca: 30, exam: 45 },
+        { subject: "French", ca: 25, exam: 37 },
+        { subject: "Tiv Language", ca: 32, exam: 45 },
+        { subject: "Chinese Language", ca: 24, exam: 35 }
+      ],
+      fees: [],
+      sundry: []
     }
   },
   transactions: [
@@ -346,7 +397,7 @@ const defaultDatabaseSeed = {
   ],
   applications: [
     {
-      ref: "BNT/ADM/2026/0101",
+      ref: "BC/ADM/2026/001",
       date: "12 Oct 2026",
       studentName: "Msughter Tyover",
       dob: "2014-05-18",
@@ -356,10 +407,13 @@ const defaultDatabaseSeed = {
       phone: "+234 803 214 5590",
       previousSchool: "St. Thomas Primary School, Makurdi",
       status: "Offer Granted",
+      studentId: "BC/2026/026",
+      portalPin: "1234",
+      offerDate: "14 Oct 2026",
       message: "Candidate was head boy and excels in mathematics."
     },
     {
-      ref: "BNT/ADM/2026/0102",
+      ref: "BC/ADM/2026/002",
       date: "19 Oct 2026",
       studentName: "Seember Igbawase",
       dob: "2013-11-04",
@@ -372,7 +426,7 @@ const defaultDatabaseSeed = {
       message: "Transfer applicant seeking admission into Basic 8."
     },
     {
-      ref: "BNT/ADM/2026/0103",
+      ref: "BC/ADM/2026/003",
       date: "25 Oct 2026",
       studentName: "Aondona Kwaghtondo",
       dob: "2014-02-12",
@@ -605,14 +659,43 @@ function getBantuReceiptByRef(studentId, transactionRef) {
   };
 }
 
+// Sequential Reference Number Generators
+function generateNextApplicationReference(db) {
+  let highestNum = 0;
+  (db.applications || []).forEach(app => {
+    const parts = (app.ref || "").split("/");
+    if (parts.length >= 4) {
+      const num = parseInt(parts[3], 10);
+      if (!isNaN(num) && num > highestNum) {
+        highestNum = num;
+      }
+    }
+  });
+  const nextNum = (highestNum + 1).toString().padStart(3, '0');
+  return `BC/ADM/2026/${nextNum}`;
+}
+
+function generateNextStudentAdmissionNumber(db) {
+  let highestNum = 26; // since BC/2026/026 is seeded for Msughter Tyover
+  Object.keys(db.students || {}).forEach(id => {
+    const parts = id.split("/");
+    if (parts.length === 3 && parts[0] === "BC") {
+      const num = parseInt(parts[2], 10);
+      if (!isNaN(num) && num > highestNum) {
+        highestNum = num;
+      }
+    }
+  });
+  const nextNum = (highestNum + 1).toString().padStart(3, '0');
+  return `BC/2026/${nextNum}`;
+}
+
 // Admission Application Engine
 function submitAdmissionApplication(data) {
   const db = getBantuDatabase();
   if (!db.applications) db.applications = [];
 
-  const timestamp = Date.now().toString().slice(-4);
-  const randomSuffix = Math.floor(100 + Math.random() * 900);
-  const applicationRef = "BNT/ADM/2026/" + timestamp + randomSuffix;
+  const applicationRef = generateNextApplicationReference(db);
 
   const now = new Date();
   const currentDate = now.toLocaleDateString("en-GB", {
@@ -652,5 +735,115 @@ function updateApplicationStatus(applicationRef, newStatus) {
     return { success: true, message: `Application status updated to ${newStatus}.` };
   }
   return { success: false, message: "Application reference not found." };
+}
+
+// Grant Admission Offer & Automated Email Dispatch Engine
+function grantAdmissionOfferInDb(applicationRef) {
+  const db = getBantuDatabase();
+  const app = (db.applications || []).find(a => a.ref === applicationRef);
+  if (!app) {
+    return { success: false, message: "Application record not found." };
+  }
+
+  // If already granted, return existing record
+  if (app.status === "Offer Granted" && app.studentId && db.students[app.studentId]) {
+    return {
+      success: true,
+      alreadyGranted: true,
+      application: app,
+      student: db.students[app.studentId],
+      config: BANTU_ADMISSIONS_CONFIG
+    };
+  }
+
+  const assignedStudentId = generateNextStudentAdmissionNumber(db);
+  const assignedPin = "1234";
+
+  const initials = app.studentName.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2) || "BC";
+  const studentEmail = app.studentName.toLowerCase().replace(/[^a-z]/g, ".") + "@bantucollege.edu";
+
+  const now = new Date();
+  const currentDate = now.toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric"
+  });
+  const currentTime = now.toLocaleTimeString("en-GB", {
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+
+  // Provision in school student registry
+  db.students[assignedStudentId] = {
+    pin: assignedPin,
+    name: app.studentName,
+    initials: initials,
+    email: studentEmail,
+    class: app.entryLevel,
+    position: "Awaiting Assessment",
+    feeStatus: "Partial",
+    totalTuitionBilled: 450000,
+    totalTuitionPaid: 0,
+    balance: 450000,
+    attendance: "100.00%",
+    conduct: "Exemplary",
+    formTeacherRemark: "Newly admitted scholar for the 2026/2027 session. Welcome to Bantu College.",
+    principalRemark: "Congratulations on your admission. Read to Lead.",
+    punctuality: "Excellent",
+    neatness: "Excellent",
+    peers: "Respectful and Cooperative",
+    leadership: "Active Initiative",
+    incidentText: "No negative disciplinary infractions or official reprimands have been recorded for this scholar during the current session.",
+    rawScores: [
+      { subject: "English Studies", ca: 30, exam: 45 },
+      { subject: "Mathematics", ca: 32, exam: 48 },
+      { subject: "Social and Citizenship Education", ca: 28, exam: 42 },
+      { subject: "Nigerian History", ca: 29, exam: 43 },
+      { subject: "Physical and Health Education", ca: 30, exam: 44 },
+      { subject: "Intermediate Science", ca: 31, exam: 46 },
+      { subject: "Business Studies", ca: 27, exam: 40 },
+      { subject: "Pre Vocational Studies", ca: 29, exam: 41 },
+      { subject: "Cultural and Creative Arts", ca: 28, exam: 40 },
+      { subject: "Information Technology", ca: 33, exam: 48 },
+      { subject: "Literature", ca: 29, exam: 42 },
+      { subject: "Christian Religious Studies (CRS)", ca: 30, exam: 45 },
+      { subject: "French", ca: 25, exam: 37 },
+      { subject: "Tiv Language", ca: 32, exam: 45 },
+      { subject: "Chinese Language", ca: 24, exam: 35 }
+    ],
+    fees: [],
+    sundry: []
+  };
+
+  // Update application record with credentials and dispatch metadata
+  app.status = "Offer Granted";
+  app.studentId = assignedStudentId;
+  app.portalPin = assignedPin;
+  app.offerDate = currentDate;
+  app.offerTime = currentTime;
+  app.emailDispatched = true;
+  app.emailRecipient = app.email;
+  app.emailSender = BANTU_ADMISSIONS_CONFIG.officialSenderEmail;
+
+  saveBantuDatabase(db);
+
+  return {
+    success: true,
+    application: app,
+    student: db.students[assignedStudentId],
+    config: BANTU_ADMISSIONS_CONFIG
+  };
+}
+
+function getAdmissionOfferData(applicationRef) {
+  const db = getBantuDatabase();
+  const app = (db.applications || []).find(a => a.ref === applicationRef);
+  if (!app) return null;
+  const student = app.studentId ? db.students[app.studentId] : null;
+  return {
+    application: app,
+    student: student,
+    config: BANTU_ADMISSIONS_CONFIG
+  };
 }
 

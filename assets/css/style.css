@@ -1316,12 +1316,13 @@ details[open] summary {
   display: block;
 }
 
-/* Electronic Bursary Receipt Styles */
+/* Electronic Bursary Receipt & Admission Letter Styles */
 .receipt-modal-card {
   max-width: 620px;
   width: 100%;
 }
-.receipt-printable-box {
+.receipt-printable-box,
+.letter-printable-box {
   background: #ffffff;
   border: 1px solid rgba(0, 0, 0, 0.12);
   border-radius: 14px;

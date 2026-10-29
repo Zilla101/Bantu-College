@@ -260,6 +260,19 @@
         </div>
       </div>
 
+      <!-- Admissions Email Dispatch Notice Box -->
+      <div style="background: rgba(43, 42, 66, 0.04); border-left: 5px solid var(--color-gold); border-radius: 0 14px 14px 0; padding: 1.25rem 1.5rem; margin-bottom: 1.75rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+          <div>
+            <h3 style="font-family: var(--font-heading); font-size: 1.15rem; color: var(--color-slate); margin: 0 0 0.25rem 0;">Automated Offer Dispatch & Email Notification Engine</h3>
+            <p style="font-size: 0.9rem; color: #444; margin: 0;">
+              Official Sender: <strong style="color: var(--color-gold-dark);">admissions@bantucollege.edu</strong> &bull; Granting an offer provisions student portal credentials and automatically transmits the official provisional admission letter to the applicant email.
+            </p>
+          </div>
+          <span class="portal-badge portal-badge-green" style="font-size: 0.8rem; padding: 0.4rem 0.85rem;">Mail Engine: Active</span>
+        </div>
+      </div>
+
       <div class="table-responsive">
         <table class="portal-data-table">
           <thead>
@@ -279,6 +292,103 @@
             <!-- Populated via JavaScript from unified database -->
           </tbody>
         </table>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Admission Offer & Dispatch Letter Modal -->
+  <div id="admissionOfferModal" class="portal-modal-overlay">
+    <div class="portal-modal-card" style="max-width: 720px; padding: 2rem;">
+      
+      <div class="no-print" style="display: flex; justify-content: flex-end; margin-bottom: 0.5rem;">
+        <button type="button" onclick="closeOfferModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #666;">&times;</button>
+      </div>
+
+      <!-- Email Dispatch Transmission Banner -->
+      <div class="no-print" style="background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+          <span style="font-size: 0.85rem; font-weight: 700; color: #15803d; text-transform: uppercase;">Automated Offer Email Dispatched</span>
+          <span style="font-size: 0.8rem; color: #555;" id="offerEmailTimestamp">29 Oct 2026</span>
+        </div>
+        <div style="font-size: 0.85rem; color: #333; line-height: 1.5;">
+          <div><strong>From:</strong> Bantu College Admissions Desk &lt;<span id="offerSenderEmail">admissions@bantucollege.edu</span>&gt;</div>
+          <div><strong>To:</strong> <span id="offerRecipientEmail">guardian@email.com</span></div>
+          <div><strong>Subject:</strong> <span style="font-weight: 600;" id="offerEmailSubject">OFFICIAL PROVISIONAL OFFER OF ADMISSION: Bantu College</span></div>
+        </div>
+      </div>
+
+      <!-- Printable Official Admission Letter Content -->
+      <div id="admissionLetterPrintContent" style="background: #ffffff; border: 1px solid rgba(0,0,0,0.12); border-radius: 14px; padding: 1.75rem; box-shadow: 0 4px 14px rgba(0,0,0,0.04);">
+        
+        <!-- Letterhead Header -->
+        <div style="text-align: center; border-bottom: 2px solid var(--color-slate); padding-bottom: 0.75rem; margin-bottom: 1rem;">
+          <img src="assets/Bantu%20College%20Crest-01a.png" alt="Bantu College" style="max-height: 52px; margin: 0 auto 0.35rem;">
+          <h2 style="font-family: Georgia, serif; font-size: 1.35rem; color: var(--color-slate); margin: 0; text-transform: uppercase;">Bantu College, Benue State</h2>
+          <p style="font-size: 0.85rem; color: #555; margin: 0.15rem 0;">Office of the Principal and Registry &bull; Motto: Read to Lead</p>
+          <span style="display: inline-block; background: var(--color-slate); color: var(--color-gold); font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.85rem; border-radius: 4px; margin-top: 0.35rem; letter-spacing: 1px; text-transform: uppercase;">Provisional Offer of Admission</span>
+        </div>
+
+        <!-- Letter Meta -->
+        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 1rem; color: #555;">
+          <div>Application Reference: <strong style="font-family: monospace; color: var(--color-slate);" id="letterAppRef">BC/ADM/2026/001</strong></div>
+          <div>Date of Issue: <strong id="letterDate">29 Oct 2026</strong></div>
+        </div>
+
+        <div style="font-size: 0.9rem; margin-bottom: 1rem; color: #333; line-height: 1.4;">
+          <div>To: <strong id="letterGuardianName">Guardian Name</strong></div>
+          <div>Parent/Guardian of: <strong id="letterCandidateName" style="color: var(--color-slate);">Candidate Name</strong></div>
+        </div>
+
+        <!-- Formal Body -->
+        <h3 style="font-family: Georgia, serif; font-size: 1.05rem; color: var(--color-red); margin-bottom: 0.75rem; text-transform: uppercase;" id="letterHeading">
+          Provisional Offer of Admission into Basic 7 (JSS 1) &bull; 2026/2027 Academic Session
+        </h3>
+
+        <div style="font-size: 0.85rem; color: #333; line-height: 1.6; text-align: justify; margin-bottom: 1rem;">
+          <p style="margin-bottom: 0.6rem;">
+            Following your satisfactory performance in our entrance screening assessment and scholastic review, the Governing Council and Principal of Bantu College have the honour to offer you provisional admission into <strong id="letterClassAssigned">Basic 7 (JSS 1)</strong> for the 2026/2027 Academic Session.
+          </p>
+          <p style="margin-bottom: 0.6rem;">
+            Bantu College delivers intensive instruction across 15 core disciplines, classical world languages, and computer programming on our 10-acre campus in Benue State. Every scholar is held to the highest standards of moral discipline, punctuality, and diligent effort.
+          </p>
+        </div>
+
+        <!-- Provisioned Credentials Callout -->
+        <div style="background: rgba(43, 42, 66, 0.04); border: 1px solid rgba(186, 147, 79, 0.35); border-radius: 10px; padding: 0.85rem 1.15rem; margin-bottom: 1rem; font-size: 0.85rem;">
+          <strong style="color: var(--color-slate); display: block; margin-bottom: 0.35rem; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.5px;">Official Provisioned Student Portal Credentials:</strong>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.5rem;">
+            <div>Assigned Admission No: <strong style="font-family: monospace; color: var(--color-red); font-size: 0.95rem;" id="letterStudentId">BC/2026/026</strong></div>
+            <div>Confidential Access PIN: <strong style="font-family: monospace; color: var(--color-slate); font-size: 0.95rem;" id="letterPortalPin">1234</strong></div>
+            <div style="grid-column: span 2;">Student Portal Access URL: <strong style="color: var(--color-gold-dark);">www.bantucollege.com/portal.html</strong></div>
+          </div>
+        </div>
+
+        <div style="font-size: 0.82rem; color: #444; line-height: 1.5; margin-bottom: 1.25rem;">
+          <strong>Enrollment Acceptance Procedure:</strong><br>
+          1. Access the Student Portal using your assigned Admission Number and PIN.<br>
+          2. Settle the approved First Term Tuition Fee of <strong>&#8358;150,000.00</strong> (out of &#8358;450,000 annual session tuition) via the automated online payment desk within fourteen (14) days to guarantee classroom placement.<br>
+          3. Present this letter and the bursary payment receipt for biometric registration and uniform fitting.
+        </div>
+
+        <!-- Signature Strip -->
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; padding-top: 0.75rem; border-top: 1px solid rgba(0,0,0,0.12);">
+          <div style="text-align: center; width: 170px;">
+            <strong style="color: var(--color-slate); font-size: 0.85rem; display: block;">Mr. Kwaghtongo D. A.</strong>
+            <span style="font-size: 0.75rem; color: #777;">Principal & Head of School</span>
+          </div>
+          <div class="bursary-digital-stamp" style="font-size: 0.7rem; padding: 0.35rem 0.7rem;">
+            Bantu College Registry<br>
+            <span style="font-size: 0.65rem;">Officially Admitted</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Actions -->
+      <div class="no-print" style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem;">
+        <button type="button" onclick="closeOfferModal()" class="btn-outline" style="padding: 0.65rem 1.3rem;">Close</button>
+        <button type="button" onclick="printAdmissionLetterDirectly()" class="btn-primary" style="padding: 0.65rem 1.5rem;">Print Official Admission Letter (PDF)</button>
       </div>
 
     </div>
@@ -697,10 +807,10 @@ function renderAdmissionsTable() {
       <td><span class="portal-badge ${badgeClass}">${app.status}</span></td>
       <td style="text-align: center;">
         ${app.status === "Offer Granted" 
-          ? '<span style="color: #15803d; font-weight: 700; font-size: 0.8rem;">Admitted</span>' 
+          ? `<button class="btn-outline" style="padding: 0.35rem 0.75rem; font-size: 0.75rem;" onclick="viewOfferLetter('${app.ref}')">View Admission Letter</button>` 
           : `<div style="display: flex; gap: 0.35rem; justify-content: center;">
               ${app.status !== 'Interview Scheduled' ? `<button class="btn-outline" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="setApplicationStatus('${app.ref}', 'Interview Scheduled')">Interview</button>` : ''}
-              <button class="btn-primary" style="padding: 0.3rem 0.65rem; font-size: 0.75rem;" onclick="setApplicationStatus('${app.ref}', 'Offer Granted')">Grant Offer</button>
+              <button class="btn-primary" style="padding: 0.3rem 0.65rem; font-size: 0.75rem;" onclick="grantAdmissionOffer('${app.ref}')">Grant Offer</button>
             </div>`
         }
       </td>
@@ -717,6 +827,99 @@ function setApplicationStatus(reference, newStatus) {
   } else {
     alert(result.message);
   }
+}
+
+function grantAdmissionOffer(reference) {
+  const result = grantAdmissionOfferInDb(reference);
+  if (result.success) {
+    renderAdmissionsTable();
+    displayOfferModal(result);
+  } else {
+    alert(result.message || "Unable to grant admission offer at this time.");
+  }
+}
+
+function viewOfferLetter(reference) {
+  const data = getAdmissionOfferData(reference);
+  if (data && data.application) {
+    displayOfferModal(data);
+  } else {
+    alert("Admission offer record could not be retrieved for " + reference);
+  }
+}
+
+function displayOfferModal(data) {
+  const app = data.application;
+  const config = data.config || BANTU_ADMISSIONS_CONFIG;
+
+  const timestampText = (app.offerDate ? `${app.offerDate}${app.offerTime ? ' at ' + app.offerTime : ''}` : new Date().toLocaleDateString("en-GB")) + " (Automated Transmission)";
+  document.getElementById("offerEmailTimestamp").textContent = timestampText;
+  document.getElementById("offerSenderEmail").textContent = (config && config.officialSenderEmail) || "admissions@bantucollege.edu";
+  document.getElementById("offerRecipientEmail").textContent = `${app.guardianName} <${app.email}>`;
+  document.getElementById("offerEmailSubject").textContent = `OFFICIAL PROVISIONAL OFFER OF ADMISSION: Bantu College (${app.studentName})`;
+
+  document.getElementById("letterAppRef").textContent = app.ref;
+  document.getElementById("letterDate").textContent = app.offerDate || app.date || new Date().toLocaleDateString("en-GB");
+  document.getElementById("letterGuardianName").textContent = app.guardianName;
+  document.getElementById("letterCandidateName").textContent = app.studentName;
+  document.getElementById("letterHeading").textContent = `Provisional Offer of Admission into ${app.entryLevel} \u2022 2026/2027 Academic Session`;
+  document.getElementById("letterClassAssigned").textContent = app.entryLevel;
+  document.getElementById("letterStudentId").textContent = app.studentId || "BC/2026/026";
+  document.getElementById("letterPortalPin").textContent = app.portalPin || "1234";
+
+  const modal = document.getElementById("admissionOfferModal");
+  modal.classList.add("is-active");
+  modal.style.display = "flex";
+}
+
+function closeOfferModal() {
+  const modal = document.getElementById("admissionOfferModal");
+  modal.classList.remove("is-active");
+  modal.style.display = "none";
+}
+
+const admissionModalEl = document.getElementById("admissionOfferModal");
+if (admissionModalEl) {
+  admissionModalEl.addEventListener("click", function(e) {
+    if (e.target === admissionModalEl) {
+      closeOfferModal();
+    }
+  });
+}
+
+function printAdmissionLetterDirectly() {
+  const letterBox = document.getElementById("admissionLetterPrintContent");
+  const printWindow = window.open("", "_blank", "width=850,height=800");
+  printWindow.document.write(`
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <title>Bantu College - Official Provisional Offer of Admission Letter</title>
+      <link rel="stylesheet" href="assets/css/style.css?v=10">
+      <style>
+        body { background: #ffffff !important; padding: 15mm; font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        .letter-printable-box { max-width: 680px; margin: 0 auto; border: 1px solid #ccc; padding: 24px; border-radius: 12px; }
+        @media print {
+          @page { size: A4 portrait; margin: 15mm; }
+          body { padding: 0; }
+          .letter-printable-box { border: none; padding: 0; }
+        }
+      </style>
+    </head>
+    <body>
+      <div class="letter-printable-box">
+        ${letterBox.innerHTML}
+      </div>
+      <script>
+        window.onload = function() {
+          window.print();
+        };
+      <\/script>
+    </body>
+    </html>
+  `);
+  printWindow.document.close();
 }
 
 // Cross Tab Real Time Synchronization Listener
