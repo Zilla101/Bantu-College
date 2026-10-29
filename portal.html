@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Portal | Bantu College</title>
+<link rel="stylesheet" href="assets/css/style.css?v=6">
+
+<meta name="description" content="Official student portal for Bantu College. Check termly results, fee ledgers, sundry expenses, and disciplinary records.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Bantu College | Student Portal">
+<meta property="og:description" content="Access student academic results, tuition records, and conduct evaluations.">
+<meta property="og:image" content="https://www.bantucollege.com/assets/Bantu%20College%20Crest-01a.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="assets/Bantu%20College%20Crest-02d.png">
+</head>
+<body>
+
+<header class="site-header no-print">
+<div class="container header-inner">
+<a href="index.html" class="logo">
+<img src="assets/Bantu%20College%20Crest-01a.png" alt="Bantu College">
+</a>
+<nav class="main-nav">
+<ul>
+<li><a href="index.html">Main Website</a></li>
+<li><a href="academics.html">Academics</a></li>
+<li><a href="admissions.html">Admissions</a></li>
+</ul>
+</nav>
+<a href="index.html" class="btn-outline" style="padding: 0.6rem 1.2rem; font-size: 0.9rem;">Exit Portal</a>
+</div>
+</header>
+
+<main class="portal-wrapper">
+<div class="container">
+
+<!-- Authentication Section -->
+<div id="authSection" class="no-print">
+  <div class="portal-auth-card">
+    <div class="portal-auth-header">
+      <img src="assets/Bantu%20College%20Crest-02d.png" alt="Bantu College Crest">
+      <h1 style="font-family: var(--font-heading); font-size: 1.8rem; color: var(--color-slate); margin-bottom: 0.35rem;">Student Portal</h1>
+      <p style="color: #666; font-size: 0.95rem;">2026/2027 Academic Session</p>
+    </div>
+
+    <form id="portalLoginForm">
+      <div class="form-group">
+        <label for="admissionNumber">Student Admission Number</label>
+        <input type="text" id="admissionNumber" name="admissionNumber" required placeholder="e.g. BC/2026/014" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label for="accessPin">Access PIN</label>
+        <input type="password" id="accessPin" name="accessPin" required placeholder="Enter confidential PIN" autocomplete="off">
+      </div>
+      <div id="loginErrorMsg" style="display: none; color: var(--color-red); font-size: 0.9rem; margin-bottom: 1rem; font-weight: 600;"></div>
+      <button type="submit" class="btn-primary" style="width: 100%; padding: 0.95rem;">Access Student Portal</button>
+    </form>
+
+    <div class="portal-demo-notice">
+      <strong style="color: var(--color-slate); display: block; margin-bottom: 0.35rem;">Sample Test Logins for Demonstration:</strong>
+      <p>Student 1: Admission No: <strong>BC/2026/014</strong> | PIN: <strong>1234</strong> (Basic 7)</p>
+      <p>Student 2: Admission No: <strong>BC/2026/021</strong> | PIN: <strong>5678</strong> (Basic 8)</p>
+    </div>
+
+    <p style="text-align: center; margin-top: 1.5rem; font-size: 0.85rem; color: #777;">
+      For lost access credentials or admission verification, contact the administrative office of Mr. Kwaghtongo D. A.
+    </p>
+  </div>
+</div>
+
+<!-- Dashboard Section (Hidden by Default) -->
+<div id="dashboardSection" style="display: none;">
+
+  <!-- Student Profile Bar -->
+  <div class="portal-profile-header no-print">
+    <div class="portal-profile-info">
+      <div class="portal-avatar" id="studentAvatarInitials">TA</div>
+      <div>
+        <h2 style="font-family: var(--font-heading); font-size: 1.6rem; color: var(--color-white); margin: 0;" id="studentFullName">Terseer Audu</h2>
+        <p style="color: #ccc; margin: 0.25rem 0 0; font-size: 0.95rem;">
+          Admission Number: <strong style="color: var(--color-gold);" id="studentDisplayId">BC/2026/014</strong> | Class: <strong style="color: var(--color-gold);" id="studentDisplayClass">Basic 7 (JSS 1)</strong>
+        </p>
+      </div>
+    </div>
+    <div style="display: flex; gap: 0.75rem; align-items: center;">
+      <button onclick="window.print()" class="btn-outline" style="color: var(--color-white); border-color: rgba(255,255,255,0.4); padding: 0.55rem 1.1rem; font-size: 0.85rem;">Print Report</button>
+      <button id="logoutBtn" class="btn-primary" style="padding: 0.55rem 1.1rem; font-size: 0.85rem; background: var(--color-red);">Sign Out</button>
+    </div>
+  </div>
+
+  <!-- Summary KPI Cards -->
+  <div class="portal-kpi-grid no-print">
+    <div class="portal-kpi-card">
+      <div class="portal-kpi-label">Academic Average</div>
+      <div class="portal-kpi-val" id="kpiAverage">78.4%</div>
+      <div style="font-size: 0.85rem; color: #666; margin-top: 0.25rem;">Overall Grade: <strong id="kpiGrade">A</strong></div>
+    </div>
+    <div class="portal-kpi-card">
+      <div class="portal-kpi-label">Tuition Fee Status</div>
+      <div class="portal-kpi-val" style="color: #15803d;" id="kpiFeeStatus">Cleared</div>
+      <div style="font-size: 0.85rem; color: #666; margin-top: 0.25rem;">Balance: <strong id="kpiBalance">&#8358;0.00</strong></div>
+    </div>
+    <div class="portal-kpi-card">
+      <div class="portal-kpi-label">Attendance Record</div>
+      <div class="portal-kpi-val" id="kpiAttendance">96%</div>
+      <div style="font-size: 0.85rem; color: #666; margin-top: 0.25rem;">62 of 64 Days Present</div>
+    </div>
+    <div class="portal-kpi-card">
+      <div class="portal-kpi-label">Conduct Assessment</div>
+      <div class="portal-kpi-val" style="color: var(--color-gold-dark);" id="kpiConduct">Exemplary</div>
+      <div style="font-size: 0.85rem; color: #666; margin-top: 0.25rem;">Zero Infractions Recorded</div>
+    </div>
+  </div>
+
+  <!-- Tab Navigation -->
+  <div class="portal-tab-bar no-print">
+    <button class="portal-tab-btn is-active" data-tab="tabResults">Academic Results</button>
+    <button class="portal-tab-btn" data-tab="tabFees">School Fees Ledger</button>
+    <button class="portal-tab-btn" data-tab="tabSundry">Sundry Expenses</button>
+    <button class="portal-tab-btn" data-tab="tabDiscipline">Conduct and Disciplinary Log</button>
+  </div>
+
+  <!-- Tab 1: Academic Results -->
+  <div id="tabResults" class="portal-tab-pane is-active printable-area">
+    <div style="background: #ffffff; padding: clamp(1.5rem, 4vw, 2.5rem); border-radius: 18px; border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 6px 20px -8px rgba(0,0,0,0.06); margin-bottom: 2rem;">
+      
+      <!-- Official Printable Header -->
+      <div style="text-align: center; border-bottom: 2px solid var(--color-slate); padding-bottom: 1.5rem; margin-bottom: 1.5rem;">
+        <img src="assets/Bantu%20College%20Crest-01a.png" alt="Bantu College" style="max-height: 70px; margin-bottom: 0.5rem;">
+        <h3 style="font-family: var(--font-heading); font-size: 1.5rem; color: var(--color-slate); margin: 0;">Bantu College, Benue State</h3>
+        <p style="font-size: 0.95rem; color: #555; margin: 0.25rem 0;">Motto: Read to Lead</p>
+        <h4 style="font-size: 1.15rem; color: var(--color-red); margin-top: 0.75rem; text-transform: uppercase;">Official Termly Academic Report Sheet</h4>
+        <p style="font-size: 0.9rem; color: #444; margin: 0.25rem 0;">
+          First Term, 2026/2027 Academic Session | Class: <span id="reportHeaderClass">Basic 7 (JSS 1)</span>
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; font-size: 0.95rem;">
+        <div>Student Name: <strong id="reportStudentName">Terseer Audu</strong></div>
+        <div>Admission Number: <strong id="reportStudentId">BC/2026/014</strong></div>
+        <div>Total Enrolled Subjects: <strong>15 Subjects</strong></div>
+        <div>Class Position: <strong id="reportPosition">3rd of 42</strong></div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="portal-data-table">
+          <thead>
+            <tr>
+              <th>Subject</th>
+              <th style="text-align: center;">Continuous Assessment (40)</th>
+              <th style="text-align: center;">Exam (60)</th>
+              <th style="text-align: center;">Total (100)</th>
+              <th style="text-align: center;">Grade</th>
+              <th>Teacher Remark</th>
+            </tr>
+          </thead>
+          <tbody id="resultsTableBody">
+            <!-- Injected via JavaScript -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Remarks and Endorsements -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(0,0,0,0.1);">
+        <div style="background: rgba(0,0,0,0.02); padding: 1.25rem; border-radius: 12px;">
+          <strong style="color: var(--color-slate); font-size: 0.9rem; text-transform: uppercase; display: block; margin-bottom: 0.35rem;">Form Teacher Remark</strong>
+          <p style="font-size: 0.95rem; color: #333; margin: 0;" id="formTeacherRemark">
+            An exceptionally dedicated and attentive student who shows keen enthusiasm across Mathematics and Information Technology.
+          </p>
+        </div>
+        <div style="background: rgba(0,0,0,0.02); padding: 1.25rem; border-radius: 12px;">
+          <strong style="color: var(--color-slate); font-size: 0.9rem; text-transform: uppercase; display: block; margin-bottom: 0.35rem;">Principal Official Endorsement</strong>
+          <p style="font-size: 0.95rem; color: #333; margin: 0 0 0.5rem 0;" id="principalRemark">
+            Commendable academic effort. Maintain this focus and moral discipline in the upcoming term.
+          </p>
+          <span style="font-size: 0.85rem; font-weight: 700; color: var(--color-gold-dark);">Mr. Kwaghtongo D. A., Principal</span>
+        </div>
+      </div>
+
+      <div style="text-align: right; margin-top: 1.5rem;" class="no-print">
+        <button onclick="window.print()" class="btn-primary" style="padding: 0.75rem 1.5rem;">Print Official Report Sheet</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Tab 2: School Fees Ledger -->
+  <div id="tabFees" class="portal-tab-pane">
+    <div style="background: #ffffff; padding: clamp(1.5rem, 4vw, 2.5rem); border-radius: 18px; border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 6px 20px -8px rgba(0,0,0,0.06); margin-bottom: 2rem;">
+      
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;">
+        <div>
+          <h3 style="font-family: var(--font-heading); font-size: 1.5rem; color: var(--color-slate); margin: 0;">School Fees Ledger</h3>
+          <p style="color: #666; font-size: 0.95rem; margin-top: 0.25rem;">2026/2027 Session Fee Statement</p>
+        </div>
+        <div style="background: rgba(34, 197, 94, 0.12); padding: 0.6rem 1.2rem; border-radius: 10px; border: 1px solid rgba(34, 197, 94, 0.3);">
+          <span style="font-size: 0.85rem; color: #15803d; font-weight: 700; text-transform: uppercase;">Ledger Status: Cleared</span>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="portal-data-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Description</th>
+              <th>Billed Amount</th>
+              <th>Paid Amount</th>
+              <th>Receipt Reference</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="feesTableBody">
+            <!-- Injected via JavaScript -->
+          </tbody>
+        </table>
+      </div>
+
+      <div style="background: rgba(43, 42, 66, 0.03); border-radius: 14px; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <span style="font-size: 0.9rem; color: #666; display: block;">Session Tuition Billed: <strong>&#8358;450,000.00</strong></span>
+          <span style="font-size: 0.9rem; color: #666; display: block;">Total Paid to Date: <strong style="color: #15803d;">&#8358;450,000.00</strong></span>
+        </div>
+        <div style="text-align: right;">
+          <span style="font-size: 0.85rem; color: #666; text-transform: uppercase; font-weight: 700;">Outstanding Balance</span>
+          <h3 style="font-size: 1.8rem; color: #15803d; margin: 0;" id="feesTotalBalance">&#8358;0.00</h3>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Tab 3: Sundry Expenses -->
+  <div id="tabSundry" class="portal-tab-pane">
+    <div style="background: #ffffff; padding: clamp(1.5rem, 4vw, 2.5rem); border-radius: 18px; border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 6px 20px -8px rgba(0,0,0,0.06); margin-bottom: 2rem;">
+      
+      <div style="margin-bottom: 1.5rem;">
+        <h3 style="font-family: var(--font-heading); font-size: 1.5rem; color: var(--color-slate); margin: 0;">Sundry and Material Charges</h3>
+        <p style="color: #666; font-size: 0.95rem; margin-top: 0.25rem;">Non tuition supplies, laboratory workbooks, uniforms, and practical kits.</p>
+      </div>
+
+      <div class="table-responsive">
+        <table class="portal-data-table">
+          <thead>
+            <tr>
+              <th>Item Description</th>
+              <th>Category</th>
+              <th>Amount</th>
+              <th>Payment Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="sundryTableBody">
+            <!-- Injected via JavaScript -->
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Tab 4: Conduct and Disciplinary Log -->
+  <div id="tabDiscipline" class="portal-tab-pane">
+    <div style="background: #ffffff; padding: clamp(1.5rem, 4vw, 2.5rem); border-radius: 18px; border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 6px 20px -8px rgba(0,0,0,0.06); margin-bottom: 2rem;">
+      
+      <div style="margin-bottom: 1.5rem;">
+        <h3 style="font-family: var(--font-heading); font-size: 1.5rem; color: var(--color-slate); margin: 0;">Conduct and Behavioral Evaluation</h3>
+        <p style="color: #666; font-size: 0.95rem; margin-top: 0.25rem;">Official termly behavioral assessment recorded by class teachers and administration.</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+        <div style="padding: 1.25rem; background: rgba(0,0,0,0.02); border-radius: 12px; border: 1px solid rgba(0,0,0,0.06);">
+          <span style="font-size: 0.85rem; color: #666; text-transform: uppercase; font-weight: 700; display: block;">Punctuality</span>
+          <strong style="font-size: 1.1rem; color: var(--color-slate);" id="conductPunctuality">Excellent</strong>
+        </div>
+        <div style="padding: 1.25rem; background: rgba(0,0,0,0.02); border-radius: 12px; border: 1px solid rgba(0,0,0,0.06);">
+          <span style="font-size: 0.85rem; color: #666; text-transform: uppercase; font-weight: 700; display: block;">Neatness and Attire</span>
+          <strong style="font-size: 1.1rem; color: var(--color-slate);" id="conductNeatness">Very Good</strong>
+        </div>
+        <div style="padding: 1.25rem; background: rgba(0,0,0,0.02); border-radius: 12px; border: 1px solid rgba(0,0,0,0.06);">
+          <span style="font-size: 0.85rem; color: #666; text-transform: uppercase; font-weight: 700; display: block;">Peer Relationships</span>
+          <strong style="font-size: 1.1rem; color: var(--color-slate);" id="conductPeers">Respectful and Cooperative</strong>
+        </div>
+        <div style="padding: 1.25rem; background: rgba(0,0,0,0.02); border-radius: 12px; border: 1px solid rgba(0,0,0,0.06);">
+          <span style="font-size: 0.85rem; color: #666; text-transform: uppercase; font-weight: 700; display: block;">Leadership Trait</span>
+          <strong style="font-size: 1.1rem; color: var(--color-slate);" id="conductLeadership">High Initiative</strong>
+        </div>
+      </div>
+
+      <h4 style="font-family: var(--font-heading); color: var(--color-slate); font-size: 1.2rem; margin-bottom: 1rem;">Official Disciplinary Records</h4>
+      <div id="disciplinaryIncidentBox" style="background: rgba(34, 197, 94, 0.08); border-left: 4px solid #15803d; padding: 1.25rem 1.5rem; border-radius: 0 12px 12px 0;">
+        <strong style="color: #15803d; display: block; margin-bottom: 0.25rem;">Clean Record Maintained</strong>
+        <p style="margin: 0; color: #333; font-size: 0.95rem;" id="disciplinaryIncidentText">
+          No negative disciplinary infractions or official reprimands have been recorded for this scholar during the current session.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+</div>
+</main>
+
+<footer class="site-footer no-print">
+<div class="container">
+<p style="text-align: center; font-size: 0.95rem; color: #bbb;">
+&copy; 2026 Bantu College. All student records are confidential and protected by school administration policies.
+</p>
+</div>
+</footer>
+
+<script>
+// Mock Student Database
+const studentDatabase = {
+  "BC/2026/014": {
+    pin: "1234",
+    name: "Terseer Audu",
+    initials: "TA",
+    class: "Basic 7 (JSS 1)",
+    position: "3rd of 42",
+    average: "78.4%",
+    grade: "A",
+    feeStatus: "Cleared",
+    balance: "&#8358;0.00",
+    attendance: "96%",
+    conduct: "Exemplary",
+    formTeacherRemark: "An exceptionally dedicated and attentive student who shows keen enthusiasm across Mathematics and Information Technology.",
+    principalRemark: "Commendable academic effort. Maintain this focus and moral discipline in the upcoming term.",
+    punctuality: "Excellent",
+    neatness: "Very Good",
+    peers: "Respectful and Cooperative",
+    leadership: "High Initiative",
+    incidentText: "No negative disciplinary infractions or official reprimands have been recorded for this scholar during the current session.",
+    results: [
+      { subject: "English Studies", ca: 34, exam: 50, total: 84, grade: "A", remark: "Fluent oral and written expression" },
+      { subject: "Mathematics", ca: 36, exam: 52, total: 88, grade: "A", remark: "High arithmetic and algebraic precision" },
+      { subject: "Social and Citizenship Education", ca: 30, exam: 45, total: 75, grade: "B", remark: "Good grasp of civic duties" },
+      { subject: "Nigerian History", ca: 32, exam: 48, total: 80, grade: "A", remark: "Deep cultural and historical insight" },
+      { subject: "Physical and Health Education", ca: 35, exam: 46, total: 81, grade: "A", remark: "Active and disciplined sports participant" },
+      { subject: "Intermediate Science", ca: 31, exam: 47, total: 78, grade: "B", remark: "Careful laboratory observation skills" },
+      { subject: "Business Studies", ca: 28, exam: 44, total: 72, grade: "B", remark: "Understands introductory bookkeeping" },
+      { subject: "Pre Vocational Studies", ca: 33, exam: 45, total: 78, grade: "B", remark: "Good practical craftsmanship" },
+      { subject: "Cultural and Creative Arts", ca: 29, exam: 43, total: 72, grade: "B", remark: "Expressive artistic composition" },
+      { subject: "Information Technology", ca: 38, exam: 54, total: 92, grade: "A", remark: "Exceptional typing and basic coding logic" },
+      { subject: "Literature", ca: 31, exam: 46, total: 77, grade: "B", remark: "Analytical reading of assigned texts" },
+      { subject: "Christian Religious Studies (CRS)", ca: 34, exam: 50, total: 84, grade: "A", remark: "Strong moral comprehension" },
+      { subject: "French", ca: 26, exam: 40, total: 66, grade: "C", remark: "Fair pronunciation; needs more speaking drill" },
+      { subject: "Tiv Language", ca: 35, exam: 49, total: 84, grade: "A", remark: "Excellent native fluency and grammar" },
+      { subject: "Chinese Language", ca: 27, exam: 38, total: 65, grade: "C", remark: "Accurate stroke order; continue tones practice" }
+    ],
+    fees: [
+      { date: "15 Sep 2026", desc: "First Term Tuition Fee", billed: "&#8358;150,000.00", paid: "&#8358;150,000.00", ref: "BNT/26/TX0104", status: "Paid" },
+      { date: "05 Jan 2027", desc: "Second Term Tuition Fee", billed: "&#8358;150,000.00", paid: "&#8358;150,000.00", ref: "BNT/27/TX0882", status: "Paid" },
+      { date: "18 Apr 2027", desc: "Third Term Tuition Fee", billed: "&#8358;150,000.00", paid: "&#8358;150,000.00", ref: "BNT/27/TX1420", status: "Paid" }
+    ],
+    sundry: [
+      { desc: "School Uniform and Sportswear Kit", category: "Attire", amount: "&#8358;45,000.00", date: "10 Sep 2026", status: "Cleared" },
+      { desc: "Science Laboratory Manuals and Workbooks", category: "Academic Materials", amount: "&#8358;25,000.00", date: "12 Sep 2026", status: "Cleared" },
+      { desc: "Computer Practical and Coding Kit", category: "Technology", amount: "&#8358;20,000.00", date: "15 Sep 2026", status: "Cleared" },
+      { desc: "Benue Agricultural Heritage Excursion", category: "Excursions", amount: "&#8358;15,000.00", date: "20 Nov 2026", status: "Cleared" }
+    ]
+  },
+  "BC/2026/021": {
+    pin: "5678",
+    name: "Dooshima Iorfa",
+    initials: "DI",
+    class: "Basic 8 (JSS 2)",
+    position: "1st of 38",
+    average: "84.2%",
+    grade: "A",
+    feeStatus: "Cleared",
+    balance: "&#8358;0.00",
+    attendance: "98%",
+    conduct: "Exemplary",
+    formTeacherRemark: "A brilliant and responsible scholar who demonstrates remarkable leadership and diligence across all subjects.",
+    principalRemark: "Outstanding academic performance. An exemplary representative of Bantu College values.",
+    punctuality: "Excellent",
+    neatness: "Impeccable",
+    peers: "Warm and Helpful Leader",
+    leadership: "Outstanding",
+    incidentText: "No negative disciplinary infractions or official reprimands have been recorded for this scholar during the current session.",
+    results: [
+      { subject: "English Studies", ca: 37, exam: 54, total: 91, grade: "A", remark: "Outstanding literary comprehension" },
+      { subject: "Mathematics", ca: 38, exam: 55, total: 93, grade: "A", remark: "Mastery of mathematical problem solving" },
+      { subject: "Social and Citizenship Education", ca: 33, exam: 49, total: 82, grade: "A", remark: "Clear understanding of constitutional laws" },
+      { subject: "Nigerian History", ca: 36, exam: 52, total: 88, grade: "A", remark: "Superb historical analysis" },
+      { subject: "Physical and Health Education", ca: 34, exam: 48, total: 82, grade: "A", remark: "Great athletics coordination" },
+      { subject: "Intermediate Science", ca: 35, exam: 51, total: 86, grade: "A", remark: "Thorough scientific accuracy" },
+      { subject: "Business Studies", ca: 33, exam: 48, total: 81, grade: "A", remark: "Solid commercial calculation skills" },
+      { subject: "Pre Vocational Studies", ca: 32, exam: 47, total: 79, grade: "B", remark: "Neat execution in workshop lessons" },
+      { subject: "Cultural and Creative Arts", ca: 31, exam: 45, total: 76, grade: "B", remark: "Pleasing visual designs" },
+      { subject: "Information Technology", ca: 39, exam: 56, total: 95, grade: "A", remark: "Exceptional logic and computer programming" },
+      { subject: "Literature", ca: 36, exam: 52, total: 88, grade: "A", remark: "Deep essay and character critique" },
+      { subject: "Christian Religious Studies (CRS)", ca: 35, exam: 51, total: 86, grade: "A", remark: "Thoughtful scriptural reflection" },
+      { subject: "French", ca: 30, exam: 44, total: 74, grade: "B", remark: "Good grammatical structure" },
+      { subject: "Tiv Language", ca: 37, exam: 53, total: 90, grade: "A", remark: "Fluent and culturally articulate" },
+      { subject: "Chinese Language", ca: 29, exam: 43, total: 72, grade: "B", remark: "Commendable memorization of Chinese characters" }
+    ],
+    fees: [
+      { date: "15 Sep 2026", desc: "First Term Tuition Fee", billed: "&#8358;150,000.00", paid: "&#8358;150,000.00", ref: "BNT/26/TX0189", status: "Paid" },
+      { date: "05 Jan 2027", desc: "Second Term Tuition Fee", billed: "&#8358;150,000.00", paid: "&#8358;150,000.00", ref: "BNT/27/TX0914", status: "Paid" },
+      { date: "18 Apr 2027", desc: "Third Term Tuition Fee", billed: "&#8358;150,000.00", paid: "&#8358;150,000.00", ref: "BNT/27/TX1499", status: "Paid" }
+    ],
+    sundry: [
+      { desc: "Senior Junior Uniform Set and Blazer", category: "Attire", amount: "&#8358;45,000.00", date: "10 Sep 2026", status: "Cleared" },
+      { desc: "Advanced Science Workbooks and Lab Kit", category: "Academic Materials", amount: "&#8358;25,000.00", date: "12 Sep 2026", status: "Cleared" },
+      { desc: "Robotics and Algorithm Learning Module", category: "Technology", amount: "&#8358;20,000.00", date: "15 Sep 2026", status: "Cleared" },
+      { desc: "Historical Cultural Field Excursion", category: "Excursions", amount: "&#8358;15,000.00", date: "20 Nov 2026", status: "Cleared" }
+    ]
+  }
+};
+
+// Authentication Handler
+document.getElementById("portalLoginForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+  const idInput = document.getElementById("admissionNumber").value.trim().toUpperCase();
+  const pinInput = document.getElementById("accessPin").value.trim();
+  const errorMsg = document.getElementById("loginErrorMsg");
+
+  if (studentDatabase[idInput] && studentDatabase[idInput].pin === pinInput) {
+    errorMsg.style.display = "none";
+    loadStudentDashboard(studentDatabase[idInput], idInput);
+  } else {
+    errorMsg.textContent = "Invalid Admission Number or PIN. Please check credentials or contact the office.";
+    errorMsg.style.display = "block";
+  }
+});
+
+// Load Dashboard Data
+function loadStudentDashboard(data, studentId) {
+  document.getElementById("authSection").style.display = "none";
+  document.getElementById("dashboardSection").style.display = "block";
+
+  // Profile Header
+  document.getElementById("studentAvatarInitials").textContent = data.initials;
+  document.getElementById("studentFullName").textContent = data.name;
+  document.getElementById("studentDisplayId").textContent = studentId;
+  document.getElementById("studentDisplayClass").textContent = data.class;
+
+  // KPIs
+  document.getElementById("kpiAverage").textContent = data.average;
+  document.getElementById("kpiGrade").textContent = data.grade;
+  document.getElementById("kpiFeeStatus").textContent = data.feeStatus;
+  document.getElementById("kpiBalance").innerHTML = data.balance;
+  document.getElementById("kpiAttendance").textContent = data.attendance;
+  document.getElementById("kpiConduct").textContent = data.conduct;
+
+  // Report Header Details
+  document.getElementById("reportHeaderClass").textContent = data.class;
+  document.getElementById("reportStudentName").textContent = data.name;
+  document.getElementById("reportStudentId").textContent = studentId;
+  document.getElementById("reportPosition").textContent = data.position;
+  document.getElementById("formTeacherRemark").textContent = data.formTeacherRemark;
+  document.getElementById("principalRemark").textContent = data.principalRemark;
+
+  // Populate 15 Subjects
+  const resultsTbody = document.getElementById("resultsTableBody");
+  resultsTbody.innerHTML = "";
+  data.results.forEach(item => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td><strong>${item.subject}</strong></td>
+      <td style="text-align: center;">${item.ca}</td>
+      <td style="text-align: center;">${item.exam}</td>
+      <td style="text-align: center; font-weight: 700;">${item.total}</td>
+      <td style="text-align: center;"><span class="portal-badge ${item.grade === 'A' ? 'portal-badge-green' : (item.grade === 'B' ? 'portal-badge-gold' : '')}">${item.grade}</span></td>
+      <td>${item.remark}</td>
+    `;
+    resultsTbody.appendChild(row);
+  });
+
+  // Populate Fees Table
+  const feesTbody = document.getElementById("feesTableBody");
+  feesTbody.innerHTML = "";
+  data.fees.forEach(f => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${f.date}</td>
+      <td><strong>${f.desc}</strong></td>
+      <td>${f.billed}</td>
+      <td style="color: #15803d; font-weight: 700;">${f.paid}</td>
+      <td><span style="font-family: monospace; font-size: 0.85rem; color: #555;">${f.ref}</span></td>
+      <td><span class="portal-badge portal-badge-green">${f.status}</span></td>
+    `;
+    feesTbody.appendChild(row);
+  });
+
+  // Populate Sundry Table
+  const sundryTbody = document.getElementById("sundryTableBody");
+  sundryTbody.innerHTML = "";
+  data.sundry.forEach(s => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td><strong>${s.desc}</strong></td>
+      <td>${s.category}</td>
+      <td style="font-weight: 700;">${s.amount}</td>
+      <td>${s.date}</td>
+      <td><span class="portal-badge portal-badge-green">${s.status}</span></td>
+    `;
+    sundryTbody.appendChild(row);
+  });
+
+  // Conduct Details
+  document.getElementById("conductPunctuality").textContent = data.punctuality;
+  document.getElementById("conductNeatness").textContent = data.neatness;
+  document.getElementById("conductPeers").textContent = data.peers;
+  document.getElementById("conductLeadership").textContent = data.leadership;
+  document.getElementById("disciplinaryIncidentText").textContent = data.incidentText;
+}
+
+// Sign Out Handler
+document.getElementById("logoutBtn").addEventListener("click", function() {
+  document.getElementById("dashboardSection").style.display = "none";
+  document.getElementById("authSection").style.display = "block";
+  document.getElementById("portalLoginForm").reset();
+});
+
+// Tab Switcher Handler
+const tabBtns = document.querySelectorAll(".portal-tab-btn");
+const tabPanes = document.querySelectorAll(".portal-tab-pane");
+
+tabBtns.forEach(btn => {
+  btn.addEventListener("click", function() {
+    tabBtns.forEach(b => b.classList.remove("is-active"));
+    tabPanes.forEach(p => p.classList.remove("is-active"));
+
+    this.classList.add("is-active");
+    const target = this.getAttribute("data-tab");
+    document.getElementById(target).classList.add("is-active");
+  });
+});
+</script>
+
+</body>
+</html>
