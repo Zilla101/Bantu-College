@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Staff and Bursar Desk | Bantu College</title>
-<link rel="stylesheet" href="assets/css/style.css?v=7">
+<title>Faculty and Bursar Desk | Bantu College</title>
+<link rel="stylesheet" href="assets/css/style.css?v=8">
 
-<meta name="description" content="Teacher grade input engine and bursar fee verification desk for Bantu College administration.">
+<meta name="description" content="Secure faculty grade entry engine and bursary verification desk for Bantu College staff.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Bantu College | Administration Desk">
-<meta property="og:description" content="Teacher grade recording and automated bursary verification for Bantu College staff.">
+<meta property="og:title" content="Bantu College | Faculty Portal">
+<meta property="og:description" content="Subject restricted teacher grade recording and bursary management for authorized personnel.">
 <meta property="og:image" content="https://www.bantucollege.com/assets/Bantu%20College%20Crest-01a.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" href="assets/Bantu%20College%20Crest-02d.png">
@@ -28,172 +28,220 @@
 <li><a href="academics.html">Academics</a></li>
 </ul>
 </nav>
-<a href="portal.html" class="btn-primary" style="padding: 0.6rem 1.2rem; font-size: 0.9rem;">Open Student Portal</a>
+<a href="portal.html" class="btn-outline" style="padding: 0.6rem 1.2rem; font-size: 0.9rem;">Student Portal</a>
 </div>
 </header>
 
 <main class="portal-wrapper">
 <div class="container">
 
-<div style="margin-bottom: 2.5rem; border-left: 6px solid var(--color-gold); background: var(--color-slate); color: var(--color-white); padding: clamp(1.5rem, 4vw, 2.5rem); border-radius: 20px;">
-  <span style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase; color: var(--color-gold); letter-spacing: 1px;">Administration Portal</span>
-  <h1 style="font-family: var(--font-heading); font-size: clamp(1.8rem, 3.5vw, 2.4rem); margin: 0.35rem 0;">Teacher Grade Entry and Bursary Desk</h1>
-  <p style="color: #ccc; margin: 0; font-size: 1.05rem;">
-    Official academic calculation engine and transaction verification center for Bantu College faculty.
-  </p>
-</div>
-
-<!-- Mode Switcher Tabs -->
-<div class="portal-tab-bar" style="margin-bottom: 2rem;">
-  <button class="portal-tab-btn is-active" data-admin-tab="teacherPane">Teacher Grade Entry Engine</button>
-  <button class="portal-tab-btn" data-admin-tab="bursarPane">Bursary and Transaction Verification</button>
-</div>
-
-<!-- Pane 1: Teacher Grade Entry Engine -->
-<div id="teacherPane" class="portal-tab-pane is-active">
-  <div class="admin-card">
-    <div style="margin-bottom: 1.5rem;">
-      <h2 style="font-family: var(--font-heading); font-size: 1.5rem; color: var(--color-slate); margin: 0;">Class Score Submission</h2>
-      <p style="color: #666; font-size: 0.95rem; margin-top: 0.25rem;">
-        Select class and subject. Enter scores to automatically determine student grades, class highest, class lowest, and class average.
-      </p>
+<!-- Staff Authentication Gate (Visible by Default) -->
+<div id="staffAuthSection" class="no-print">
+  <div class="portal-auth-card" style="max-width: 520px;">
+    <div class="portal-auth-header">
+      <img src="assets/Bantu%20College%20Crest-02d.png" alt="Bantu College Crest">
+      <span style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--color-gold-dark); letter-spacing: 1px; display: block; margin-bottom: 0.25rem;">Authorized Personnel Only</span>
+      <h1 style="font-family: var(--font-heading); font-size: 1.8rem; color: var(--color-slate); margin-bottom: 0.35rem;">Staff Access Desk</h1>
+      <p style="color: #666; font-size: 0.95rem;">Subject Masters and Bursary Officers</p>
     </div>
 
-    <!-- Controls -->
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
-      <div class="form-group" style="margin-bottom: 0;">
-        <label for="adminClassSelect">Class Level</label>
-        <select id="adminClassSelect" onchange="updateClassSubjectScores()">
-          <option value="Basic 7">Basic 7 (JSS 1)</option>
-          <option value="Basic 8">Basic 8 (JSS 2)</option>
-        </select>
+    <form id="staffLoginForm">
+      <div class="form-group">
+        <label for="staffIdInput">Staff Identification Number</label>
+        <input type="text" id="staffIdInput" required placeholder="e.g. TCH/MTH/01" autocomplete="off">
       </div>
-      <div class="form-group" style="margin-bottom: 0;">
-        <label for="adminSubjectSelect">Subject</label>
-        <select id="adminSubjectSelect" onchange="updateClassSubjectScores()">
-          <option value="Mathematics">Mathematics</option>
-          <option value="English Studies">English Studies</option>
-          <option value="Social and Citizenship Education">Social and Citizenship Education</option>
-          <option value="Nigerian History">Nigerian History</option>
-          <option value="Physical and Health Education">Physical and Health Education</option>
-          <option value="Intermediate Science">Intermediate Science</option>
-          <option value="Business Studies">Business Studies</option>
-          <option value="Pre Vocational Studies">Pre Vocational Studies</option>
-          <option value="Cultural and Creative Arts">Cultural and Creative Arts</option>
-          <option value="Information Technology">Information Technology</option>
-          <option value="Literature">Literature</option>
-          <option value="Christian Religious Studies (CRS)">Christian Religious Studies (CRS)</option>
-          <option value="French">French</option>
-          <option value="Tiv Language">Tiv Language</option>
-          <option value="Chinese Language">Chinese Language</option>
-        </select>
+      <div class="form-group">
+        <label for="staffPinInput">Staff Security PIN</label>
+        <input type="password" id="staffPinInput" required placeholder="Enter confidential PIN" autocomplete="off">
       </div>
+      <div id="staffErrorMsg" style="display: none; color: var(--color-red); font-size: 0.9rem; margin-bottom: 1rem; font-weight: 600;"></div>
+      <button type="submit" class="btn-primary" style="width: 100%; padding: 0.95rem;">Access Staff Workspace</button>
+    </form>
+
+    <div class="portal-demo-notice" style="margin-top: 1.5rem;">
+      <strong style="color: var(--color-slate); display: block; margin-bottom: 0.35rem;">Authorized Faculty Demonstration Logins:</strong>
+      <p>1. Mathematics Master: ID: <strong>TCH/MTH/01</strong> | PIN: <strong>1122</strong> (Mathematics Only)</p>
+      <p>2. English and Literature Master: ID: <strong>TCH/ENG/02</strong> | PIN: <strong>3344</strong> (English and Literature Only)</p>
+      <p>3. Science Master: ID: <strong>TCH/SCI/03</strong> | PIN: <strong>5566</strong> (Intermediate Science Only)</p>
+      <p>4. Bursar Officer: ID: <strong>BUR/FIN/01</strong> | PIN: <strong>9900</strong> (Bursary Verification Desk Only)</p>
     </div>
 
-    <!-- Live Automated Stats Strip -->
-    <div class="admin-stats-strip">
-      <div class="admin-stat-box">
-        <span>Class Highest Score</span>
-        <strong id="statHighestScore">93.00</strong>
-      </div>
-      <div class="admin-stat-box">
-        <span>Class Lowest Score</span>
-        <strong id="statLowestScore">68.00</strong>
-      </div>
-      <div class="admin-stat-box">
-        <span>Class Subject Average</span>
-        <strong id="statSubjectAverage">81.50</strong>
-      </div>
-      <div class="admin-stat-box">
-        <span>Grading Engine Scale</span>
-        <strong style="font-size: 1.05rem; color: var(--color-gold-dark); margin-top: 0.5rem;">A: 80+, B2: 75+, B3: 70+, C: 60+, F: 0+</strong>
-      </div>
-    </div>
-
-    <!-- Score Input Table -->
-    <div class="table-responsive">
-      <table class="portal-data-table">
-        <thead>
-          <tr>
-            <th>Student Name</th>
-            <th>Admission No</th>
-            <th style="width: 140px; text-align: center;">CA Score (40)</th>
-            <th style="width: 140px; text-align: center;">Exam Score (60)</th>
-            <th style="text-align: center;">Total (100)</th>
-            <th style="text-align: center;">Grade</th>
-            <th>Calculated Remark</th>
-          </tr>
-        </thead>
-        <tbody id="adminScoreTableBody">
-          <!-- Populated by JavaScript -->
-        </tbody>
-      </table>
-    </div>
-
-    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-top: 1rem;">
-      <span style="font-size: 0.85rem; color: #666;">All scores automatically update student portal records and compute cumulative averages to two decimal places.</span>
-      <button class="btn-primary" onclick="alert('Class scores validated and recorded successfully to school records.')">Save Class Scores</button>
-    </div>
-
+    <p style="text-align: center; margin-top: 1.5rem; font-size: 0.85rem; color: #777;">
+      Strict access policies enforced. Teachers can only view and record scores for their assigned academic disciplines.
+    </p>
   </div>
 </div>
 
-<!-- Pane 2: Bursary and Transaction Verification -->
-<div id="bursarPane" class="portal-tab-pane">
-  <div class="admin-card">
-    <div style="margin-bottom: 1.5rem;">
-      <h2 style="font-family: var(--font-heading); font-size: 1.5rem; color: var(--color-slate); margin: 0;">Bursary Transaction Verification Desk</h2>
-      <p style="color: #666; font-size: 0.95rem; margin-top: 0.25rem;">
-        Verify bank payments, review outstanding fee balances, and manage parent transaction logs.
+<!-- Staff Authenticated Workspace (Hidden by Default) -->
+<div id="staffWorkspaceSection" style="display: none;">
+
+  <!-- Active Staff Header -->
+  <div style="margin-bottom: 2rem; border-left: 6px solid var(--color-gold); background: var(--color-slate); color: var(--color-white); padding: clamp(1.5rem, 4vw, 2.25rem); border-radius: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem;">
+    <div>
+      <span style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--color-gold); letter-spacing: 1px;" id="staffActiveRoleLabel">Mathematics Subject Master</span>
+      <h1 style="font-family: var(--font-heading); font-size: clamp(1.6rem, 3vw, 2.2rem); margin: 0.25rem 0;" id="staffActiveName">Mr. Kator Agber</h1>
+      <p style="color: #ccc; margin: 0; font-size: 0.95rem;">
+        Staff ID: <strong style="color: var(--color-gold);" id="staffActiveId">TCH/MTH/01</strong> | Department: <strong style="color: var(--color-gold);" id="staffActiveDept">Department of Mathematics</strong>
       </p>
     </div>
+    <div>
+      <button id="staffLogoutBtn" class="btn-primary" style="background: var(--color-red); padding: 0.6rem 1.3rem; font-size: 0.9rem;">Sign Out</button>
+    </div>
+  </div>
 
-    <!-- Automated Verification Assistant Box -->
-    <div style="background: rgba(43, 42, 66, 0.04); border-left: 5px solid var(--color-gold); border-radius: 0 14px 14px 0; padding: 1.5rem; margin-bottom: 2rem;">
-      <h3 style="font-family: var(--font-heading); font-size: 1.25rem; color: var(--color-slate); margin: 0 0 0.5rem 0;">Bursary Transaction Verification Assistant</h3>
-      <p style="font-size: 0.95rem; color: #444; line-height: 1.6; margin: 0 0 1rem 0;">
-        The automated verification system analyzes bank narrative codes and transaction receipts against the approved <strong>&#8358;450,000.00</strong> annual session tuition fee. It computes the exact outstanding balance and immediately clears the student portal ledger upon verification.
-      </p>
-      <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-        <span class="portal-badge portal-badge-green" style="font-size: 0.85rem; padding: 0.45rem 1rem;">Assistant Status: Active</span>
-        <span class="portal-badge portal-badge-gold" style="font-size: 0.85rem; padding: 0.45rem 1rem;">Total Verified This Term: &#8358;37,800,000.00</span>
+  <!-- Role Navigation Tabs -->
+  <div class="portal-tab-bar" style="margin-bottom: 2rem;" id="staffTabBar">
+    <button class="portal-tab-btn is-active" id="tabBtnTeacher" data-staff-pane="teacherPane">Teacher Grade Entry Engine</button>
+    <button class="portal-tab-btn" id="tabBtnBursar" data-staff-pane="bursarPane">Bursary and Transaction Verification</button>
+  </div>
+
+  <!-- Pane 1: Teacher Grade Entry Engine -->
+  <div id="teacherPane" class="portal-tab-pane is-active">
+    <div class="admin-card">
+      
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;">
+        <div>
+          <h2 style="font-family: var(--font-heading); font-size: 1.5rem; color: var(--color-slate); margin: 0;">Authorized Subject Score Submission</h2>
+          <p style="color: #666; font-size: 0.95rem; margin-top: 0.25rem;">
+            Enter student scores for your assigned academic subjects. Scores must be saved using the save button before they are committed to official report sheets.
+          </p>
+        </div>
+        <div id="saveStatusIndicator" style="background: rgba(34, 197, 94, 0.12); color: #15803d; border: 1px solid rgba(34, 197, 94, 0.3); padding: 0.5rem 1rem; border-radius: 10px; font-size: 0.85rem; font-weight: 700;">
+          Status: All Changes Committed
+        </div>
       </div>
-    </div>
 
-    <!-- Paystack Gateway Readiness Box -->
-    <div style="background: rgba(34, 197, 94, 0.08); border: 1px solid rgba(34, 197, 94, 0.25); border-radius: 14px; padding: 1.25rem 1.5rem; margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
-      <div>
-        <h4 style="font-family: var(--font-heading); color: #15803d; margin: 0 0 0.25rem 0; font-size: 1.1rem;">Paystack Online Gateway Readiness</h4>
-        <p style="font-size: 0.9rem; color: #444; margin: 0;">
-          Direct debit card, bank transfer, and USSD payments can be enabled for parents with instant auto verification.
+      <!-- Controls -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem; background: rgba(0,0,0,0.02); padding: 1.25rem; border-radius: 14px;">
+        <div class="form-group" style="margin-bottom: 0;">
+          <label for="adminClassSelect">Assigned Class</label>
+          <select id="adminClassSelect" onchange="loadSubjectScoresForClass()">
+            <option value="Basic 7">Basic 7 (JSS 1)</option>
+            <option value="Basic 8">Basic 8 (JSS 2)</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom: 0;">
+          <label for="adminSubjectSelect">Permitted Subject (Restricted by Role)</label>
+          <select id="adminSubjectSelect" onchange="loadSubjectScoresForClass()">
+            <!-- Populated dynamically based on logged in teacher credentials -->
+          </select>
+        </div>
+      </div>
+
+      <!-- Live Calculation Engine Stats Strip -->
+      <div class="admin-stats-strip">
+        <div class="admin-stat-box">
+          <span>Class Highest Score</span>
+          <strong id="statHighestScore">0.00</strong>
+        </div>
+        <div class="admin-stat-box">
+          <span>Class Lowest Score</span>
+          <strong id="statLowestScore">0.00</strong>
+        </div>
+        <div class="admin-stat-box">
+          <span>Class Subject Average</span>
+          <strong id="statSubjectAverage">0.00</strong>
+        </div>
+        <div class="admin-stat-box">
+          <span>Official Grading Scale</span>
+          <strong style="font-size: 0.95rem; color: var(--color-gold-dark); margin-top: 0.35rem;">A: 80+, B2: 75+, B3: 70+, C: 60+, F: 0+</strong>
+        </div>
+      </div>
+
+      <!-- Score Input Table -->
+      <div class="table-responsive">
+        <table class="portal-data-table">
+          <thead>
+            <tr>
+              <th>Student Name</th>
+              <th>Admission No</th>
+              <th style="width: 140px; text-align: center;">Continuous Assessment (40)</th>
+              <th style="width: 140px; text-align: center;">Terminal Exam (60)</th>
+              <th style="text-align: center;">Total Score (100)</th>
+              <th style="text-align: center;">Grade</th>
+              <th>Calculated Remark</th>
+              <th style="text-align: center;">State</th>
+            </tr>
+          </thead>
+          <tbody id="adminScoreTableBody">
+            <!-- Populated by JavaScript -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Mandatory Save Action Bar -->
+      <div style="background: rgba(43, 42, 66, 0.04); padding: 1.25rem 1.5rem; border-radius: 14px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-top: 1.5rem;">
+        <div>
+          <strong style="color: var(--color-slate); font-size: 0.95rem; display: block;">Mandatory Score Confirmation:</strong>
+          <span style="font-size: 0.85rem; color: #555;">All entered Continuous Assessment and Exam scores must be officially verified and committed using the button.</span>
+        </div>
+        <button id="commitScoresBtn" class="btn-primary" style="padding: 0.85rem 1.8rem; font-size: 0.95rem;" onclick="commitClassScores()">
+          Save Class Scores
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Pane 2: Bursary and Transaction Verification -->
+  <div id="bursarPane" class="portal-tab-pane">
+    <div class="admin-card">
+      
+      <div style="margin-bottom: 1.5rem;">
+        <h2 style="font-family: var(--font-heading); font-size: 1.5rem; color: var(--color-slate); margin: 0;">Bursary Transaction Verification Desk</h2>
+        <p style="color: #666; font-size: 0.95rem; margin-top: 0.25rem;">
+          Verify incoming bank deposits, reconcile student ledgers against the annual session fee, and record clearances.
         </p>
       </div>
-      <button class="btn-outline" style="border-color: #15803d; color: #15803d; font-size: 0.85rem; padding: 0.55rem 1.1rem;" onclick="alert('Paystack Gateway integration keys can be connected in Supabase.')">Configure Gateway</button>
-    </div>
 
-    <!-- Transactions Table -->
-    <h3 style="font-family: var(--font-heading); font-size: 1.2rem; color: var(--color-slate); margin-bottom: 1rem;">Recent Student Fee Transactions</h3>
-    <div class="table-responsive">
-      <table class="portal-data-table">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Student Name</th>
-            <th>Admission No</th>
-            <th>Billed (Session)</th>
-            <th>Amount Paid</th>
-            <th>Outstanding</th>
-            <th>Bank Reference</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody id="bursarTableBody">
-          <!-- Injected via JavaScript -->
-        </tbody>
-      </table>
-    </div>
+      <!-- Automated Verification Assistant Box -->
+      <div style="background: rgba(43, 42, 66, 0.04); border-left: 5px solid var(--color-gold); border-radius: 0 14px 14px 0; padding: 1.5rem; margin-bottom: 2rem;">
+        <h3 style="font-family: var(--font-heading); font-size: 1.25rem; color: var(--color-slate); margin: 0 0 0.5rem 0;">Automated Bursary Verification Assistant</h3>
+        <p style="font-size: 0.95rem; color: #444; line-height: 1.6; margin: 0 0 1rem 0;">
+          The bursary assistant validates bank narrative reference codes, calculates payments against the approved <strong>&#8358;450,000.00</strong> annual session tuition, and marks student ledgers as Cleared immediately upon verification.
+        </p>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+          <span class="portal-badge portal-badge-green" style="font-size: 0.85rem; padding: 0.45rem 1rem;">Verification Engine: Operational</span>
+          <span class="portal-badge portal-badge-gold" style="font-size: 0.85rem; padding: 0.45rem 1rem;">Verified Term Tuition: &#8358;37,800,000.00</span>
+        </div>
+      </div>
 
+      <!-- Paystack Gateway Readiness Box -->
+      <div style="background: rgba(34, 197, 94, 0.08); border: 1px solid rgba(34, 197, 94, 0.25); border-radius: 14px; padding: 1.25rem 1.5rem; margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <h4 style="font-family: var(--font-heading); color: #15803d; margin: 0 0 0.25rem 0; font-size: 1.1rem;">Paystack Online Gateway Readiness</h4>
+          <p style="font-size: 0.9rem; color: #444; margin: 0;">
+            Direct debit card, bank transfer, and USSD payments can be enabled for parents with instant auto verification.
+          </p>
+        </div>
+        <button class="btn-outline" style="border-color: #15803d; color: #15803d; font-size: 0.85rem; padding: 0.55rem 1.1rem;" onclick="alert('Paystack Gateway configuration is ready for live API keys.')">Configure Gateway</button>
+      </div>
+
+      <!-- Transactions Table -->
+      <h3 style="font-family: var(--font-heading); font-size: 1.2rem; color: var(--color-slate); margin-bottom: 1rem;">Student Fee Payment Transactions</h3>
+      <div class="table-responsive">
+        <table class="portal-data-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Student Name</th>
+              <th>Admission No</th>
+              <th>Session Tuition</th>
+              <th>Amount Paid</th>
+              <th>Outstanding</th>
+              <th>Bank Reference</th>
+              <th>Verification Action</th>
+            </tr>
+          </thead>
+          <tbody id="bursarTableBody">
+            <!-- Injected via JavaScript -->
+          </tbody>
+        </table>
+      </div>
+
+    </div>
   </div>
+
 </div>
 
 </div>
@@ -202,7 +250,7 @@
 <footer class="site-footer no-print">
 <div class="container">
 <p style="text-align: center; font-size: 0.95rem; color: #bbb;">
-&copy; 2026 Bantu College. Staff Administration Portal. Authorized personnel only.
+&copy; 2026 Bantu College. Faculty and Bursary Administration. Unauthorized access is strictly prohibited.
 </p>
 </div>
 </footer>
@@ -218,7 +266,50 @@ function getGradeAndRemark(totalScore) {
   return { grade: "F", remark: "Fail", badgeClass: "portal-badge-f" };
 }
 
-// Sample Class Roster
+// Staff Credentials and Role Based Subject Mapping
+const staffAccounts = {
+  "TCH/MTH/01": {
+    pin: "1122",
+    name: "Mr. Kator Agber",
+    role: "Mathematics Subject Master",
+    department: "Department of Mathematics",
+    isTeacher: true,
+    isBursar: false,
+    allowedSubjects: ["Mathematics"]
+  },
+  "TCH/ENG/02": {
+    pin: "3344",
+    name: "Mrs. Mwuese Iorbee",
+    role: "English and Literacy Master",
+    department: "Department of Languages and Literacy",
+    isTeacher: true,
+    isBursar: false,
+    allowedSubjects: ["English Studies", "Literature"]
+  },
+  "TCH/SCI/03": {
+    pin: "5566",
+    name: "Mr. Terkula Chia",
+    role: "Natural Sciences Master",
+    department: "Department of Natural Sciences",
+    isTeacher: true,
+    isBursar: false,
+    allowedSubjects: ["Intermediate Science"]
+  },
+  "BUR/FIN/01": {
+    pin: "9900",
+    name: "Mrs. Doose Tyowua",
+    role: "Bursar and Accounts Officer",
+    department: "Bursary and Financial Services",
+    isTeacher: false,
+    isBursar: true,
+    allowedSubjects: []
+  }
+};
+
+let currentLoggedInStaff = null;
+let hasUnsavedScoreChanges = false;
+
+// Student Rosters Database
 const classRosters = {
   "Basic 7": [
     { name: "Terseer Audu", id: "BC/2026/014", ca: 36, exam: 52 },
@@ -234,8 +325,86 @@ const classRosters = {
   ]
 };
 
-// Render Class Subject Scores and Calculate Stats
-function updateClassSubjectScores() {
+// Staff Login Form Handler
+document.getElementById("staffLoginForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+  const staffId = document.getElementById("staffIdInput").value.trim().toUpperCase();
+  const staffPin = document.getElementById("staffPinInput").value.trim();
+  const errorMsg = document.getElementById("staffErrorMsg");
+
+  if (staffAccounts[staffId] && staffAccounts[staffId].pin === staffPin) {
+    errorMsg.style.display = "none";
+    currentLoggedInStaff = staffAccounts[staffId];
+    currentLoggedInStaff.id = staffId;
+    loadStaffWorkspace();
+  } else {
+    errorMsg.textContent = "Invalid Staff Identification Number or PIN. Access denied.";
+    errorMsg.style.display = "block";
+  }
+});
+
+// Load Staff Workspace Based on Role
+function loadStaffWorkspace() {
+  document.getElementById("staffAuthSection").style.display = "none";
+  document.getElementById("staffWorkspaceSection").style.display = "block";
+
+  // Header Details
+  document.getElementById("staffActiveRoleLabel").textContent = currentLoggedInStaff.role;
+  document.getElementById("staffActiveName").textContent = currentLoggedInStaff.name;
+  document.getElementById("staffActiveId").textContent = currentLoggedInStaff.id;
+  document.getElementById("staffActiveDept").textContent = currentLoggedInStaff.department;
+
+  const teacherTab = document.getElementById("tabBtnTeacher");
+  const bursarTab = document.getElementById("tabBtnBursar");
+  const teacherPane = document.getElementById("teacherPane");
+  const bursarPane = document.getElementById("bursarPane");
+
+  if (currentLoggedInStaff.isTeacher) {
+    teacherTab.style.display = "block";
+    bursarTab.style.display = "none";
+    teacherTab.classList.add("is-active");
+    bursarTab.classList.remove("is-active");
+    teacherPane.classList.add("is-active");
+    bursarPane.classList.remove("is-active");
+
+    // Populate restricted subjects
+    const subjectSelect = document.getElementById("adminSubjectSelect");
+    subjectSelect.innerHTML = "";
+    currentLoggedInStaff.allowedSubjects.forEach(sub => {
+      const opt = document.createElement("option");
+      opt.value = sub;
+      opt.textContent = sub;
+      subjectSelect.appendChild(opt);
+    });
+
+    loadSubjectScoresForClass();
+  } else if (currentLoggedInStaff.isBursar) {
+    teacherTab.style.display = "none";
+    bursarTab.style.display = "block";
+    bursarTab.classList.add("is-active");
+    teacherTab.classList.remove("is-active");
+    bursarPane.classList.add("is-active");
+    teacherPane.classList.remove("is-active");
+
+    renderBursarTransactions();
+  }
+}
+
+// Staff Logout Handler
+document.getElementById("staffLogoutBtn").addEventListener("click", function() {
+  if (hasUnsavedScoreChanges) {
+    const confirmLeave = confirm("You have unsaved score changes. Are you sure you want to sign out without saving?");
+    if (!confirmLeave) return;
+  }
+  document.getElementById("staffWorkspaceSection").style.display = "none";
+  document.getElementById("staffAuthSection").style.display = "block";
+  document.getElementById("staffLoginForm").reset();
+  currentLoggedInStaff = null;
+  hasUnsavedScoreChanges = false;
+});
+
+// Load Scores for Selected Class and Subject
+function loadSubjectScoresForClass() {
   const selectedClass = document.getElementById("adminClassSelect").value;
   const roster = classRosters[selectedClass] || [];
   const tbody = document.getElementById("adminScoreTableBody");
@@ -253,19 +422,64 @@ function updateClassSubjectScores() {
       <td><strong>${student.name}</strong></td>
       <td><span style="font-family: monospace; color: #555;">${student.id}</span></td>
       <td style="text-align: center;">
-        <input type="number" min="0" max="40" value="${student.ca}" style="width: 80px; padding: 0.4rem; text-align: center; border-radius: 8px; border: 1px solid #ccc;" oninput="handleScoreChange('${selectedClass}', ${index}, 'ca', this.value)">
+        <input type="number" min="0" max="40" value="${student.ca}" id="caInput_${index}" style="width: 80px; padding: 0.45rem; text-align: center; border-radius: 8px; border: 1px solid #ccc; font-weight: 600;" oninput="onScoreInputChange('${selectedClass}', ${index})">
       </td>
       <td style="text-align: center;">
-        <input type="number" min="0" max="60" value="${student.exam}" style="width: 80px; padding: 0.4rem; text-align: center; border-radius: 8px; border: 1px solid #ccc;" oninput="handleScoreChange('${selectedClass}', ${index}, 'exam', this.value)">
+        <input type="number" min="0" max="60" value="${student.exam}" id="examInput_${index}" style="width: 80px; padding: 0.45rem; text-align: center; border-radius: 8px; border: 1px solid #ccc; font-weight: 600;" oninput="onScoreInputChange('${selectedClass}', ${index})">
       </td>
       <td style="text-align: center; font-weight: 700;" id="totalScoreCell_${index}">${total.toFixed(2)}</td>
       <td style="text-align: center;"><span class="portal-badge ${evalData.badgeClass}" id="gradeBadge_${index}">${evalData.grade}</span></td>
       <td id="remarkCell_${index}">${evalData.remark}</td>
+      <td style="text-align: center;" id="rowStatusCell_${index}"><span class="portal-badge portal-badge-green">Committed</span></td>
     `;
     tbody.appendChild(row);
   });
 
-  // Calculate Class Highest, Lowest, and Average
+  recalculateStatsDisplay(scores);
+  setUnsavedState(false);
+}
+
+// When Teacher Types a Score
+function onScoreInputChange(className, studentIndex) {
+  const caVal = parseFloat(document.getElementById(`caInput_${studentIndex}`).value) || 0;
+  const examVal = parseFloat(document.getElementById(`examInput_${studentIndex}`).value) || 0;
+  const total = caVal + examVal;
+  const evalData = getGradeAndRemark(total);
+
+  document.getElementById(`totalScoreCell_${studentIndex}`).textContent = total.toFixed(2);
+  const badge = document.getElementById(`gradeBadge_${studentIndex}`);
+  badge.className = `portal-badge ${evalData.badgeClass}`;
+  badge.textContent = evalData.grade;
+  document.getElementById(`remarkCell_${studentIndex}`).textContent = evalData.remark;
+
+  // Mark Row as Unsaved
+  document.getElementById(`rowStatusCell_${studentIndex}`).innerHTML = `<span class="portal-badge portal-badge-gold">Staged</span>`;
+
+  setUnsavedState(true);
+}
+
+function setUnsavedState(isUnsaved) {
+  hasUnsavedScoreChanges = isUnsaved;
+  const indicator = document.getElementById("saveStatusIndicator");
+  const saveBtn = document.getElementById("commitScoresBtn");
+
+  if (isUnsaved) {
+    indicator.style.background = "rgba(186, 147, 79, 0.15)";
+    indicator.style.color = "var(--color-gold-dark)";
+    indicator.style.borderColor = "rgba(186, 147, 79, 0.4)";
+    indicator.textContent = "Status: Unsaved Changes Pending";
+    saveBtn.style.boxShadow = "0 0 0 3px rgba(186, 147, 79, 0.4)";
+  } else {
+    indicator.style.background = "rgba(34, 197, 94, 0.12)";
+    indicator.style.color = "#15803d";
+    indicator.style.borderColor = "rgba(34, 197, 94, 0.3)";
+    indicator.textContent = "Status: All Changes Committed";
+    saveBtn.style.boxShadow = "none";
+  }
+}
+
+// Recalculate Highest, Lowest, and Average
+function recalculateStatsDisplay(scores) {
   if (scores.length > 0) {
     const highest = Math.max(...scores).toFixed(2);
     const lowest = Math.min(...scores).toFixed(2);
@@ -278,29 +492,42 @@ function updateClassSubjectScores() {
   }
 }
 
-function handleScoreChange(className, studentIndex, field, value) {
-  const val = parseFloat(value) || 0;
-  classRosters[className][studentIndex][field] = val;
-  const ca = classRosters[className][studentIndex].ca;
-  const exam = classRosters[className][studentIndex].exam;
-  const total = ca + exam;
-  const evalData = getGradeAndRemark(total);
+// Save and Commit Class Scores Handler
+function commitClassScores() {
+  const selectedClass = document.getElementById("adminClassSelect").value;
+  const selectedSubject = document.getElementById("adminSubjectSelect").value;
+  const roster = classRosters[selectedClass] || [];
 
-  document.getElementById(`totalScoreCell_${studentIndex}`).textContent = total.toFixed(2);
-  const badge = document.getElementById(`gradeBadge_${studentIndex}`);
-  badge.className = `portal-badge ${evalData.badgeClass}`;
-  badge.textContent = evalData.grade;
-  document.getElementById(`remarkCell_${studentIndex}`).textContent = evalData.remark;
+  let scores = [];
 
-  // Recalculate summary stats
-  const allTotals = classRosters[className].map(s => s.ca + s.exam);
-  document.getElementById("statHighestScore").textContent = Math.max(...allTotals).toFixed(2);
-  document.getElementById("statLowestScore").textContent = Math.min(...allTotals).toFixed(2);
-  const sum = allTotals.reduce((a, b) => a + b, 0);
-  document.getElementById("statSubjectAverage").textContent = (sum / allTotals.length).toFixed(2);
+  for (let i = 0; i < roster.length; i++) {
+    const caVal = parseFloat(document.getElementById(`caInput_${i}`).value);
+    const examVal = parseFloat(document.getElementById(`examInput_${i}`).value);
+
+    if (isNaN(caVal) || caVal < 0 || caVal > 40) {
+      alert(`Invalid Continuous Assessment score for ${roster[i].name}. Must be between 0 and 40.`);
+      return;
+    }
+    if (isNaN(examVal) || examVal < 0 || examVal > 60) {
+      alert(`Invalid Examination score for ${roster[i].name}. Must be between 0 and 60.`);
+      return;
+    }
+
+    roster[i].ca = caVal;
+    roster[i].exam = examVal;
+    scores.push(caVal + examVal);
+
+    // Update status badge in table
+    document.getElementById(`rowStatusCell_${i}`).innerHTML = `<span class="portal-badge portal-badge-green">Committed</span>`;
+  }
+
+  recalculateStatsDisplay(scores);
+  setUnsavedState(false);
+
+  alert(`Success: Scores for ${selectedSubject} in ${selectedClass} have been officially saved and committed to student record sheets.`);
 }
 
-// Bursar Sample Transactions
+// Bursar Transactions
 const bursarTransactions = [
   { date: "15 Sep 2026", name: "Terseer Audu", id: "BC/2026/014", billed: 450000, paid: 450000, ref: "BNT/26/TX0104", verified: true },
   { date: "18 Sep 2026", name: "Dooshima Iorfa", id: "BC/2026/021", billed: 450000, paid: 450000, ref: "BNT/26/TX0189", verified: true },
@@ -339,23 +566,6 @@ function verifyPayment(index) {
   renderBursarTransactions();
   alert(`Payment reference ${bursarTransactions[index].ref} verified successfully. Student ledger updated.`);
 }
-
-// Tab Switching in Admin
-const adminTabBtns = document.querySelectorAll("[data-admin-tab]");
-adminTabBtns.forEach(btn => {
-  btn.addEventListener("click", function() {
-    adminTabBtns.forEach(b => b.classList.remove("is-active"));
-    document.querySelectorAll("#teacherPane, #bursarPane").forEach(p => p.classList.remove("is-active"));
-
-    this.classList.add("is-active");
-    const target = this.getAttribute("data-admin-tab");
-    document.getElementById(target).classList.add("is-active");
-  });
-});
-
-// Initialize on load
-updateClassSubjectScores();
-renderBursarTransactions();
 </script>
 
 </body>

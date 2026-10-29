@@ -200,17 +200,17 @@
     <div style="background: #ffffff; padding: clamp(1.5rem, 4vw, 2.5rem); border-radius: 18px; border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 6px 20px -8px rgba(0,0,0,0.06); margin-bottom: 2rem;">
       
       <!-- Official Printable Header -->
-      <div style="text-align: center; border-bottom: 2px solid var(--color-slate); padding-bottom: 1.5rem; margin-bottom: 1.5rem;">
-        <img src="assets/Bantu%20College%20Crest-01a.png" alt="Bantu College" style="max-height: 70px; margin-bottom: 0.5rem;">
-        <h3 style="font-family: var(--font-heading); font-size: 1.5rem; color: var(--color-slate); margin: 0;">Bantu College, Benue State</h3>
-        <p style="font-size: 0.95rem; color: #555; margin: 0.25rem 0;">Motto: Read to Lead</p>
-        <h4 style="font-size: 1.15rem; color: var(--color-red); margin-top: 0.75rem; text-transform: uppercase;">Official Termly Academic Report Sheet</h4>
-        <p style="font-size: 0.9rem; color: #444; margin: 0.25rem 0;">
+      <div class="print-compact-header" style="text-align: center; border-bottom: 2px solid var(--color-slate); padding-bottom: 0.85rem; margin-bottom: 0.85rem;">
+        <img src="assets/Bantu%20College%20Crest-01a.png" alt="Bantu College" style="max-height: 52px; margin-bottom: 0.25rem;">
+        <h3 style="font-family: var(--font-heading); font-size: 1.35rem; color: var(--color-slate); margin: 0;">Bantu College, Benue State</h3>
+        <p style="font-size: 0.85rem; color: #555; margin: 0.15rem 0;">Motto: Read to Lead</p>
+        <h4 style="font-size: 1.05rem; color: var(--color-red); margin-top: 0.35rem; text-transform: uppercase;">Official Termly Academic Report Sheet</h4>
+        <p style="font-size: 0.85rem; color: #444; margin: 0.15rem 0;">
           First Term, 2026/2027 Academic Session | Class: <span id="reportHeaderClass">Basic 7 (JSS 1)</span>
         </p>
       </div>
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; font-size: 0.95rem;">
+      <div class="print-biodata-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.75rem; margin-bottom: 0.85rem; font-size: 0.85rem;">
         <div>Student Name: <strong id="reportStudentName">Terseer Audu</strong></div>
         <div>Admission Number: <strong id="reportStudentId">BC/2026/014</strong></div>
         <div>Class Position: <strong id="reportPosition">3rd of 42</strong></div>
@@ -246,19 +246,19 @@
       </div>
 
       <!-- Remarks and Endorsements -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(0,0,0,0.1);">
-        <div style="background: rgba(0,0,0,0.02); padding: 1.25rem; border-radius: 12px;">
-          <strong style="color: var(--color-slate); font-size: 0.9rem; text-transform: uppercase; display: block; margin-bottom: 0.35rem;">Form Teacher Remark</strong>
-          <p style="font-size: 0.95rem; color: #333; margin: 0;" id="formTeacherRemark">
+      <div class="print-remarks-box" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.85rem; margin-top: 0.85rem; padding-top: 0.85rem; border-top: 1px solid rgba(0,0,0,0.1);">
+        <div style="background: rgba(0,0,0,0.02); padding: 0.85rem; border-radius: 10px;">
+          <strong style="color: var(--color-slate); font-size: 0.8rem; text-transform: uppercase; display: block; margin-bottom: 0.2rem;">Form Teacher Remark</strong>
+          <p style="font-size: 0.85rem; color: #333; margin: 0; line-height: 1.3;" id="formTeacherRemark">
             An exceptionally dedicated and attentive student who shows keen enthusiasm across Mathematics and Information Technology.
           </p>
         </div>
-        <div style="background: rgba(0,0,0,0.02); padding: 1.25rem; border-radius: 12px;">
-          <strong style="color: var(--color-slate); font-size: 0.9rem; text-transform: uppercase; display: block; margin-bottom: 0.35rem;">Principal Official Endorsement</strong>
-          <p style="font-size: 0.95rem; color: #333; margin: 0 0 0.5rem 0;" id="principalRemark">
+        <div style="background: rgba(0,0,0,0.02); padding: 0.85rem; border-radius: 10px;">
+          <strong style="color: var(--color-slate); font-size: 0.8rem; text-transform: uppercase; display: block; margin-bottom: 0.2rem;">Principal Official Endorsement</strong>
+          <p style="font-size: 0.85rem; color: #333; margin: 0 0 0.35rem 0; line-height: 1.3;" id="principalRemark">
             Commendable academic effort. Maintain this focus and moral discipline in the upcoming term.
           </p>
-          <span style="font-size: 0.85rem; font-weight: 700; color: var(--color-gold-dark);">Mr. Kwaghtongo D. A., Principal</span>
+          <span style="font-size: 0.8rem; font-weight: 700; color: var(--color-gold-dark);">Mr. Kwaghtongo D. A., Principal</span>
         </div>
       </div>
 
@@ -724,3 +724,4 @@ document.getElementById("forgotPasswordForm").addEventListener("submit", functio
 
 </body>
 </html>
+
