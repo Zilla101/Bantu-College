@@ -318,9 +318,11 @@
             <label for="admissionsStatusSelect" style="font-size: 0.82rem; font-weight: 700; color: var(--color-slate); margin-bottom: 0.35rem; display: block;">Filter by Status</label>
             <select id="admissionsStatusSelect" onchange="renderAdmissionsTable()" style="width: 100%; padding: 0.55rem 0.85rem; border-radius: 8px; border: 1px solid #ccc; font-size: 0.88rem; background: #fafafa;">
               <option value="ALL">All Statuses</option>
-              <option value="Pending Review">Pending Review</option>
-              <option value="Interview Scheduled">Interview Scheduled</option>
+              <option value="Exam Scheduled">Exam Scheduled</option>
+              <option value="Exam Completed">Exam Completed (Scored)</option>
               <option value="Offer Granted">Offer Granted (Admitted)</option>
+              <option value="Admitted on Probation">Admitted on Probation</option>
+              <option value="Admission Declined">Admission Declined</option>
             </select>
           </div>
         </div>
@@ -334,12 +336,11 @@
               <th>Date</th>
               <th>Reference</th>
               <th>Candidate Name</th>
-              <th>Proposed Class</th>
-              <th>Guardian Name</th>
-              <th>Contact Phone</th>
-              <th>Previous School</th>
+              <th>Proposed Stream</th>
+              <th>Screening Score</th>
               <th>Status</th>
-              <th style="text-align: center;">Administrative Action</th>
+              <th>Email Dispatch Log</th>
+              <th style="text-align: center;">Administrative Decision</th>
             </tr>
           </thead>
           <tbody id="admissionsTableBody">
@@ -353,27 +354,30 @@
 
   <!-- Admission Offer & Dispatch Letter Modal -->
   <div id="admissionOfferModal" class="portal-modal-overlay">
-    <div class="portal-modal-card" style="max-width: 720px; padding: 2rem;">
+    <div class="portal-modal-card" style="max-width: 740px; padding: 2rem;">
       
-      <div class="no-print" style="display: flex; justify-content: flex-end; margin-bottom: 0.5rem;">
+      <div class="no-print" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+        <div id="modalDocSwitcher" style="display: flex; gap: 0.4rem;">
+          <!-- Dynamically populated document switchers -->
+        </div>
         <button type="button" onclick="closeOfferModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #666;">&times;</button>
       </div>
 
       <!-- Email Dispatch Transmission Banner -->
-      <div class="no-print" style="background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.5rem;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-          <span style="font-size: 0.85rem; font-weight: 700; color: #15803d; text-transform: uppercase;">Automated Offer Email Dispatched</span>
+      <div id="modalEmailBanner" class="no-print" style="background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.25rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
+          <span style="font-size: 0.85rem; font-weight: 700; color: #15803d; text-transform: uppercase;" id="offerEmailStatusText">Automated Email Dispatched</span>
           <span style="font-size: 0.8rem; color: #555;" id="offerEmailTimestamp">29 Oct 2026</span>
         </div>
         <div style="font-size: 0.85rem; color: #333; line-height: 1.5;">
           <div><strong>From:</strong> Bantu College Admissions Desk &lt;<span id="offerSenderEmail">admissions@bantucollege.edu</span>&gt;</div>
           <div><strong>To:</strong> <span id="offerRecipientEmail">guardian@email.com</span></div>
-          <div><strong>Subject:</strong> <span style="font-weight: 600;" id="offerEmailSubject">OFFICIAL PROVISIONAL OFFER OF ADMISSION: Bantu College</span></div>
+          <div><strong>Subject:</strong> <span style="font-weight: 600;" id="offerEmailSubject">OFFICIAL DECISION NOTICE: Bantu College</span></div>
         </div>
       </div>
 
       <!-- Assigned Class Arm Adjustment Bar -->
-      <div class="no-print" style="display: flex; justify-content: space-between; align-items: center; background: rgba(43, 42, 66, 0.04); border: 1px solid rgba(186, 147, 79, 0.25); padding: 0.65rem 1rem; border-radius: 10px; margin-bottom: 1.25rem; font-size: 0.85rem;">
+      <div id="modalStreamAdjustmentBar" class="no-print" style="display: flex; justify-content: space-between; align-items: center; background: rgba(43, 42, 66, 0.04); border: 1px solid rgba(186, 147, 79, 0.25); padding: 0.65rem 1rem; border-radius: 10px; margin-bottom: 1.25rem; font-size: 0.85rem;">
         <div>Assigned Class Stream: <strong id="modalClassCurrentBadge" style="color: var(--color-slate); font-weight: 700;">Basic 7A</strong></div>
         <div style="display: flex; align-items: center; gap: 0.5rem;">
           <label for="modalClassArmSelect" style="font-size: 0.8rem; font-weight: 600; color: #555;">Reassign Stream:</label>
@@ -396,12 +400,12 @@
           <img src="assets/Bantu%20College%20Crest-01a.png" alt="Bantu College" style="max-height: 52px; margin: 0 auto 0.35rem;">
           <h2 style="font-family: Georgia, serif; font-size: 1.35rem; color: var(--color-slate); margin: 0; text-transform: uppercase;">Bantu College, Benue State</h2>
           <p style="font-size: 0.85rem; color: #555; margin: 0.15rem 0;">Office of the Principal and Registry &bull; Motto: Read to Lead</p>
-          <span style="display: inline-block; background: var(--color-slate); color: var(--color-gold); font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.85rem; border-radius: 4px; margin-top: 0.35rem; letter-spacing: 1px; text-transform: uppercase;">Provisional Offer of Admission</span>
+          <span id="letterDocBadge" style="display: inline-block; background: var(--color-slate); color: var(--color-gold); font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.85rem; border-radius: 4px; margin-top: 0.35rem; letter-spacing: 1px; text-transform: uppercase;">Provisional Offer of Admission</span>
         </div>
 
         <!-- Letter Meta -->
         <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 1rem; color: #555;">
-          <div>Application Reference: <strong style="font-family: monospace; color: var(--color-slate);" id="letterAppRef">BC/ADM/2026/001</strong></div>
+          <div>Reference: <strong style="font-family: monospace; color: var(--color-slate);" id="letterAppRef">BC/ADM/2026/001</strong></div>
           <div>Date of Issue: <strong id="letterDate">29 Oct 2026</strong></div>
         </div>
 
@@ -410,22 +414,18 @@
           <div>Parent/Guardian of: <strong id="letterCandidateName" style="color: var(--color-slate);">Candidate Name</strong></div>
         </div>
 
-        <!-- Formal Body -->
+        <!-- Formal Body Heading -->
         <h3 style="font-family: Georgia, serif; font-size: 1.05rem; color: var(--color-red); margin-bottom: 0.75rem; text-transform: uppercase;" id="letterHeading">
-          Provisional Offer of Admission into Basic 7 (JSS 1) &bull; 2026/2027 Academic Session
+          Provisional Offer of Admission into Basic 7A &bull; 2026/2027 Academic Session
         </h3>
 
-        <div style="font-size: 0.85rem; color: #333; line-height: 1.6; text-align: justify; margin-bottom: 1rem;">
-          <p style="margin-bottom: 0.6rem;">
-            Following your satisfactory performance in our entrance screening assessment and scholastic review, the Governing Council and Principal of Bantu College have the honour to offer you provisional admission into <strong id="letterClassAssigned">Basic 7 (JSS 1)</strong> for the 2026/2027 Academic Session.
-          </p>
-          <p style="margin-bottom: 0.6rem;">
-            Bantu College delivers intensive instruction across 15 core disciplines, classical world languages, and computer programming on our 10-acre campus in Benue State. Every scholar is held to the highest standards of moral discipline, punctuality, and diligent effort.
-          </p>
+        <!-- Dynamic Letter Body Content -->
+        <div id="letterDynamicBody" style="font-size: 0.85rem; color: #333; line-height: 1.6; text-align: justify; margin-bottom: 1rem;">
+          <!-- Injected dynamically based on letter type -->
         </div>
 
-        <!-- Provisioned Credentials Callout -->
-        <div style="background: rgba(43, 42, 66, 0.04); border: 1px solid rgba(186, 147, 79, 0.35); border-radius: 10px; padding: 0.85rem 1.15rem; margin-bottom: 1rem; font-size: 0.85rem;">
+        <!-- Provisioned Credentials Callout (Full Offer & Probation) -->
+        <div id="letterCredentialsBox" style="background: rgba(43, 42, 66, 0.04); border: 1px solid rgba(186, 147, 79, 0.35); border-radius: 10px; padding: 0.85rem 1.15rem; margin-bottom: 1rem; font-size: 0.85rem;">
           <strong style="color: var(--color-slate); display: block; margin-bottom: 0.35rem; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.5px;">Official Provisioned Student Portal Credentials:</strong>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.5rem;">
             <div>Assigned Admission No: <strong style="font-family: monospace; color: var(--color-red); font-size: 0.95rem;" id="letterStudentId">BC/2026/026</strong></div>
@@ -434,11 +434,9 @@
           </div>
         </div>
 
-        <div style="font-size: 0.82rem; color: #444; line-height: 1.5; margin-bottom: 1.25rem;">
-          <strong>Enrollment Acceptance Procedure:</strong><br>
-          1. Access the Student Portal using your assigned Admission Number and PIN.<br>
-          2. Settle the approved First Term Tuition Fee of <strong>&#8358;150,000.00</strong> (out of &#8358;450,000 annual session tuition) via the automated online payment desk within fourteen (14) days to guarantee classroom placement.<br>
-          3. Present this letter and the bursary payment receipt for biometric registration and uniform fitting.
+        <!-- Instructions Box -->
+        <div id="letterInstructionsBox" style="font-size: 0.82rem; color: #444; line-height: 1.5; margin-bottom: 1.25rem;">
+          <!-- Injected dynamically based on letter type -->
         </div>
 
         <!-- Signature Strip -->
@@ -447,7 +445,7 @@
             <strong style="color: var(--color-slate); font-size: 0.85rem; display: block;">Mr. Kwaghtongo D. A.</strong>
             <span style="font-size: 0.75rem; color: #777;">Principal & Head of School</span>
           </div>
-          <div class="bursary-digital-stamp" style="font-size: 0.7rem; padding: 0.35rem 0.7rem;">
+          <div id="letterDigitalStamp" class="bursary-digital-stamp" style="font-size: 0.7rem; padding: 0.35rem 0.7rem;">
             Bantu College Registry<br>
             <span style="font-size: 0.65rem;">Officially Admitted</span>
           </div>
@@ -458,7 +456,7 @@
       <!-- Modal Actions -->
       <div class="no-print" style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem;">
         <button type="button" onclick="closeOfferModal()" class="btn-outline" style="padding: 0.65rem 1.3rem;">Close</button>
-        <button type="button" onclick="printAdmissionLetterDirectly()" class="btn-primary" style="padding: 0.65rem 1.5rem;">Print Official Admission Letter (PDF)</button>
+        <button type="button" onclick="printAdmissionLetterDirectly()" class="btn-primary" style="padding: 0.65rem 1.5rem;" id="modalPrintBtn">Print Official Document (PDF)</button>
       </div>
 
     </div>
@@ -965,7 +963,7 @@ function renderAdmissionsTable() {
 
   if (filtered.length === 0) {
     const emptyRow = document.createElement("tr");
-    emptyRow.innerHTML = `<td colspan="9" style="text-align: center; padding: 2rem; color: #888;">No admission applications found for selected class stream or filter.</td>`;
+    emptyRow.innerHTML = `<td colspan="8" style="text-align: center; padding: 2rem; color: #888;">No admission applications found for selected class stream or filter.</td>`;
     tbody.appendChild(emptyRow);
     return;
   }
@@ -973,7 +971,10 @@ function renderAdmissionsTable() {
   filtered.forEach(app => {
     let badgeClass = "portal-badge-gold";
     if (app.status === "Offer Granted") badgeClass = "portal-badge-green";
-    if (app.status === "Interview Scheduled") badgeClass = "portal-badge-b2";
+    else if (app.status === "Admitted on Probation") badgeClass = "portal-badge-b2";
+    else if (app.status === "Admission Declined") badgeClass = "portal-badge-f";
+    else if (app.status === "Exam Completed") badgeClass = "portal-badge-gold";
+    else if (app.status === "Exam Scheduled") badgeClass = "portal-badge-b3";
 
     let classBadgeColor = "portal-badge-gold";
     if (app.entryLevel && app.entryLevel.includes("7A")) classBadgeColor = "portal-badge-a";
@@ -981,69 +982,183 @@ function renderAdmissionsTable() {
     else if (app.entryLevel && app.entryLevel.includes("8A")) classBadgeColor = "portal-badge-b2";
     else if (app.entryLevel && app.entryLevel.includes("8B")) classBadgeColor = "portal-badge-c";
 
+    // Score Column Content
+    let scoreHtml = "";
+    if (app.examScore !== null && typeof app.examScore !== "undefined") {
+      const rec = getScoreRecommendation(app.examScore);
+      scoreHtml = `
+        <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 0.2rem;">
+          <span class="portal-badge ${rec.badgeClass}" style="font-weight: 700; font-size: 0.78rem;">${app.examScore.toFixed(1)}% &bull; ${rec.verdict}</span>
+          <button type="button" style="background: none; border: none; font-size: 0.72rem; color: #555; cursor: pointer; text-decoration: underline; padding: 0;" onclick="promptEditScore('${app.ref}', ${app.examScore})">Edit Score</button>
+        </div>
+      `;
+    } else {
+      scoreHtml = `
+        <div style="display: flex; gap: 0.3rem; align-items: center;">
+          <input type="number" id="scoreInput_${app.ref}" min="0" max="100" placeholder="%" style="width: 55px; padding: 0.25rem 0.35rem; font-size: 0.78rem; text-align: center; border-radius: 6px; border: 1px solid #ccc; font-weight: 700;">
+          <button type="button" class="btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.72rem;" onclick="saveScoreDirectly('${app.ref}')">Save</button>
+        </div>
+      `;
+    }
+
+    // Email Dispatch Log Badges
+    let mailLogHtml = '<div style="display: flex; flex-direction: column; gap: 0.25rem;">';
+    const history = app.mailHistory || [];
+    if (history.length === 0) {
+      mailLogHtml += '<span style="font-size: 0.75rem; color: #888;">No transmissions yet</span>';
+    } else {
+      history.forEach(item => {
+        let pillColor = "portal-badge-b3";
+        let label = "Docket Sent";
+        if (item.type === "OFFER_GRANTED") { pillColor = "portal-badge-green"; label = "Offer Sent"; }
+        if (item.type === "OFFER_PROBATION") { pillColor = "portal-badge-b2"; label = "Probation Sent"; }
+        if (item.type === "OFFER_DECLINED") { pillColor = "portal-badge-f"; label = "Regret Sent"; }
+        mailLogHtml += `<button type="button" class="portal-badge ${pillColor}" style="border: none; cursor: pointer; text-align: left; font-size: 0.72rem; padding: 0.2rem 0.5rem;" onclick="viewDecisionDocument('${app.ref}', '${item.type}')" title="Click to view transmitted official letter">${label} &bull; ${item.timestamp.split(' at ')[0]}</button>`;
+      });
+    }
+    mailLogHtml += '</div>';
+
+    // Decision Column Content
+    let decisionHtml = "";
+    if (app.decision === "Admitted" || app.status === "Offer Granted" ||
+        app.decision === "Probation" || app.status === "Admitted on Probation" ||
+        app.decision === "Declined" || app.status === "Admission Declined") {
+      decisionHtml = `
+        <div style="display: flex; flex-direction: column; gap: 0.35rem; align-items: center;">
+          <button class="btn-outline" style="padding: 0.35rem 0.8rem; font-size: 0.75rem;" onclick="viewDecisionDocument('${app.ref}')">View Decision Letter</button>
+          <button type="button" style="background: none; border: none; font-size: 0.7rem; color: #666; cursor: pointer; text-decoration: underline;" onclick="reopenDecision('${app.ref}')">Reconsider Decision</button>
+        </div>
+      `;
+    } else {
+      decisionHtml = `
+        <div style="display: flex; gap: 0.3rem; justify-content: center; align-items: center; flex-wrap: wrap;">
+          <select id="assignArm_${app.ref}" style="padding: 0.25rem 0.4rem; font-size: 0.75rem; border-radius: 6px; border: 1px solid #ccc; font-weight: 600; background: #fff;" title="Assign Specific Class Arm">
+            <option value="Basic 7A" ${app.entryLevel === 'Basic 7A' ? 'selected' : ''}>Basic 7A</option>
+            <option value="Basic 7B" ${app.entryLevel === 'Basic 7B' ? 'selected' : ''}>Basic 7B</option>
+            <option value="Basic 8A" ${app.entryLevel === 'Basic 8A' ? 'selected' : ''}>Basic 8A</option>
+            <option value="Basic 8B" ${app.entryLevel === 'Basic 8B' ? 'selected' : ''}>Basic 8B</option>
+            <option value="Basic 9A" ${app.entryLevel === 'Basic 9A' ? 'selected' : ''}>Basic 9A</option>
+            <option value="Basic 9B" ${app.entryLevel === 'Basic 9B' ? 'selected' : ''}>Basic 9B</option>
+          </select>
+          <button class="btn-primary" style="padding: 0.28rem 0.55rem; font-size: 0.75rem;" onclick="handleGrantFullAdmission('${app.ref}')" title="Grant Full Admission Offer">Full Offer</button>
+          <button class="btn-outline" style="padding: 0.28rem 0.55rem; font-size: 0.75rem; border-color: #d97706; color: #b45309;" onclick="handleAdmitOnProbation('${app.ref}')" title="Admit conditionally on Academic Probation">Probation</button>
+          <button class="btn-outline" style="padding: 0.28rem 0.55rem; font-size: 0.75rem; border-color: var(--color-red); color: var(--color-red);" onclick="handleDeclineAdmission('${app.ref}')" title="Decline Admission / Notice of Regret">Decline</button>
+        </div>
+      `;
+    }
+
     const row = document.createElement("tr");
     row.innerHTML = `
       <td>${app.date}</td>
       <td><span style="font-family: monospace; font-size: 0.85rem; color: #555;">${app.ref}</span></td>
       <td><strong>${app.studentName}</strong></td>
       <td><span class="portal-badge ${classBadgeColor}" style="font-weight: 700; font-size: 0.82rem;">${app.entryLevel}</span></td>
-      <td>${app.guardianName}</td>
-      <td>${app.phone}</td>
-      <td><span style="font-size: 0.85rem; color: #555;">${app.previousSchool}</span></td>
+      <td>${scoreHtml}</td>
       <td><span class="portal-badge ${badgeClass}">${app.status}</span></td>
-      <td style="text-align: center;">
-        ${app.status === "Offer Granted" 
-          ? `<button class="btn-outline" style="padding: 0.35rem 0.75rem; font-size: 0.75rem;" onclick="viewOfferLetter('${app.ref}')">View Admission Letter</button>` 
-          : `<div style="display: flex; gap: 0.35rem; justify-content: center; align-items: center; flex-wrap: wrap;">
-              <select id="assignArm_${app.ref}" style="padding: 0.28rem 0.45rem; font-size: 0.75rem; border-radius: 6px; border: 1px solid #ccc; font-weight: 600; background: #fff;" title="Assign Specific Class Arm">
-                <option value="Basic 7A" ${app.entryLevel === 'Basic 7A' ? 'selected' : ''}>Basic 7A</option>
-                <option value="Basic 7B" ${app.entryLevel === 'Basic 7B' ? 'selected' : ''}>Basic 7B</option>
-                <option value="Basic 8A" ${app.entryLevel === 'Basic 8A' ? 'selected' : ''}>Basic 8A</option>
-                <option value="Basic 8B" ${app.entryLevel === 'Basic 8B' ? 'selected' : ''}>Basic 8B</option>
-                <option value="Basic 9A" ${app.entryLevel === 'Basic 9A' ? 'selected' : ''}>Basic 9A</option>
-                <option value="Basic 9B" ${app.entryLevel === 'Basic 9B' ? 'selected' : ''}>Basic 9B</option>
-              </select>
-              ${app.status !== 'Interview Scheduled' ? `<button class="btn-outline" style="padding: 0.28rem 0.55rem; font-size: 0.75rem;" onclick="setApplicationStatus('${app.ref}', 'Interview Scheduled')">Interview</button>` : ''}
-              <button class="btn-primary" style="padding: 0.28rem 0.65rem; font-size: 0.75rem;" onclick="grantAdmissionOfferWithSelectedArm('${app.ref}')">Grant Offer</button>
-            </div>`
-        }
-      </td>
+      <td>${mailLogHtml}</td>
+      <td style="text-align: center;">${decisionHtml}</td>
     `;
     tbody.appendChild(row);
   });
 }
 
-function setApplicationStatus(reference, newStatus) {
-  const result = updateApplicationStatus(reference, newStatus);
+function saveScoreDirectly(reference) {
+  const input = document.getElementById("scoreInput_" + reference);
+  if (!input || !input.value.trim()) {
+    alert("Please enter a valid screening percentage score.");
+    return;
+  }
+  const result = saveApplicantEntranceScore(reference, input.value);
   if (result.success) {
     renderAdmissionsTable();
-    alert(`Success: ${reference} status updated to ${newStatus}.`);
   } else {
     alert(result.message);
   }
 }
 
-function grantAdmissionOfferWithSelectedArm(reference) {
+function promptEditScore(reference, currentScore) {
+  const newScore = prompt(`Enter updated entrance screening score for ${reference}:`, currentScore);
+  if (newScore !== null && newScore.trim() !== "") {
+    const result = saveApplicantEntranceScore(reference, newScore);
+    if (result.success) {
+      renderAdmissionsTable();
+    } else {
+      alert(result.message);
+    }
+  }
+}
+
+function handleGrantFullAdmission(reference) {
   const armSelect = document.getElementById("assignArm_" + reference);
   const chosenArm = armSelect ? armSelect.value : "Basic 7A";
-  const result = grantAdmissionOfferInDb(reference, chosenArm);
+  const result = grantFullAdmissionOfferInDb(reference, chosenArm);
   if (result.success) {
     renderAdmissionsTable();
     displayOfferModal(result);
   } else {
-    alert(result.message || "Unable to grant admission offer at this time.");
+    alert(result.message || "Unable to grant full admission at this time.");
   }
 }
 
+function handleAdmitOnProbation(reference) {
+  const armSelect = document.getElementById("assignArm_" + reference);
+  const chosenArm = armSelect ? armSelect.value : "Basic 7A";
+  const defaultConditions = "Candidate must attend mandatory after-school remedial clinics in Mathematics and English Studies, and maintain a minimum terminal aggregate of 60.00% across evaluated subjects to lift probationary standing.";
+  const result = grantProbationAdmissionInDb(reference, chosenArm, defaultConditions);
+  if (result.success) {
+    renderAdmissionsTable();
+    displayOfferModal(result);
+  } else {
+    alert(result.message || "Unable to process probationary admission.");
+  }
+}
+
+function handleDeclineAdmission(reference) {
+  const confirmDecline = confirm(`Are you sure you want to decline admission for candidate ${reference}? This will transmit a formal Notice of Non-Admission.`);
+  if (!confirmDecline) return;
+
+  const result = declineAdmissionInDb(reference);
+  if (result.success) {
+    renderAdmissionsTable();
+    displayOfferModal(result);
+  } else {
+    alert(result.message || "Unable to record decline decision.");
+  }
+}
+
+function reopenDecision(reference) {
+  const db = getBantuDatabase();
+  const app = (db.applications || []).find(a => a.ref === reference);
+  if (app) {
+    app.status = app.examScore ? "Exam Completed" : "Exam Scheduled";
+    app.decision = null;
+    saveBantuDatabase(db);
+    renderAdmissionsTable();
+  }
+}
+
+function viewDecisionDocument(reference, requestedType) {
+  const data = getAdmissionOfferData(reference, requestedType);
+  if (data && data.application) {
+    displayOfferModal(data);
+  } else {
+    alert("Admission document record could not be retrieved for " + reference);
+  }
+}
+
+function viewOfferLetter(reference) {
+  viewDecisionDocument(reference);
+}
+
 function grantAdmissionOffer(reference) {
-  grantAdmissionOfferWithSelectedArm(reference);
+  handleGrantFullAdmission(reference);
 }
 
 function reassignModalApplicantClass(newArm) {
   if (!currentViewingOfferRef) return;
   const result = updateApplicationClass(currentViewingOfferRef, newArm);
   if (result.success) {
-    const data = getAdmissionOfferData(currentViewingOfferRef);
+    const data = getAdmissionOfferData(currentViewingOfferRef, currentViewingDocType);
     if (data) {
       displayOfferModal(data);
       renderAdmissionsTable();
@@ -1051,39 +1166,220 @@ function reassignModalApplicantClass(newArm) {
   }
 }
 
-function viewOfferLetter(reference) {
-  const data = getAdmissionOfferData(reference);
-  if (data && data.application) {
-    displayOfferModal(data);
-  } else {
-    alert("Admission offer record could not be retrieved for " + reference);
-  }
-}
+let currentViewingDocType = "OFFER_GRANTED";
 
 function displayOfferModal(data) {
   const app = data.application;
   const config = data.config || BANTU_ADMISSIONS_CONFIG;
   currentViewingOfferRef = app.ref;
+  currentViewingDocType = data.letterType || "OFFER_GRANTED";
 
+  // Document Switcher Pills inside modal
+  const switcherContainer = document.getElementById("modalDocSwitcher");
+  if (switcherContainer) {
+    switcherContainer.innerHTML = "";
+    const history = app.mailHistory || [];
+    const uniqueTypes = Array.from(new Set(history.map(h => h.type)));
+    if (uniqueTypes.length > 1) {
+      uniqueTypes.forEach(t => {
+        let btnLabel = "Decision Letter";
+        if (t === "EXAM_SCHEDULE") btnLabel = "Exam Docket";
+        if (t === "OFFER_PROBATION") btnLabel = "Probation Notice";
+        if (t === "OFFER_DECLINED") btnLabel = "Non-Admission Notice";
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = `btn-outline ${currentViewingDocType === t ? 'btn-primary' : ''}`;
+        btn.style.padding = "0.25rem 0.65rem";
+        btn.style.fontSize = "0.75rem";
+        btn.textContent = btnLabel;
+        btn.onclick = () => viewDecisionDocument(app.ref, t);
+        switcherContainer.appendChild(btn);
+      });
+    }
+  }
+
+  // Stream Reassignment Bar
+  const streamBar = document.getElementById("modalStreamAdjustmentBar");
   const currentBadge = document.getElementById("modalClassCurrentBadge");
-  if (currentBadge) currentBadge.textContent = app.entryLevel;
   const armSelect = document.getElementById("modalClassArmSelect");
-  if (armSelect) armSelect.value = app.entryLevel;
+  if (currentViewingDocType === "OFFER_DECLINED" || currentViewingDocType === "EXAM_SCHEDULE") {
+    if (streamBar) streamBar.style.display = "none";
+  } else {
+    if (streamBar) streamBar.style.display = "flex";
+    if (currentBadge) currentBadge.textContent = app.entryLevel;
+    if (armSelect) armSelect.value = app.entryLevel;
+  }
 
-  const timestampText = (app.offerDate ? `${app.offerDate}${app.offerTime ? ' at ' + app.offerTime : ''}` : new Date().toLocaleDateString("en-GB")) + " (Automated Transmission)";
-  document.getElementById("offerEmailTimestamp").textContent = timestampText;
-  document.getElementById("offerSenderEmail").textContent = (config && config.officialSenderEmail) || "admissions@bantucollege.edu";
-  document.getElementById("offerRecipientEmail").textContent = `${app.guardianName} <${app.email}>`;
-  document.getElementById("offerEmailSubject").textContent = `OFFICIAL PROVISIONAL OFFER OF ADMISSION: Bantu College (${app.studentName})`;
+  // Find matching mail transmission record
+  const matchingMail = (app.mailHistory || []).slice().reverse().find(m => m.type === currentViewingDocType) || {
+    timestamp: app.decisionDate || new Date().toLocaleDateString("en-GB"),
+    sender: config.officialSenderEmail,
+    recipient: app.email,
+    subject: `OFFICIAL NOTICE: Bantu College (${app.studentName})`
+  };
 
+  const emailBanner = document.getElementById("modalEmailBanner");
+  const statusText = document.getElementById("offerEmailStatusText");
+  const timestampEl = document.getElementById("offerEmailTimestamp");
+  const senderEl = document.getElementById("offerSenderEmail");
+  const recipientEl = document.getElementById("offerRecipientEmail");
+  const subjectEl = document.getElementById("offerEmailSubject");
+
+  timestampEl.textContent = matchingMail.timestamp + " (Automated Transmission)";
+  senderEl.textContent = matchingMail.sender || config.officialSenderEmail;
+  recipientEl.textContent = `${app.guardianName} <${app.email}>`;
+  subjectEl.textContent = matchingMail.subject;
+
+  // Banner Color & Status Text
+  if (currentViewingDocType === "OFFER_GRANTED") {
+    statusText.textContent = "Automated Full Admission Offer Dispatched";
+    statusText.style.color = "#15803d";
+    emailBanner.style.background = "rgba(34, 197, 94, 0.1)";
+    emailBanner.style.borderColor = "rgba(34, 197, 94, 0.3)";
+  } else if (currentViewingDocType === "OFFER_PROBATION") {
+    statusText.textContent = "Automated Probationary Admission Notice Dispatched";
+    statusText.style.color = "#b45309";
+    emailBanner.style.background = "rgba(245, 158, 11, 0.1)";
+    emailBanner.style.borderColor = "rgba(245, 158, 11, 0.35)";
+  } else if (currentViewingDocType === "OFFER_DECLINED") {
+    statusText.textContent = "Automated Non-Admission Decision Notice Dispatched";
+    statusText.style.color = "#b91c1c";
+    emailBanner.style.background = "rgba(239, 68, 68, 0.08)";
+    emailBanner.style.borderColor = "rgba(239, 68, 68, 0.25)";
+  } else if (currentViewingDocType === "EXAM_SCHEDULE") {
+    statusText.textContent = "Automated Entrance Screening Docket Dispatched";
+    statusText.style.color = "var(--color-slate)";
+    emailBanner.style.background = "rgba(43, 42, 66, 0.08)";
+    emailBanner.style.borderColor = "rgba(43, 42, 66, 0.25)";
+  }
+
+  // Populate Letter Content
   document.getElementById("letterAppRef").textContent = app.ref;
-  document.getElementById("letterDate").textContent = app.offerDate || app.date || new Date().toLocaleDateString("en-GB");
+  document.getElementById("letterDate").textContent = app.date;
   document.getElementById("letterGuardianName").textContent = app.guardianName;
   document.getElementById("letterCandidateName").textContent = app.studentName;
-  document.getElementById("letterHeading").textContent = `Provisional Offer of Admission into ${app.entryLevel} \u2022 2026/2027 Academic Session`;
-  document.getElementById("letterClassAssigned").textContent = app.entryLevel;
-  document.getElementById("letterStudentId").textContent = app.studentId || "BC/2026/026";
-  document.getElementById("letterPortalPin").textContent = app.portalPin || "1234";
+
+  const docBadge = document.getElementById("letterDocBadge");
+  const heading = document.getElementById("letterHeading");
+  const dynamicBody = document.getElementById("letterDynamicBody");
+  const credsBox = document.getElementById("letterCredentialsBox");
+  const instructionsBox = document.getElementById("letterInstructionsBox");
+  const stamp = document.getElementById("letterDigitalStamp");
+  const printBtn = document.getElementById("modalPrintBtn");
+
+  if (currentViewingDocType === "OFFER_GRANTED") {
+    docBadge.textContent = "Provisional Offer of Admission";
+    docBadge.style.background = "var(--color-slate)";
+    docBadge.style.color = "var(--color-gold)";
+    heading.textContent = `Provisional Offer of Admission into ${app.entryLevel} \u2022 2026/2027 Academic Session`;
+    dynamicBody.innerHTML = `
+      <p style="margin-bottom: 0.6rem;">
+        Following your satisfactory performance of <strong>${app.examScore ? app.examScore.toFixed(1) + '%' : 'high merit'}</strong> in our entrance screening assessment and scholastic review, the Governing Council and Principal of Bantu College have the honour to offer you provisional admission into <strong style="color: var(--color-slate);">${app.entryLevel}</strong> for the 2026/2027 Academic Session.
+      </p>
+      <p style="margin-bottom: 0.6rem;">
+        Bantu College delivers intensive instruction across 15 core disciplines, classical world languages, and computer programming on our 10-acre campus in Benue State. Every scholar is held to the highest standards of moral discipline, punctuality, and diligent effort.
+      </p>
+    `;
+    credsBox.style.display = "block";
+    document.getElementById("letterStudentId").textContent = app.studentId || "BC/2026/026";
+    document.getElementById("letterPortalPin").textContent = app.portalPin || "1234";
+    instructionsBox.style.display = "block";
+    instructionsBox.innerHTML = `
+      <strong>Enrollment Acceptance Procedure:</strong><br>
+      1. Access the Student Portal using your assigned Admission Number and PIN.<br>
+      2. Settle the approved First Term Tuition Fee of <strong>&#8358;150,000.00</strong> (out of &#8358;450,000 annual session tuition) via the automated online payment desk within fourteen (14) days to guarantee classroom placement.<br>
+      3. Present this letter and the bursary payment receipt for biometric registration and uniform fitting.
+    `;
+    stamp.innerHTML = 'Bantu College Registry<br><span style="font-size: 0.65rem;">Officially Admitted</span>';
+    stamp.style.color = "#15803d";
+    stamp.style.borderColor = "#15803d";
+    stamp.style.background = "rgba(34, 197, 94, 0.06)";
+    printBtn.textContent = "Print Official Admission Letter (PDF)";
+
+  } else if (currentViewingDocType === "OFFER_PROBATION") {
+    docBadge.textContent = "Provisional Admission on Academic Probation";
+    docBadge.style.background = "#d97706";
+    docBadge.style.color = "#ffffff";
+    heading.textContent = `Provisional Admission on Academic Probation into ${app.entryLevel} \u2022 2026/2027 Session`;
+    dynamicBody.innerHTML = `
+      <p style="margin-bottom: 0.6rem;">
+        Following review of your entrance screening assessment score of <strong>${app.examScore ? app.examScore.toFixed(1) + '%' : 'borderline standing'}</strong>, the Admissions Board and Principal of Bantu College have approved your provisional placement into <strong style="color: var(--color-slate);">${app.entryLevel}</strong> on <strong>Academic Probationary Standing</strong> for the 2026/2027 Academic Session.
+      </p>
+      <p style="margin-bottom: 0.6rem;">
+        This placement offers the scholar an authentic opportunity to demonstrate intellectual rigor and diligent growth within Bantu College's disciplined academic environment.
+      </p>
+    `;
+    credsBox.style.display = "block";
+    document.getElementById("letterStudentId").textContent = app.studentId || "BC/2026/027";
+    document.getElementById("letterPortalPin").textContent = app.portalPin || "1234";
+    instructionsBox.style.display = "block";
+    instructionsBox.innerHTML = `
+      <strong style="color: #b45309;">Mandatory Probationary Terms & Acceptance:</strong><br>
+      1. ${app.probationConditions || "Candidate must attend mandatory after-school remedial clinics in Mathematics and English Studies, and maintain a minimum terminal aggregate of 60.00% across evaluated subjects to lift probationary standing."}<br>
+      2. Access the Student Portal to settle the approved First Term Tuition Fee of <strong>&#8358;150,000.00</strong> within fourteen (14) days.<br>
+      3. Report with this letter for parent-principal academic mentoring orientation.
+    `;
+    stamp.innerHTML = 'Bantu College Registry<br><span style="font-size: 0.65rem;">Admitted on Probation</span>';
+    stamp.style.color = "#d97706";
+    stamp.style.borderColor = "#d97706";
+    stamp.style.background = "rgba(245, 158, 11, 0.08)";
+    printBtn.textContent = "Print Probationary Admission Letter (PDF)";
+
+  } else if (currentViewingDocType === "OFFER_DECLINED") {
+    docBadge.textContent = "Notice of Non-Admission & Academic Guidance";
+    docBadge.style.background = "#4b5563";
+    docBadge.style.color = "#ffffff";
+    heading.textContent = `Application Decision Notice \u2022 2026/2027 Academic Session`;
+    dynamicBody.innerHTML = `
+      <p style="margin-bottom: 0.6rem;">
+        Thank you for your interest in Bantu College and for participating in our competitive entrance screening assessment. We write to formally inform you that following evaluation of your screening score of <strong>${app.examScore ? app.examScore.toFixed(1) + '%' : 'below cutoff'}</strong>, we are unable to offer you admission into <strong style="color: var(--color-slate);">${app.entryLevel}</strong> for the 2026/2027 Academic Session, as performance fell below our institutional qualifying threshold.
+      </p>
+      <p style="margin-bottom: 0.6rem;">
+        We commend your diligent participation in the screening exercise. Admission spaces at Bantu College are strictly limited to keep class cohorts manageable and instruction rigorous. We encourage you to continue diligent preparatory study and warmly invite you to re-apply during our supplementary admissions cycle.
+      </p>
+    `;
+    credsBox.style.display = "none";
+    instructionsBox.style.display = "block";
+    instructionsBox.innerHTML = `
+      <strong>Academic Recommendation from the Principal:</strong><br>
+      ${app.declineReason || "Candidate did not attain the competitive benchmark of 50.00% in the entrance screening examination. Targeted revision in foundational numeracy and composition is recommended before reapplication."}
+    `;
+    stamp.innerHTML = 'Bantu College Registry<br><span style="font-size: 0.65rem;">Official Decision</span>';
+    stamp.style.color = "#4b5563";
+    stamp.style.borderColor = "#4b5563";
+    stamp.style.background = "rgba(75, 85, 99, 0.08)";
+    printBtn.textContent = "Print Non-Admission Notice (PDF)";
+
+  } else if (currentViewingDocType === "EXAM_SCHEDULE") {
+    docBadge.textContent = "Entrance Examination & Screening Docket";
+    docBadge.style.background = "var(--color-slate)";
+    docBadge.style.color = "var(--color-gold)";
+    heading.textContent = `Entrance Examination & Screening Docket \u2022 Ref: ${app.ref}`;
+    dynamicBody.innerHTML = `
+      <p style="margin-bottom: 0.6rem;">
+        Your application for admission into <strong style="color: var(--color-slate);">${app.entryLevel}</strong> has been registered. You are hereby officially invited to sit for the Bantu College Entrance Examination and Screening Assessment.
+      </p>
+      <div style="background: rgba(43, 42, 66, 0.04); border-radius: 10px; padding: 0.85rem 1.15rem; margin-bottom: 0.85rem;">
+        <div>Examination Date: <strong>${app.examDate || "Saturday, 14 Nov 2026"}</strong></div>
+        <div>Reporting Time: <strong style="color: #b91c1c;">08:30 AM Prompt (Commences 09:00 AM)</strong></div>
+        <div>Examination Center: <strong>${app.examVenue || "Bantu College Central Examination Hall, Makurdi"}</strong></div>
+        <div>Evaluated Subjects: <strong>Mathematics (40 Marks) &bull; English Language & Verbal Aptitude (40 Marks) &bull; General Knowledge (20 Marks)</strong></div>
+      </div>
+    `;
+    credsBox.style.display = "none";
+    instructionsBox.style.display = "block";
+    instructionsBox.innerHTML = `
+      <strong>Candidate Guidelines:</strong><br>
+      1. Present this official docket at the screening entrance desk.<br>
+      2. Bring two (2) HB pencils, sharpener, eraser, and an approved mathematical instruments set.<br>
+      3. Electronic gadgets and smart watches are strictly prohibited in the testing hall.
+    `;
+    stamp.innerHTML = 'Bantu College Registry<br><span style="font-size: 0.65rem;">Screening Authorized</span>';
+    stamp.style.color = "var(--color-slate)";
+    stamp.style.borderColor = "var(--color-slate)";
+    stamp.style.background = "rgba(43, 42, 66, 0.06)";
+    printBtn.textContent = "Print Examination Docket (PDF)";
+  }
 
   const modal = document.getElementById("admissionOfferModal");
   modal.classList.add("is-active");
@@ -1107,13 +1403,14 @@ if (admissionModalEl) {
 
 function printAdmissionLetterDirectly() {
   const letterBox = document.getElementById("admissionLetterPrintContent");
+  const docTitle = document.getElementById("letterDocBadge") ? document.getElementById("letterDocBadge").textContent : "Official Document";
   const printWindow = window.open("", "_blank", "width=850,height=800");
   printWindow.document.write(`
     <!DOCTYPE html>
     <html lang="en">
     <head>
       <meta charset="UTF-8">
-      <title>Bantu College - Official Provisional Offer of Admission Letter</title>
+      <title>Bantu College - ${docTitle}</title>
       <link rel="stylesheet" href="assets/css/style.css?v=10">
       <style>
         body { background: #ffffff !important; padding: 15mm; font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }

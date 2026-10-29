@@ -80,47 +80,158 @@
 Your admission registration has been officially recorded by the Bantu College Registry.
 </p>
 
-<div id="applicantSummaryCard" style="background: #ffffff; border: 1px solid rgba(186, 147, 79, 0.35); border-radius: 14px; padding: 1.5rem; text-align: left; margin-bottom: 2rem; box-shadow: 0 4px 14px rgba(0,0,0,0.05);">
+<div id="applicantSummaryCard" style="background: #ffffff; border: 1px solid rgba(186, 147, 79, 0.35); border-radius: 14px; padding: 1.5rem; text-align: left; margin-bottom: 1.5rem; box-shadow: 0 4px 14px rgba(0,0,0,0.05);">
   <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.08); padding-bottom: 0.75rem; margin-bottom: 0.75rem;">
     <span style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--color-gold-dark); letter-spacing: 0.5px;">Registration Reference</span>
-    <strong id="dispAppRef" style="font-family: monospace; font-size: 1rem; color: var(--color-slate);">BNT/ADM/2026/0000</strong>
+    <strong id="dispAppRef" style="font-family: monospace; font-size: 1rem; color: var(--color-slate);">BC/ADM/2026/000</strong>
   </div>
   <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem; font-size: 0.9rem;">
     <div>Candidate: <strong id="dispStudentName">Registered Scholar</strong></div>
-    <div>Proposed Class: <strong id="dispEntryLevel">Basic 7 (JSS 1)</strong></div>
+    <div>Proposed Stream: <strong id="dispEntryLevel">Basic 7A</strong></div>
     <div>Guardian: <strong id="dispGuardian">Guardian</strong></div>
-    <div>Contact: <strong id="dispPhone">Phone</strong></div>
+    <div>Contact Phone: <strong id="dispPhone">Phone</strong></div>
   </div>
-  <div style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px dashed rgba(0,0,0,0.1); font-size: 0.85rem; color: #666;">
-    Please keep your registration reference safe. The administrative office of <strong>Mr. Kwaghtongo D. A.</strong> will contact you regarding entrance examination scheduling.
+</div>
+
+<!-- Automated Entrance Exam Email Dispatch Notice -->
+<div style="background: rgba(34, 197, 94, 0.08); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 14px; padding: 1.25rem 1.5rem; text-align: left; margin-bottom: 1.75rem;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
+    <span style="font-size: 0.85rem; font-weight: 700; color: #15803d; text-transform: uppercase; letter-spacing: 0.5px;">Automated Entrance Examination Email Dispatched</span>
+    <span class="portal-badge portal-badge-green" style="font-size: 0.75rem;">Transmission Confirmed</span>
+  </div>
+  <p style="font-size: 0.88rem; color: #333; margin: 0 0 0.75rem 0; line-height: 1.5;">
+    An official examination invitation docket has been transmitted from <strong style="color: var(--color-gold-dark);">admissions@bantucollege.edu</strong> to <strong id="dispEmailText">your email</strong>.
+  </p>
+  <div style="background: #ffffff; border-radius: 10px; padding: 1rem; border: 1px solid rgba(0,0,0,0.08); font-size: 0.85rem; line-height: 1.6;">
+    <div style="color: var(--color-slate); font-weight: 700; margin-bottom: 0.35rem; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.5px;">Entrance Screening Assessment Schedule:</div>
+    <div>Date: <strong id="dispExamDate">Saturday, 14 Nov 2026</strong> &bull; Arrival: <strong>08:30 AM WAT (Starts promptly at 09:00 AM)</strong></div>
+    <div>Venue: <strong id="dispExamVenue">Bantu College Central Examination Hall, Academic Complex, Makurdi</strong></div>
+    <div>Evaluation: <strong>Mathematics (40m), English & Verbal Aptitude (40m), General Paper (20m)</strong></div>
+    <div style="color: #666; font-size: 0.8rem; margin-top: 0.35rem;">Mandatory Items: Two HB pencils, sharpener, eraser, mathematical instruments set, and this registration reference.</div>
   </div>
 </div>
 
 <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-  <a href="index.html" class="btn-primary">Return to Homepage</a>
+  <button type="button" onclick="printExamDocket()" class="btn-primary" style="padding: 0.75rem 1.6rem;">Print Examination Docket (PDF)</button>
   <a href="assets/Bantu_College_Prospectus.pdf" target="_blank" class="btn-outline">Download Prospectus (PDF)</a>
+  <a href="index.html" class="btn-outline">Return to Homepage</a>
 </div>
 </div>
 </main>
 
 <script>
+let currentAppData = null;
 document.addEventListener("DOMContentLoaded", function() {
   const params = new URLSearchParams(window.location.search);
   const ref = params.get("ref");
   const stored = sessionStorage.getItem("bantu_last_application");
   if (stored) {
     try {
-      const app = JSON.parse(stored);
-      document.getElementById("dispAppRef").textContent = app.ref;
-      document.getElementById("dispStudentName").textContent = app.studentName;
-      document.getElementById("dispEntryLevel").textContent = app.entryLevel;
-      document.getElementById("dispGuardian").textContent = app.guardianName;
-      document.getElementById("dispPhone").textContent = app.phone;
+      currentAppData = JSON.parse(stored);
+      document.getElementById("dispAppRef").textContent = currentAppData.ref;
+      document.getElementById("dispStudentName").textContent = currentAppData.studentName;
+      document.getElementById("dispEntryLevel").textContent = currentAppData.entryLevel;
+      document.getElementById("dispGuardian").textContent = currentAppData.guardianName;
+      document.getElementById("dispPhone").textContent = currentAppData.phone;
+      if (currentAppData.email) {
+        document.getElementById("dispEmailText").textContent = currentAppData.email;
+      }
+      if (currentAppData.examDate) {
+        document.getElementById("dispExamDate").textContent = currentAppData.examDate;
+      }
+      if (currentAppData.examVenue) {
+        document.getElementById("dispExamVenue").textContent = currentAppData.examVenue;
+      }
     } catch(err) {}
   } else if (ref) {
     document.getElementById("dispAppRef").textContent = ref;
   }
 });
+
+function printExamDocket() {
+  const ref = currentAppData ? currentAppData.ref : document.getElementById("dispAppRef").textContent;
+  const name = currentAppData ? currentAppData.studentName : document.getElementById("dispStudentName").textContent;
+  const stream = currentAppData ? currentAppData.entryLevel : document.getElementById("dispEntryLevel").textContent;
+  const guardian = currentAppData ? currentAppData.guardianName : document.getElementById("dispGuardian").textContent;
+  const examDate = currentAppData ? (currentAppData.examDate || "Saturday, 14 Nov 2026") : "Saturday, 14 Nov 2026";
+  const examVenue = currentAppData ? (currentAppData.examVenue || "Bantu College Central Examination Hall, Makurdi") : "Bantu College Central Examination Hall, Makurdi";
+
+  const printWindow = window.open("", "_blank", "width=850,height=800");
+  printWindow.document.write(`
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <title>Bantu College - Entrance Examination Docket (${ref})</title>
+      <link rel="stylesheet" href="assets/css/style.css?v=10">
+      <style>
+        body { background: #ffffff !important; padding: 15mm; font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        .docket-printable-box { max-width: 680px; margin: 0 auto; border: 2px solid #2b2a42; padding: 24px; border-radius: 12px; }
+        @media print {
+          @page { size: A4 portrait; margin: 15mm; }
+          body { padding: 0; }
+          .docket-printable-box { border: 2px solid #000; padding: 15px; }
+        }
+      </style>
+    </head>
+    <body>
+      <div class="docket-printable-box">
+        <div style="text-align: center; border-bottom: 2px solid #2b2a42; padding-bottom: 0.75rem; margin-bottom: 1rem;">
+          <img src="assets/Bantu%20College%20Crest-01a.png" alt="Bantu College" style="max-height: 54px; margin: 0 auto 0.35rem;">
+          <h2 style="font-family: Georgia, serif; font-size: 1.35rem; color: #2b2a42; margin: 0; text-transform: uppercase;">Bantu College, Benue State</h2>
+          <p style="font-size: 0.85rem; color: #555; margin: 0.15rem 0;">Admissions Directorate &bull; Motto: Read to Lead</p>
+          <span style="display: inline-block; background: #2b2a42; color: #ba934f; font-size: 0.8rem; font-weight: 700; padding: 0.3rem 1rem; border-radius: 4px; margin-top: 0.35rem; letter-spacing: 1px; text-transform: uppercase;">Entrance Examination & Screening Docket</span>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 1rem; color: #444; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 0.75rem;">
+          <div>Registration Reference: <strong style="font-family: monospace; color: #2b2a42; font-size: 0.95rem;">${ref}</strong></div>
+          <div>Examination Date: <strong>${examDate}</strong></div>
+        </div>
+
+        <div style="background: rgba(43, 42, 66, 0.04); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.25rem; font-size: 0.9rem;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem;">
+            <div>Candidate Name: <strong style="color: #2b2a42;">${name}</strong></div>
+            <div>Proposed Stream: <strong style="color: #ba934f;">${stream}</strong></div>
+            <div>Parent/Guardian: <strong>${guardian}</strong></div>
+            <div>Reporting Time: <strong style="color: #b91c1c;">08:30 AM Prompt</strong></div>
+          </div>
+        </div>
+
+        <div style="border: 1px solid rgba(0,0,0,0.12); border-radius: 10px; padding: 1rem; margin-bottom: 1.25rem; font-size: 0.85rem; line-height: 1.6;">
+          <strong style="color: #2b2a42; display: block; margin-bottom: 0.35rem; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.5px;">Examination Center & Subject Schedule:</strong>
+          <div>Center: <strong>${examVenue}</strong></div>
+          <div>Papers: <strong>Mathematics (40 Marks) &bull; English Studies & Verbal Reasoning (40 Marks) &bull; General Knowledge (20 Marks)</strong></div>
+          <div>Duration: <strong>09:00 AM &ndash; 11:30 AM WAT</strong></div>
+        </div>
+
+        <div style="font-size: 0.82rem; color: #555; line-height: 1.5; margin-bottom: 1.5rem;">
+          <strong>Candidate Instructions:</strong><br>
+          1. Present this original docket at the screening entrance desk.<br>
+          2. Bring two (2) HB pencils, sharpener, eraser, and an approved mathematical instruments set.<br>
+          3. Cellular phones, smart watches, and unauthorized electronic aids are strictly prohibited in the examination hall.
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; padding-top: 0.75rem; border-top: 1px solid rgba(0,0,0,0.15);">
+          <div style="text-align: center; width: 180px;">
+            <strong style="color: #2b2a42; font-size: 0.85rem; display: block;">Mr. Kwaghtongo D. A.</strong>
+            <span style="font-size: 0.75rem; color: #777;">Principal & Head of School</span>
+          </div>
+          <div class="bursary-digital-stamp" style="font-size: 0.7rem; padding: 0.35rem 0.75rem;">
+            Bantu College Registry<br>
+            <span style="font-size: 0.65rem;">Screening Authorized</span>
+          </div>
+        </div>
+      </div>
+      <script>
+        window.onload = function() {
+          window.print();
+        };
+      <\/script>
+    </body>
+    </html>
+  `);
+  printWindow.document.close();
+}
 </script>
 <footer class="site-footer">
 <div class="container">

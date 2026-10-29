@@ -1,7 +1,7 @@
 // Bantu College Unified Local Database and Atomic Transaction Engine
-// Version 5.0 with Class Arm Streams (Basic 7A, 7B, 8A, 8B), Sequential Admissions, and ACID Payments
+// Version 6.0 with Multi-Stage Admissions Funnel: Auto Exam Docket, Screening Scores, Probation & Decline Triggers
 const BANTU_STORAGE_KEY = "bantu_college_unified_db";
-const BANTU_DB_VERSION = 5;
+const BANTU_DB_VERSION = 6;
 
 // Admissions Office Global Configuration Slot
 const BANTU_ADMISSIONS_CONFIG = {
@@ -385,6 +385,46 @@ const defaultDatabaseSeed = {
       ],
       fees: [],
       sundry: []
+    },
+    "BC/2026/027": {
+      pin: "1234",
+      name: "Seember Igbawase",
+      initials: "SI",
+      email: "s.igbawase@bantucollege.edu",
+      class: "Basic 8A",
+      position: "Awaiting Assessment",
+      feeStatus: "Partial",
+      totalTuitionBilled: 450000,
+      totalTuitionPaid: 0,
+      balance: 450000,
+      attendance: "100.00%",
+      conduct: "On Academic Probation",
+      formTeacherRemark: "Provisionally admitted on academic probation. Enrolled in mandatory remedial clinics for Mathematics and Science.",
+      principalRemark: "Opportunity given to prove scholastic capacity. Must attain 60% terminal aggregate.",
+      punctuality: "Very Good",
+      neatness: "Good",
+      peers: "Polite and Respectful",
+      leadership: "Emerging",
+      incidentText: "No negative disciplinary infractions or official reprimands recorded.",
+      rawScores: [
+        { subject: "English Studies", ca: 28, exam: 40 },
+        { subject: "Mathematics", ca: 26, exam: 38 },
+        { subject: "Social and Citizenship Education", ca: 27, exam: 40 },
+        { subject: "Nigerian History", ca: 28, exam: 41 },
+        { subject: "Physical and Health Education", ca: 29, exam: 42 },
+        { subject: "Intermediate Science", ca: 27, exam: 39 },
+        { subject: "Business Studies", ca: 26, exam: 38 },
+        { subject: "Pre Vocational Studies", ca: 28, exam: 40 },
+        { subject: "Cultural and Creative Arts", ca: 27, exam: 39 },
+        { subject: "Information Technology", ca: 30, exam: 43 },
+        { subject: "Literature", ca: 28, exam: 40 },
+        { subject: "Christian Religious Studies (CRS)", ca: 29, exam: 42 },
+        { subject: "French", ca: 24, exam: 35 },
+        { subject: "Tiv Language", ca: 30, exam: 42 },
+        { subject: "Chinese Language", ca: 23, exam: 33 }
+      ],
+      fees: [],
+      sundry: []
     }
   },
   transactions: [
@@ -407,14 +447,33 @@ const defaultDatabaseSeed = {
       phone: "+234 803 214 5590",
       previousSchool: "St. Thomas Primary School, Makurdi",
       status: "Offer Granted",
+      decision: "Admitted",
       studentId: "BC/2026/026",
       portalPin: "1234",
-      offerDate: "14 Oct 2026",
-      offerTime: "10:30",
-      emailDispatched: true,
-      emailRecipient: "s.tyover@gmail.com",
-      emailSender: "admissions@bantucollege.edu",
-      message: "Candidate was head boy and excels in mathematics."
+      examDate: "Saturday, 14 Nov 2026",
+      examTime: "09:00 AM WAT",
+      examVenue: "Bantu College Central Examination Hall, Academic Complex",
+      examScore: 84.5,
+      decisionDate: "14 Oct 2026 at 10:30",
+      message: "Candidate was head boy and excels in mathematics.",
+      mailHistory: [
+        {
+          type: "EXAM_SCHEDULE",
+          title: "Entrance Examination & Screening Docket",
+          sender: "admissions@bantucollege.edu",
+          recipient: "s.tyover@gmail.com",
+          timestamp: "12 Oct 2026 at 10:15",
+          subject: "ENTRANCE EXAMINATION SCHEDULE: Bantu College (Msughter Tyover - Ref: BC/ADM/2026/001)"
+        },
+        {
+          type: "OFFER_GRANTED",
+          title: "Provisional Offer of Admission Letter",
+          sender: "admissions@bantucollege.edu",
+          recipient: "s.tyover@gmail.com",
+          timestamp: "14 Oct 2026 at 10:30",
+          subject: "OFFICIAL PROVISIONAL OFFER OF ADMISSION: Bantu College (Msughter Tyover)"
+        }
+      ]
     },
     {
       ref: "BC/ADM/2026/002",
@@ -426,8 +485,35 @@ const defaultDatabaseSeed = {
       email: "a.igbawase@yahoo.com",
       phone: "+234 812 770 3341",
       previousSchool: "Grace International Academy, Gboko",
-      status: "Interview Scheduled",
-      message: "Transfer applicant seeking admission into Basic 8A."
+      status: "Admitted on Probation",
+      decision: "Probation",
+      studentId: "BC/2026/027",
+      portalPin: "1234",
+      examDate: "Saturday, 14 Nov 2026",
+      examTime: "09:00 AM WAT",
+      examVenue: "Bantu College Central Examination Hall, Academic Complex",
+      examScore: 53.0,
+      decisionDate: "22 Oct 2026 at 14:15",
+      probationConditions: "Candidate demonstrated strong verbal aptitude but requires targeted remedial tutorials in Mathematics and Natural Sciences. Must maintain at least 60.00% terminal aggregate to have probation lifted.",
+      message: "Transfer applicant seeking admission into Basic 8A.",
+      mailHistory: [
+        {
+          type: "EXAM_SCHEDULE",
+          title: "Entrance Examination & Screening Docket",
+          sender: "admissions@bantucollege.edu",
+          recipient: "a.igbawase@yahoo.com",
+          timestamp: "19 Oct 2026 at 11:20",
+          subject: "ENTRANCE EXAMINATION SCHEDULE: Bantu College (Seember Igbawase - Ref: BC/ADM/2026/002)"
+        },
+        {
+          type: "OFFER_PROBATION",
+          title: "Provisional Admission on Academic Probation Letter",
+          sender: "admissions@bantucollege.edu",
+          recipient: "a.igbawase@yahoo.com",
+          timestamp: "22 Oct 2026 at 14:15",
+          subject: "OFFICIAL PROVISIONAL ADMISSION ON PROBATION: Bantu College (Seember Igbawase)"
+        }
+      ]
     },
     {
       ref: "BC/ADM/2026/003",
@@ -439,8 +525,23 @@ const defaultDatabaseSeed = {
       email: "t.kwaghtondo@gmail.com",
       phone: "+234 802 449 8812",
       previousSchool: "University Staff School, Makurdi",
-      status: "Pending Review",
-      message: "Keen interest in natural sciences and computer coding."
+      status: "Exam Completed",
+      decision: null,
+      examDate: "Saturday, 14 Nov 2026",
+      examTime: "09:00 AM WAT",
+      examVenue: "Bantu College Central Examination Hall, Academic Complex",
+      examScore: 78.0,
+      message: "Keen interest in natural sciences and computer coding.",
+      mailHistory: [
+        {
+          type: "EXAM_SCHEDULE",
+          title: "Entrance Examination & Screening Docket",
+          sender: "admissions@bantucollege.edu",
+          recipient: "t.kwaghtondo@gmail.com",
+          timestamp: "25 Oct 2026 at 09:30",
+          subject: "ENTRANCE EXAMINATION SCHEDULE: Bantu College (Aondona Kwaghtondo - Ref: BC/ADM/2026/003)"
+        }
+      ]
     },
     {
       ref: "BC/ADM/2026/004",
@@ -452,8 +553,33 @@ const defaultDatabaseSeed = {
       email: "e.gbande@gmail.com",
       phone: "+234 803 551 2289",
       previousSchool: "First Step Primary School, Makurdi",
-      status: "Pending Review",
-      message: "Strong foundation in literacy and Tiv oral poetry."
+      status: "Admission Declined",
+      decision: "Declined",
+      examDate: "Saturday, 14 Nov 2026",
+      examTime: "09:00 AM WAT",
+      examVenue: "Bantu College Central Examination Hall, Academic Complex",
+      examScore: 38.5,
+      decisionDate: "28 Oct 2026 at 11:00",
+      declineReason: "Candidate did not attain the mandatory entrance threshold in basic literacy and numeracy. Recommended for preparatory study before re-applying for subsequent sessions.",
+      message: "Strong foundation in literacy and Tiv oral poetry.",
+      mailHistory: [
+        {
+          type: "EXAM_SCHEDULE",
+          title: "Entrance Examination & Screening Docket",
+          sender: "admissions@bantucollege.edu",
+          recipient: "e.gbande@gmail.com",
+          timestamp: "27 Oct 2026 at 12:45",
+          subject: "ENTRANCE EXAMINATION SCHEDULE: Bantu College (Terungwa Gbande - Ref: BC/ADM/2026/004)"
+        },
+        {
+          type: "OFFER_DECLINED",
+          title: "Notice of Non-Admission and Academic Guidance Letter",
+          sender: "admissions@bantucollege.edu",
+          recipient: "e.gbande@gmail.com",
+          timestamp: "28 Oct 2026 at 11:00",
+          subject: "APPLICATION DECISION NOTICE: Bantu College (Terungwa Gbande)"
+        }
+      ]
     },
     {
       ref: "BC/ADM/2026/005",
@@ -465,8 +591,23 @@ const defaultDatabaseSeed = {
       email: "d.tarhule@yahoo.com",
       phone: "+234 815 662 9901",
       previousSchool: "Benue State Model School, Makurdi",
-      status: "Interview Scheduled",
-      message: "Exemplary conduct and enthusiastic science student."
+      status: "Exam Scheduled",
+      decision: null,
+      examDate: "Saturday, 14 Nov 2026",
+      examTime: "09:00 AM WAT",
+      examVenue: "Bantu College Central Examination Hall, Academic Complex",
+      examScore: null,
+      message: "Exemplary conduct and enthusiastic science student.",
+      mailHistory: [
+        {
+          type: "EXAM_SCHEDULE",
+          title: "Entrance Examination & Screening Docket",
+          sender: "admissions@bantucollege.edu",
+          recipient: "d.tarhule@yahoo.com",
+          timestamp: "28 Oct 2026 at 15:10",
+          subject: "ENTRANCE EXAMINATION SCHEDULE: Bantu College (Hembadoon Tarhule - Ref: BC/ADM/2026/005)"
+        }
+      ]
     },
     {
       ref: "BC/ADM/2026/006",
@@ -478,8 +619,23 @@ const defaultDatabaseSeed = {
       email: "p.iornumbe@gmail.com",
       phone: "+234 809 332 1144",
       previousSchool: "Kings and Queens Academy, Gboko",
-      status: "Pending Review",
-      message: "Gifted in creative arts and English composition."
+      status: "Exam Completed",
+      decision: null,
+      examDate: "Saturday, 14 Nov 2026",
+      examTime: "09:00 AM WAT",
+      examVenue: "Bantu College Central Examination Hall, Academic Complex",
+      examScore: 51.5,
+      message: "Gifted in creative arts and English composition.",
+      mailHistory: [
+        {
+          type: "EXAM_SCHEDULE",
+          title: "Entrance Examination & Screening Docket",
+          sender: "admissions@bantucollege.edu",
+          recipient: "p.iornumbe@gmail.com",
+          timestamp: "29 Oct 2026 at 16:30",
+          subject: "ENTRANCE EXAMINATION SCHEDULE: Bantu College (Wandoo Iornumbe - Ref: BC/ADM/2026/006)"
+        }
+      ]
     }
   ]
 };
@@ -746,8 +902,15 @@ function submitAdmissionApplication(data) {
     month: "short",
     year: "numeric"
   });
+  const currentTime = now.toLocaleTimeString("en-GB", {
+    hour: "2-digit",
+    minute: "2-digit"
+  });
 
   const entryLevelFormatted = data.entryLevel || "Basic 7A";
+  const examDate = "Saturday, 14 Nov 2026";
+  const examTime = "09:00 AM WAT";
+  const examVenue = "Bantu College Central Examination Hall, Academic Complex, Makurdi";
 
   const newApp = {
     ref: applicationRef,
@@ -760,7 +923,22 @@ function submitAdmissionApplication(data) {
     phone: data.phone,
     previousSchool: data.previousSchool,
     message: data.message || "No additional comments provided.",
-    status: "Pending Review"
+    status: "Exam Scheduled",
+    decision: null,
+    examDate: examDate,
+    examTime: examTime,
+    examVenue: examVenue,
+    examScore: null,
+    mailHistory: [
+      {
+        type: "EXAM_SCHEDULE",
+        title: "Entrance Examination & Screening Docket",
+        sender: BANTU_ADMISSIONS_CONFIG.officialSenderEmail,
+        recipient: data.email,
+        timestamp: `${currentDate} at ${currentTime}`,
+        subject: `ENTRANCE EXAMINATION SCHEDULE: Bantu College (${data.studentName} - Ref: ${applicationRef})`
+      }
+    ]
   };
 
   db.applications.unshift(newApp);
@@ -795,8 +973,45 @@ function updateApplicationClass(applicationRef, newClass) {
   return { success: false, message: "Application reference not found." };
 }
 
-// Grant Admission Offer & Automated Email Dispatch Engine
-function grantAdmissionOfferInDb(applicationRef, assignedClass) {
+// Entrance Screening Assessment Score Management
+function saveApplicantEntranceScore(applicationRef, score) {
+  const db = getBantuDatabase();
+  const app = (db.applications || []).find(a => a.ref === applicationRef);
+  if (!app) return { success: false, message: "Application record not found." };
+
+  const parsedScore = parseFloat(score);
+  if (isNaN(parsedScore) || parsedScore < 0 || parsedScore > 100) {
+    return { success: false, message: "Screening score must be a numerical percentage between 0 and 100." };
+  }
+
+  app.examScore = Math.round(parsedScore * 10) / 10;
+  if (app.status === "Exam Scheduled") {
+    app.status = "Exam Completed";
+  }
+  saveBantuDatabase(db);
+  return {
+    success: true,
+    application: app,
+    recommendation: getScoreRecommendation(app.examScore)
+  };
+}
+
+function getScoreRecommendation(score) {
+  if (score === null || typeof score === "undefined") {
+    return { verdict: "Awaiting Assessment", color: "blue", action: "Input Score", badgeClass: "portal-badge-b3" };
+  }
+  const s = parseFloat(score);
+  if (s >= 60.0) {
+    return { verdict: "Satisfactory", color: "green", action: "Grant Full Admission", badgeClass: "portal-badge-green" };
+  } else if (s >= 45.0) {
+    return { verdict: "Marginal / Borderline", color: "gold", action: "Admit on Probation", badgeClass: "portal-badge-gold" };
+  } else {
+    return { verdict: "Unsatisfactory", color: "red", action: "Decline Admission", badgeClass: "portal-badge-f" };
+  }
+}
+
+// 1. Decision Action A: Grant Full Admission Offer
+function grantFullAdmissionOfferInDb(applicationRef, assignedClass) {
   const db = getBantuDatabase();
   const app = (db.applications || []).find(a => a.ref === applicationRef);
   if (!app) {
@@ -806,107 +1021,280 @@ function grantAdmissionOfferInDb(applicationRef, assignedClass) {
   const targetClass = assignedClass || app.entryLevel || "Basic 7A";
   app.entryLevel = targetClass;
 
-  // If already granted, update class if changed and return existing record
-  if (app.status === "Offer Granted" && app.studentId && db.students[app.studentId]) {
-    db.students[app.studentId].class = targetClass;
-    saveBantuDatabase(db);
-    return {
-      success: true,
-      alreadyGranted: true,
-      application: app,
-      student: db.students[app.studentId],
-      config: BANTU_ADMISSIONS_CONFIG
+  const now = new Date();
+  const currentDate = now.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
+  const currentTime = now.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
+
+  let assignedStudentId = app.studentId;
+  let assignedPin = app.portalPin || "1234";
+
+  if (!assignedStudentId || !db.students[assignedStudentId]) {
+    assignedStudentId = generateNextStudentAdmissionNumber(db);
+    assignedPin = "1234";
+    const initials = app.studentName.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2) || "BC";
+    const studentEmail = app.studentName.toLowerCase().replace(/[^a-z]/g, ".") + "@bantucollege.edu";
+
+    db.students[assignedStudentId] = {
+      pin: assignedPin,
+      name: app.studentName,
+      initials: initials,
+      email: studentEmail,
+      class: targetClass,
+      position: "Awaiting Assessment",
+      feeStatus: "Partial",
+      totalTuitionBilled: 450000,
+      totalTuitionPaid: 0,
+      balance: 450000,
+      attendance: "100.00%",
+      conduct: "Exemplary",
+      formTeacherRemark: "Newly admitted scholar for the 2026/2027 academic session. Welcome to Bantu College.",
+      principalRemark: "Congratulations on your admission. Read to Lead.",
+      punctuality: "Excellent",
+      neatness: "Excellent",
+      peers: "Respectful and Cooperative",
+      leadership: "Active Initiative",
+      incidentText: "No negative disciplinary infractions or official reprimands recorded.",
+      rawScores: [
+        { subject: "English Studies", ca: 30, exam: 45 },
+        { subject: "Mathematics", ca: 32, exam: 48 },
+        { subject: "Social and Citizenship Education", ca: 28, exam: 42 },
+        { subject: "Nigerian History", ca: 29, exam: 43 },
+        { subject: "Physical and Health Education", ca: 30, exam: 44 },
+        { subject: "Intermediate Science", ca: 31, exam: 46 },
+        { subject: "Business Studies", ca: 27, exam: 40 },
+        { subject: "Pre Vocational Studies", ca: 29, exam: 41 },
+        { subject: "Cultural and Creative Arts", ca: 28, exam: 40 },
+        { subject: "Information Technology", ca: 33, exam: 48 },
+        { subject: "Literature", ca: 29, exam: 42 },
+        { subject: "Christian Religious Studies (CRS)", ca: 30, exam: 45 },
+        { subject: "French", ca: 25, exam: 37 },
+        { subject: "Tiv Language", ca: 32, exam: 45 },
+        { subject: "Chinese Language", ca: 24, exam: 35 }
+      ],
+      fees: [],
+      sundry: []
     };
+  } else {
+    db.students[assignedStudentId].class = targetClass;
+    db.students[assignedStudentId].conduct = "Exemplary";
   }
 
-  const assignedStudentId = generateNextStudentAdmissionNumber(db);
-  const assignedPin = "1234";
-
-  const initials = app.studentName.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2) || "BC";
-  const studentEmail = app.studentName.toLowerCase().replace(/[^a-z]/g, ".") + "@bantucollege.edu";
-
-  const now = new Date();
-  const currentDate = now.toLocaleDateString("en-GB", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric"
-  });
-  const currentTime = now.toLocaleTimeString("en-GB", {
-    hour: "2-digit",
-    minute: "2-digit"
-  });
-
-  // Provision in school student registry
-  db.students[assignedStudentId] = {
-    pin: assignedPin,
-    name: app.studentName,
-    initials: initials,
-    email: studentEmail,
-    class: targetClass,
-    position: "Awaiting Assessment",
-    feeStatus: "Partial",
-    totalTuitionBilled: 450000,
-    totalTuitionPaid: 0,
-    balance: 450000,
-    attendance: "100.00%",
-    conduct: "Exemplary",
-    formTeacherRemark: "Newly admitted scholar for the 2026/2027 session. Welcome to Bantu College.",
-    principalRemark: "Congratulations on your admission. Read to Lead.",
-    punctuality: "Excellent",
-    neatness: "Excellent",
-    peers: "Respectful and Cooperative",
-    leadership: "Active Initiative",
-    incidentText: "No negative disciplinary infractions or official reprimands have been recorded for this scholar during the current session.",
-    rawScores: [
-      { subject: "English Studies", ca: 30, exam: 45 },
-      { subject: "Mathematics", ca: 32, exam: 48 },
-      { subject: "Social and Citizenship Education", ca: 28, exam: 42 },
-      { subject: "Nigerian History", ca: 29, exam: 43 },
-      { subject: "Physical and Health Education", ca: 30, exam: 44 },
-      { subject: "Intermediate Science", ca: 31, exam: 46 },
-      { subject: "Business Studies", ca: 27, exam: 40 },
-      { subject: "Pre Vocational Studies", ca: 29, exam: 41 },
-      { subject: "Cultural and Creative Arts", ca: 28, exam: 40 },
-      { subject: "Information Technology", ca: 33, exam: 48 },
-      { subject: "Literature", ca: 29, exam: 42 },
-      { subject: "Christian Religious Studies (CRS)", ca: 30, exam: 45 },
-      { subject: "French", ca: 25, exam: 37 },
-      { subject: "Tiv Language", ca: 32, exam: 45 },
-      { subject: "Chinese Language", ca: 24, exam: 35 }
-    ],
-    fees: [],
-    sundry: []
-  };
-
-  // Update application record with credentials and dispatch metadata
   app.status = "Offer Granted";
+  app.decision = "Admitted";
   app.studentId = assignedStudentId;
   app.portalPin = assignedPin;
-  app.offerDate = currentDate;
-  app.offerTime = currentTime;
-  app.emailDispatched = true;
-  app.emailRecipient = app.email;
-  app.emailSender = BANTU_ADMISSIONS_CONFIG.officialSenderEmail;
+  app.decisionDate = `${currentDate} at ${currentTime}`;
+
+  if (!app.mailHistory) app.mailHistory = [];
+  app.mailHistory.push({
+    type: "OFFER_GRANTED",
+    title: "Provisional Offer of Admission Letter",
+    sender: BANTU_ADMISSIONS_CONFIG.officialSenderEmail,
+    recipient: app.email,
+    timestamp: `${currentDate} at ${currentTime}`,
+    subject: `OFFICIAL PROVISIONAL OFFER OF ADMISSION: Bantu College (${app.studentName})`
+  });
 
   saveBantuDatabase(db);
-
   return {
     success: true,
     application: app,
     student: db.students[assignedStudentId],
-    config: BANTU_ADMISSIONS_CONFIG
+    config: BANTU_ADMISSIONS_CONFIG,
+    letterType: "OFFER_GRANTED"
   };
 }
 
-function getAdmissionOfferData(applicationRef) {
+// 2. Decision Action B: Admit on Academic Probation
+function grantProbationAdmissionInDb(applicationRef, assignedClass, probationConditions) {
+  const db = getBantuDatabase();
+  const app = (db.applications || []).find(a => a.ref === applicationRef);
+  if (!app) {
+    return { success: false, message: "Application record not found." };
+  }
+
+  const targetClass = assignedClass || app.entryLevel || "Basic 7A";
+  app.entryLevel = targetClass;
+
+  const now = new Date();
+  const currentDate = now.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
+  const currentTime = now.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
+
+  let assignedStudentId = app.studentId;
+  let assignedPin = app.portalPin || "1234";
+
+  const defaultConditions = "Candidate must attend mandatory after-school remedial clinics in Mathematics and English Studies, and maintain a minimum terminal aggregate of 60.00% across evaluated subjects to lift probationary standing.";
+  const finalConditions = probationConditions || defaultConditions;
+
+  if (!assignedStudentId || !db.students[assignedStudentId]) {
+    assignedStudentId = generateNextStudentAdmissionNumber(db);
+    assignedPin = "1234";
+    const initials = app.studentName.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2) || "BC";
+    const studentEmail = app.studentName.toLowerCase().replace(/[^a-z]/g, ".") + "@bantucollege.edu";
+
+    db.students[assignedStudentId] = {
+      pin: assignedPin,
+      name: app.studentName,
+      initials: initials,
+      email: studentEmail,
+      class: targetClass,
+      position: "Awaiting Assessment",
+      feeStatus: "Partial",
+      totalTuitionBilled: 450000,
+      totalTuitionPaid: 0,
+      balance: 450000,
+      attendance: "100.00%",
+      conduct: "On Academic Probation",
+      formTeacherRemark: "Provisionally admitted on academic probation. Assigned to compulsory after-school remedial tutorials.",
+      principalRemark: "Opportunity granted to prove scholastic capacity. Must attain 60% terminal aggregate.",
+      punctuality: "Very Good",
+      neatness: "Good",
+      peers: "Polite and Respectful",
+      leadership: "Developing",
+      incidentText: "No negative disciplinary infractions or official reprimands recorded.",
+      rawScores: [
+        { subject: "English Studies", ca: 28, exam: 40 },
+        { subject: "Mathematics", ca: 26, exam: 38 },
+        { subject: "Social and Citizenship Education", ca: 27, exam: 40 },
+        { subject: "Nigerian History", ca: 28, exam: 41 },
+        { subject: "Physical and Health Education", ca: 29, exam: 42 },
+        { subject: "Intermediate Science", ca: 27, exam: 39 },
+        { subject: "Business Studies", ca: 26, exam: 38 },
+        { subject: "Pre Vocational Studies", ca: 28, exam: 40 },
+        { subject: "Cultural and Creative Arts", ca: 27, exam: 39 },
+        { subject: "Information Technology", ca: 30, exam: 43 },
+        { subject: "Literature", ca: 28, exam: 40 },
+        { subject: "Christian Religious Studies (CRS)", ca: 29, exam: 42 },
+        { subject: "French", ca: 24, exam: 35 },
+        { subject: "Tiv Language", ca: 30, exam: 42 },
+        { subject: "Chinese Language", ca: 23, exam: 33 }
+      ],
+      fees: [],
+      sundry: []
+    };
+  } else {
+    db.students[assignedStudentId].class = targetClass;
+    db.students[assignedStudentId].conduct = "On Academic Probation";
+  }
+
+  app.status = "Admitted on Probation";
+  app.decision = "Probation";
+  app.probationConditions = finalConditions;
+  app.studentId = assignedStudentId;
+  app.portalPin = assignedPin;
+  app.decisionDate = `${currentDate} at ${currentTime}`;
+
+  if (!app.mailHistory) app.mailHistory = [];
+  app.mailHistory.push({
+    type: "OFFER_PROBATION",
+    title: "Provisional Admission on Academic Probation Letter",
+    sender: BANTU_ADMISSIONS_CONFIG.officialSenderEmail,
+    recipient: app.email,
+    timestamp: `${currentDate} at ${currentTime}`,
+    subject: `OFFICIAL PROVISIONAL ADMISSION ON PROBATION: Bantu College (${app.studentName})`
+  });
+
+  saveBantuDatabase(db);
+  return {
+    success: true,
+    application: app,
+    student: db.students[assignedStudentId],
+    config: BANTU_ADMISSIONS_CONFIG,
+    letterType: "OFFER_PROBATION"
+  };
+}
+
+// 3. Decision Action C: Decline Admission / Notice of Regret
+function declineAdmissionInDb(applicationRef, declineReason) {
+  const db = getBantuDatabase();
+  const app = (db.applications || []).find(a => a.ref === applicationRef);
+  if (!app) {
+    return { success: false, message: "Application record not found." };
+  }
+
+  const now = new Date();
+  const currentDate = now.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
+  const currentTime = now.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
+
+  const defaultReason = "Candidate did not attain the competitive qualifying threshold of 50.00% in the entrance screening examination.";
+  app.status = "Admission Declined";
+  app.decision = "Declined";
+  app.declineReason = declineReason || defaultReason;
+  app.decisionDate = `${currentDate} at ${currentTime}`;
+
+  if (!app.mailHistory) app.mailHistory = [];
+  app.mailHistory.push({
+    type: "OFFER_DECLINED",
+    title: "Notice of Non-Admission and Academic Guidance Letter",
+    sender: BANTU_ADMISSIONS_CONFIG.officialSenderEmail,
+    recipient: app.email,
+    timestamp: `${currentDate} at ${currentTime}`,
+    subject: `APPLICATION DECISION NOTICE: Bantu College (${app.studentName})`
+  });
+
+  saveBantuDatabase(db);
+  return {
+    success: true,
+    application: app,
+    student: null,
+    config: BANTU_ADMISSIONS_CONFIG,
+    letterType: "OFFER_DECLINED"
+  };
+}
+
+// 4. Action D: Resend Entrance Examination Schedule Docket
+function resendExamDocketInDb(applicationRef) {
+  const db = getBantuDatabase();
+  const app = (db.applications || []).find(a => a.ref === applicationRef);
+  if (!app) return { success: false, message: "Application record not found." };
+
+  const now = new Date();
+  const currentDate = now.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
+  const currentTime = now.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
+
+  if (!app.mailHistory) app.mailHistory = [];
+  app.mailHistory.push({
+    type: "EXAM_SCHEDULE",
+    title: "Entrance Examination & Screening Docket",
+    sender: BANTU_ADMISSIONS_CONFIG.officialSenderEmail,
+    recipient: app.email,
+    timestamp: `${currentDate} at ${currentTime}`,
+    subject: `ENTRANCE EXAMINATION SCHEDULE: Bantu College (${app.studentName} - Ref: ${app.ref})`
+  });
+
+  saveBantuDatabase(db);
+  return {
+    success: true,
+    application: app,
+    config: BANTU_ADMISSIONS_CONFIG,
+    letterType: "EXAM_SCHEDULE"
+  };
+}
+
+// Compatibility wrapper
+function grantAdmissionOfferInDb(applicationRef, assignedClass) {
+  return grantFullAdmissionOfferInDb(applicationRef, assignedClass);
+}
+
+function getAdmissionOfferData(applicationRef, requestedType) {
   const db = getBantuDatabase();
   const app = (db.applications || []).find(a => a.ref === applicationRef);
   if (!app) return null;
   const student = app.studentId ? db.students[app.studentId] : null;
+
+  let activeType = requestedType;
+  if (!activeType) {
+    if (app.decision === "Probation" || app.status === "Admitted on Probation") activeType = "OFFER_PROBATION";
+    else if (app.decision === "Declined" || app.status === "Admission Declined") activeType = "OFFER_DECLINED";
+    else if (app.decision === "Admitted" || app.status === "Offer Granted") activeType = "OFFER_GRANTED";
+    else activeType = "EXAM_SCHEDULE";
+  }
+
   return {
     application: app,
     student: student,
-    config: BANTU_ADMISSIONS_CONFIG
+    config: BANTU_ADMISSIONS_CONFIG,
+    letterType: activeType
   };
 }
 
