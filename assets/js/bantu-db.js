@@ -1,7 +1,7 @@
 // Bantu College Unified Local Database and Atomic Transaction Engine
-// Version 4.0 with Sequential Admissions Registry, Automated Acceptance Notifications, and ACID Payments
+// Version 5.0 with Class Arm Streams (Basic 7A, 7B, 8A, 8B), Sequential Admissions, and ACID Payments
 const BANTU_STORAGE_KEY = "bantu_college_unified_db";
-const BANTU_DB_VERSION = 4;
+const BANTU_DB_VERSION = 5;
 
 // Admissions Office Global Configuration Slot
 const BANTU_ADMISSIONS_CONFIG = {
@@ -72,7 +72,7 @@ const defaultDatabaseSeed = {
       name: "Terseer Audu",
       initials: "TA",
       email: "t.audu@bantucollege.edu",
-      class: "Basic 7 (JSS 1)",
+      class: "Basic 7A",
       position: "1st of 42",
       feeStatus: "Cleared",
       totalTuitionBilled: 450000,
@@ -121,7 +121,7 @@ const defaultDatabaseSeed = {
       name: "Kator Chia",
       initials: "KC",
       email: "k.chia@bantucollege.edu",
-      class: "Basic 7 (JSS 1)",
+      class: "Basic 7A",
       position: "2nd of 42",
       feeStatus: "Partial",
       totalTuitionBilled: 450000,
@@ -167,7 +167,7 @@ const defaultDatabaseSeed = {
       name: "Bemgba Agber",
       initials: "BA",
       email: "b.agber@bantucollege.edu",
-      class: "Basic 7 (JSS 1)",
+      class: "Basic 7B",
       position: "3rd of 42",
       feeStatus: "Partial",
       totalTuitionBilled: 450000,
@@ -211,7 +211,7 @@ const defaultDatabaseSeed = {
       name: "Dooshima Iorfa",
       initials: "DI",
       email: "d.iorfa@bantucollege.edu",
-      class: "Basic 8 (JSS 2)",
+      class: "Basic 8A",
       position: "1st of 38",
       feeStatus: "Partial",
       totalTuitionBilled: 450000,
@@ -259,7 +259,7 @@ const defaultDatabaseSeed = {
       name: "Ngodoo Ugba",
       initials: "NU",
       email: "n.ugba@bantucollege.edu",
-      class: "Basic 8 (JSS 2)",
+      class: "Basic 8A",
       position: "2nd of 38",
       feeStatus: "Cleared",
       totalTuitionBilled: 450000,
@@ -306,7 +306,7 @@ const defaultDatabaseSeed = {
       name: "Sesugh Tyokaa",
       initials: "ST",
       email: "s.tyokaa@bantucollege.edu",
-      class: "Basic 8 (JSS 2)",
+      class: "Basic 8B",
       position: "3rd of 38",
       feeStatus: "Partial",
       totalTuitionBilled: 450000,
@@ -351,7 +351,7 @@ const defaultDatabaseSeed = {
       name: "Msughter Tyover",
       initials: "MT",
       email: "m.tyover@bantucollege.edu",
-      class: "Basic 7 (JSS 1)",
+      class: "Basic 7A",
       position: "Awaiting Assessment",
       feeStatus: "Partial",
       totalTuitionBilled: 450000,
@@ -401,7 +401,7 @@ const defaultDatabaseSeed = {
       date: "12 Oct 2026",
       studentName: "Msughter Tyover",
       dob: "2014-05-18",
-      entryLevel: "Basic 7 (JSS 1)",
+      entryLevel: "Basic 7A",
       guardianName: "Engr. S. Tyover",
       email: "s.tyover@gmail.com",
       phone: "+234 803 214 5590",
@@ -410,6 +410,10 @@ const defaultDatabaseSeed = {
       studentId: "BC/2026/026",
       portalPin: "1234",
       offerDate: "14 Oct 2026",
+      offerTime: "10:30",
+      emailDispatched: true,
+      emailRecipient: "s.tyover@gmail.com",
+      emailSender: "admissions@bantucollege.edu",
       message: "Candidate was head boy and excels in mathematics."
     },
     {
@@ -417,26 +421,65 @@ const defaultDatabaseSeed = {
       date: "19 Oct 2026",
       studentName: "Seember Igbawase",
       dob: "2013-11-04",
-      entryLevel: "Basic 8 (JSS 2)",
+      entryLevel: "Basic 8A",
       guardianName: "Dr. Mrs. A. Igbawase",
       email: "a.igbawase@yahoo.com",
       phone: "+234 812 770 3341",
       previousSchool: "Grace International Academy, Gboko",
       status: "Interview Scheduled",
-      message: "Transfer applicant seeking admission into Basic 8."
+      message: "Transfer applicant seeking admission into Basic 8A."
     },
     {
       ref: "BC/ADM/2026/003",
       date: "25 Oct 2026",
       studentName: "Aondona Kwaghtondo",
       dob: "2014-02-12",
-      entryLevel: "Basic 7 (JSS 1)",
+      entryLevel: "Basic 7B",
       guardianName: "Mr. T. Kwaghtondo",
       email: "t.kwaghtondo@gmail.com",
       phone: "+234 802 449 8812",
       previousSchool: "University Staff School, Makurdi",
       status: "Pending Review",
       message: "Keen interest in natural sciences and computer coding."
+    },
+    {
+      ref: "BC/ADM/2026/004",
+      date: "27 Oct 2026",
+      studentName: "Terungwa Gbande",
+      dob: "2014-06-15",
+      entryLevel: "Basic 7A",
+      guardianName: "Mrs. E. Gbande",
+      email: "e.gbande@gmail.com",
+      phone: "+234 803 551 2289",
+      previousSchool: "First Step Primary School, Makurdi",
+      status: "Pending Review",
+      message: "Strong foundation in literacy and Tiv oral poetry."
+    },
+    {
+      ref: "BC/ADM/2026/005",
+      date: "28 Oct 2026",
+      studentName: "Hembadoon Tarhule",
+      dob: "2013-09-22",
+      entryLevel: "Basic 8B",
+      guardianName: "Arch. D. Tarhule",
+      email: "d.tarhule@yahoo.com",
+      phone: "+234 815 662 9901",
+      previousSchool: "Benue State Model School, Makurdi",
+      status: "Interview Scheduled",
+      message: "Exemplary conduct and enthusiastic science student."
+    },
+    {
+      ref: "BC/ADM/2026/006",
+      date: "29 Oct 2026",
+      studentName: "Wandoo Iornumbe",
+      dob: "2014-03-30",
+      entryLevel: "Basic 7B",
+      guardianName: "Chief P. Iornumbe",
+      email: "p.iornumbe@gmail.com",
+      phone: "+234 809 332 1144",
+      previousSchool: "Kings and Queens Academy, Gboko",
+      status: "Pending Review",
+      message: "Gifted in creative arts and English composition."
     }
   ]
 };
@@ -704,7 +747,7 @@ function submitAdmissionApplication(data) {
     year: "numeric"
   });
 
-  const entryLevelFormatted = data.entryLevel === "basic-8" ? "Basic 8 (JSS 2)" : "Basic 7 (JSS 1)";
+  const entryLevelFormatted = data.entryLevel || "Basic 7A";
 
   const newApp = {
     ref: applicationRef,
@@ -737,16 +780,36 @@ function updateApplicationStatus(applicationRef, newStatus) {
   return { success: false, message: "Application reference not found." };
 }
 
+function updateApplicationClass(applicationRef, newClass) {
+  const db = getBantuDatabase();
+  if (!db.applications) return { success: false, message: "No applications found." };
+  const app = db.applications.find(a => a.ref === applicationRef);
+  if (app) {
+    app.entryLevel = newClass;
+    if (app.studentId && db.students[app.studentId]) {
+      db.students[app.studentId].class = newClass;
+    }
+    saveBantuDatabase(db);
+    return { success: true, message: `Application class updated to ${newClass}.` };
+  }
+  return { success: false, message: "Application reference not found." };
+}
+
 // Grant Admission Offer & Automated Email Dispatch Engine
-function grantAdmissionOfferInDb(applicationRef) {
+function grantAdmissionOfferInDb(applicationRef, assignedClass) {
   const db = getBantuDatabase();
   const app = (db.applications || []).find(a => a.ref === applicationRef);
   if (!app) {
     return { success: false, message: "Application record not found." };
   }
 
-  // If already granted, return existing record
+  const targetClass = assignedClass || app.entryLevel || "Basic 7A";
+  app.entryLevel = targetClass;
+
+  // If already granted, update class if changed and return existing record
   if (app.status === "Offer Granted" && app.studentId && db.students[app.studentId]) {
+    db.students[app.studentId].class = targetClass;
+    saveBantuDatabase(db);
     return {
       success: true,
       alreadyGranted: true,
@@ -779,7 +842,7 @@ function grantAdmissionOfferInDb(applicationRef) {
     name: app.studentName,
     initials: initials,
     email: studentEmail,
-    class: app.entryLevel,
+    class: targetClass,
     position: "Awaiting Assessment",
     feeStatus: "Partial",
     totalTuitionBilled: 450000,

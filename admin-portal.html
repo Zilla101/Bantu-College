@@ -116,10 +116,14 @@
       <!-- Controls -->
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem; background: rgba(0,0,0,0.02); padding: 1.25rem; border-radius: 14px;">
         <div class="form-group" style="margin-bottom: 0;">
-          <label for="adminClassSelect">Assigned Class</label>
+          <label for="adminClassSelect">Assigned Class Arm</label>
           <select id="adminClassSelect" onchange="loadSubjectScoresForClass()">
-            <option value="Basic 7">Basic 7 (JSS 1)</option>
-            <option value="Basic 8">Basic 8 (JSS 2)</option>
+            <option value="Basic 7A">Basic 7A (JSS 1A)</option>
+            <option value="Basic 7B">Basic 7B (JSS 1B)</option>
+            <option value="Basic 8A">Basic 8A (JSS 2A)</option>
+            <option value="Basic 8B">Basic 8B (JSS 2B)</option>
+            <option value="Basic 7">All Basic 7 Cohort</option>
+            <option value="Basic 8">All Basic 8 Cohort</option>
           </select>
         </div>
         <div class="form-group" style="margin-bottom: 0;">
@@ -261,7 +265,7 @@
       </div>
 
       <!-- Admissions Email Dispatch Notice Box -->
-      <div style="background: rgba(43, 42, 66, 0.04); border-left: 5px solid var(--color-gold); border-radius: 0 14px 14px 0; padding: 1.25rem 1.5rem; margin-bottom: 1.75rem;">
+      <div style="background: rgba(43, 42, 66, 0.04); border-left: 5px solid var(--color-gold); border-radius: 0 14px 14px 0; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem;">
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
           <div>
             <h3 style="font-family: var(--font-heading); font-size: 1.15rem; color: var(--color-slate); margin: 0 0 0.25rem 0;">Automated Offer Dispatch & Email Notification Engine</h3>
@@ -271,6 +275,56 @@
           </div>
           <span class="portal-badge portal-badge-green" style="font-size: 0.8rem; padding: 0.4rem 0.85rem;">Mail Engine: Active</span>
         </div>
+      </div>
+
+      <!-- Admissions Class Filtering & Sorting Controls -->
+      <div style="background: #ffffff; border: 1px solid rgba(0,0,0,0.08); border-radius: 14px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1rem;">
+          <strong style="color: var(--color-slate); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px;">Intake Registry by Class Stream:</strong>
+          <span style="font-size: 0.8rem; color: #666;">Click any class pill to isolate candidate cohort</span>
+        </div>
+
+        <!-- Class Stream Filter Pills -->
+        <div id="admissionsClassPillsContainer" style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.25rem;">
+          <!-- Populated via JavaScript dynamically -->
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; border-top: 1px solid rgba(0,0,0,0.06); padding-top: 1rem;">
+          <div class="form-group" style="margin-bottom: 0;">
+            <label for="admissionsClassSelect" style="font-size: 0.82rem; font-weight: 700; color: var(--color-slate); margin-bottom: 0.35rem; display: block;">Filter by Class Arm</label>
+            <select id="admissionsClassSelect" onchange="onAdmissionsClassDropdownChange()" style="width: 100%; padding: 0.55rem 0.85rem; border-radius: 8px; border: 1px solid #ccc; font-size: 0.88rem; background: #fafafa;">
+              <option value="ALL">All Class Arms (Full Registry)</option>
+              <option value="Basic 7A">Basic 7A (JSS 1A)</option>
+              <option value="Basic 7B">Basic 7B (JSS 1B)</option>
+              <option value="Basic 8A">Basic 8A (JSS 2A)</option>
+              <option value="Basic 8B">Basic 8B (JSS 2B)</option>
+              <option value="Basic 9A">Basic 9A (JSS 3A)</option>
+              <option value="Basic 9B">Basic 9B (JSS 3B)</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <label for="admissionsSortSelect" style="font-size: 0.82rem; font-weight: 700; color: var(--color-slate); margin-bottom: 0.35rem; display: block;">Sort Order</label>
+            <select id="admissionsSortSelect" onchange="renderAdmissionsTable()" style="width: 100%; padding: 0.55rem 0.85rem; border-radius: 8px; border: 1px solid #ccc; font-size: 0.88rem; background: #fafafa;">
+              <option value="class-asc" selected>Sort by Class (Basic 7A &rarr; 7B &rarr; 8A &rarr; 8B)</option>
+              <option value="class-desc">Sort by Class (Reverse Order)</option>
+              <option value="date-desc">Application Date (Newest First)</option>
+              <option value="date-asc">Application Date (Oldest First)</option>
+              <option value="name-asc">Candidate Name (Alphabetical A-Z)</option>
+              <option value="status-asc">Status</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <label for="admissionsStatusSelect" style="font-size: 0.82rem; font-weight: 700; color: var(--color-slate); margin-bottom: 0.35rem; display: block;">Filter by Status</label>
+            <select id="admissionsStatusSelect" onchange="renderAdmissionsTable()" style="width: 100%; padding: 0.55rem 0.85rem; border-radius: 8px; border: 1px solid #ccc; font-size: 0.88rem; background: #fafafa;">
+              <option value="ALL">All Statuses</option>
+              <option value="Pending Review">Pending Review</option>
+              <option value="Interview Scheduled">Interview Scheduled</option>
+              <option value="Offer Granted">Offer Granted (Admitted)</option>
+            </select>
+          </div>
+        </div>
+
       </div>
 
       <div class="table-responsive">
@@ -315,6 +369,22 @@
           <div><strong>From:</strong> Bantu College Admissions Desk &lt;<span id="offerSenderEmail">admissions@bantucollege.edu</span>&gt;</div>
           <div><strong>To:</strong> <span id="offerRecipientEmail">guardian@email.com</span></div>
           <div><strong>Subject:</strong> <span style="font-weight: 600;" id="offerEmailSubject">OFFICIAL PROVISIONAL OFFER OF ADMISSION: Bantu College</span></div>
+        </div>
+      </div>
+
+      <!-- Assigned Class Arm Adjustment Bar -->
+      <div class="no-print" style="display: flex; justify-content: space-between; align-items: center; background: rgba(43, 42, 66, 0.04); border: 1px solid rgba(186, 147, 79, 0.25); padding: 0.65rem 1rem; border-radius: 10px; margin-bottom: 1.25rem; font-size: 0.85rem;">
+        <div>Assigned Class Stream: <strong id="modalClassCurrentBadge" style="color: var(--color-slate); font-weight: 700;">Basic 7A</strong></div>
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <label for="modalClassArmSelect" style="font-size: 0.8rem; font-weight: 600; color: #555;">Reassign Stream:</label>
+          <select id="modalClassArmSelect" onchange="reassignModalApplicantClass(this.value)" style="padding: 0.35rem 0.65rem; font-size: 0.8rem; border-radius: 6px; border: 1px solid #ccc; background: #fff;">
+            <option value="Basic 7A">Basic 7A (JSS 1A)</option>
+            <option value="Basic 7B">Basic 7B (JSS 1B)</option>
+            <option value="Basic 8A">Basic 8A (JSS 2A)</option>
+            <option value="Basic 8B">Basic 8B (JSS 2B)</option>
+            <option value="Basic 9A">Basic 9A (JSS 3A)</option>
+            <option value="Basic 9B">Basic 9B (JSS 3B)</option>
+          </select>
         </div>
       </div>
 
@@ -781,6 +851,63 @@ function verifyPayment(reference) {
   }
 }
 
+// Admissions Intake Desk State
+let currentAdmissionsClassFilter = "ALL";
+let currentAdmissionsSortCriterion = "class-asc";
+let currentAdmissionsStatusFilter = "ALL";
+let currentViewingOfferRef = null;
+
+const CLASS_ARM_PRIORITY = {
+  "Basic 7A": 10,
+  "Basic 7B": 11,
+  "Basic 8A": 20,
+  "Basic 8B": 21,
+  "Basic 9A": 30,
+  "Basic 9B": 31
+};
+
+function onAdmissionsClassDropdownChange() {
+  const select = document.getElementById("admissionsClassSelect");
+  if (select) {
+    currentAdmissionsClassFilter = select.value;
+    renderAdmissionsTable();
+  }
+}
+
+function filterAdmissionsByPill(classArm) {
+  currentAdmissionsClassFilter = classArm;
+  const select = document.getElementById("admissionsClassSelect");
+  if (select) select.value = classArm;
+  renderAdmissionsTable();
+}
+
+function renderAdmissionsClassPills(applications) {
+  const container = document.getElementById("admissionsClassPillsContainer");
+  if (!container) return;
+
+  const streams = ["ALL", "Basic 7A", "Basic 7B", "Basic 8A", "Basic 8B", "Basic 9A", "Basic 9B"];
+  const counts = { ALL: applications.length };
+  streams.forEach(s => { if (s !== "ALL") counts[s] = 0; });
+
+  applications.forEach(a => {
+    if (a.entryLevel && counts[a.entryLevel] !== undefined) {
+      counts[a.entryLevel]++;
+    }
+  });
+
+  container.innerHTML = "";
+  streams.forEach(s => {
+    if (s === "ALL" || counts[s] > 0 || s === "Basic 7A" || s === "Basic 7B" || s === "Basic 8A" || s === "Basic 8B") {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = `admissions-pill ${currentAdmissionsClassFilter === s ? 'is-active' : ''}`;
+      btn.innerHTML = `${s === 'ALL' ? 'All Classes' : s} <span class="pill-count">${counts[s]}</span>`;
+      btn.onclick = () => filterAdmissionsByPill(s);
+      container.appendChild(btn);
+    }
+  });
+}
+
 // Admissions Intake Desk Rendering
 function renderAdmissionsTable() {
   const db = getBantuDatabase();
@@ -788,19 +915,78 @@ function renderAdmissionsTable() {
   tbody.innerHTML = "";
 
   const applications = db.applications || [];
-  document.getElementById("admissionsCountBadge").textContent = `Total Applicants: ${applications.length}`;
+  renderAdmissionsClassPills(applications);
 
-  applications.forEach(app => {
+  const sortSelect = document.getElementById("admissionsSortSelect");
+  if (sortSelect) currentAdmissionsSortCriterion = sortSelect.value;
+
+  const statusSelect = document.getElementById("admissionsStatusSelect");
+  if (statusSelect) currentAdmissionsStatusFilter = statusSelect.value;
+
+  // Filter
+  let filtered = applications.filter(app => {
+    const classMatch = (currentAdmissionsClassFilter === "ALL") ||
+      (app.entryLevel === currentAdmissionsClassFilter) ||
+      (app.entryLevel && app.entryLevel.startsWith(currentAdmissionsClassFilter));
+    const statusMatch = (currentAdmissionsStatusFilter === "ALL") || (app.status === currentAdmissionsStatusFilter);
+    return classMatch && statusMatch;
+  });
+
+  // Sort
+  filtered.sort((a, b) => {
+    if (currentAdmissionsSortCriterion === "class-asc") {
+      const pA = CLASS_ARM_PRIORITY[a.entryLevel] || 99;
+      const pB = CLASS_ARM_PRIORITY[b.entryLevel] || 99;
+      if (pA !== pB) return pA - pB;
+      return a.studentName.localeCompare(b.studentName);
+    }
+    if (currentAdmissionsSortCriterion === "class-desc") {
+      const pA = CLASS_ARM_PRIORITY[a.entryLevel] || 99;
+      const pB = CLASS_ARM_PRIORITY[b.entryLevel] || 99;
+      if (pA !== pB) return pB - pA;
+      return a.studentName.localeCompare(b.studentName);
+    }
+    if (currentAdmissionsSortCriterion === "date-desc") {
+      return (b.ref || "").localeCompare(a.ref || "");
+    }
+    if (currentAdmissionsSortCriterion === "date-asc") {
+      return (a.ref || "").localeCompare(b.ref || "");
+    }
+    if (currentAdmissionsSortCriterion === "name-asc") {
+      return a.studentName.localeCompare(b.studentName);
+    }
+    if (currentAdmissionsSortCriterion === "status-asc") {
+      return a.status.localeCompare(b.status);
+    }
+    return 0;
+  });
+
+  document.getElementById("admissionsCountBadge").textContent = `Showing: ${filtered.length} of ${applications.length} Candidates`;
+
+  if (filtered.length === 0) {
+    const emptyRow = document.createElement("tr");
+    emptyRow.innerHTML = `<td colspan="9" style="text-align: center; padding: 2rem; color: #888;">No admission applications found for selected class stream or filter.</td>`;
+    tbody.appendChild(emptyRow);
+    return;
+  }
+
+  filtered.forEach(app => {
     let badgeClass = "portal-badge-gold";
     if (app.status === "Offer Granted") badgeClass = "portal-badge-green";
     if (app.status === "Interview Scheduled") badgeClass = "portal-badge-b2";
+
+    let classBadgeColor = "portal-badge-gold";
+    if (app.entryLevel && app.entryLevel.includes("7A")) classBadgeColor = "portal-badge-a";
+    else if (app.entryLevel && app.entryLevel.includes("7B")) classBadgeColor = "portal-badge-b3";
+    else if (app.entryLevel && app.entryLevel.includes("8A")) classBadgeColor = "portal-badge-b2";
+    else if (app.entryLevel && app.entryLevel.includes("8B")) classBadgeColor = "portal-badge-c";
 
     const row = document.createElement("tr");
     row.innerHTML = `
       <td>${app.date}</td>
       <td><span style="font-family: monospace; font-size: 0.85rem; color: #555;">${app.ref}</span></td>
       <td><strong>${app.studentName}</strong></td>
-      <td>${app.entryLevel}</td>
+      <td><span class="portal-badge ${classBadgeColor}" style="font-weight: 700; font-size: 0.82rem;">${app.entryLevel}</span></td>
       <td>${app.guardianName}</td>
       <td>${app.phone}</td>
       <td><span style="font-size: 0.85rem; color: #555;">${app.previousSchool}</span></td>
@@ -808,9 +994,17 @@ function renderAdmissionsTable() {
       <td style="text-align: center;">
         ${app.status === "Offer Granted" 
           ? `<button class="btn-outline" style="padding: 0.35rem 0.75rem; font-size: 0.75rem;" onclick="viewOfferLetter('${app.ref}')">View Admission Letter</button>` 
-          : `<div style="display: flex; gap: 0.35rem; justify-content: center;">
-              ${app.status !== 'Interview Scheduled' ? `<button class="btn-outline" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" onclick="setApplicationStatus('${app.ref}', 'Interview Scheduled')">Interview</button>` : ''}
-              <button class="btn-primary" style="padding: 0.3rem 0.65rem; font-size: 0.75rem;" onclick="grantAdmissionOffer('${app.ref}')">Grant Offer</button>
+          : `<div style="display: flex; gap: 0.35rem; justify-content: center; align-items: center; flex-wrap: wrap;">
+              <select id="assignArm_${app.ref}" style="padding: 0.28rem 0.45rem; font-size: 0.75rem; border-radius: 6px; border: 1px solid #ccc; font-weight: 600; background: #fff;" title="Assign Specific Class Arm">
+                <option value="Basic 7A" ${app.entryLevel === 'Basic 7A' ? 'selected' : ''}>Basic 7A</option>
+                <option value="Basic 7B" ${app.entryLevel === 'Basic 7B' ? 'selected' : ''}>Basic 7B</option>
+                <option value="Basic 8A" ${app.entryLevel === 'Basic 8A' ? 'selected' : ''}>Basic 8A</option>
+                <option value="Basic 8B" ${app.entryLevel === 'Basic 8B' ? 'selected' : ''}>Basic 8B</option>
+                <option value="Basic 9A" ${app.entryLevel === 'Basic 9A' ? 'selected' : ''}>Basic 9A</option>
+                <option value="Basic 9B" ${app.entryLevel === 'Basic 9B' ? 'selected' : ''}>Basic 9B</option>
+              </select>
+              ${app.status !== 'Interview Scheduled' ? `<button class="btn-outline" style="padding: 0.28rem 0.55rem; font-size: 0.75rem;" onclick="setApplicationStatus('${app.ref}', 'Interview Scheduled')">Interview</button>` : ''}
+              <button class="btn-primary" style="padding: 0.28rem 0.65rem; font-size: 0.75rem;" onclick="grantAdmissionOfferWithSelectedArm('${app.ref}')">Grant Offer</button>
             </div>`
         }
       </td>
@@ -829,13 +1023,31 @@ function setApplicationStatus(reference, newStatus) {
   }
 }
 
-function grantAdmissionOffer(reference) {
-  const result = grantAdmissionOfferInDb(reference);
+function grantAdmissionOfferWithSelectedArm(reference) {
+  const armSelect = document.getElementById("assignArm_" + reference);
+  const chosenArm = armSelect ? armSelect.value : "Basic 7A";
+  const result = grantAdmissionOfferInDb(reference, chosenArm);
   if (result.success) {
     renderAdmissionsTable();
     displayOfferModal(result);
   } else {
     alert(result.message || "Unable to grant admission offer at this time.");
+  }
+}
+
+function grantAdmissionOffer(reference) {
+  grantAdmissionOfferWithSelectedArm(reference);
+}
+
+function reassignModalApplicantClass(newArm) {
+  if (!currentViewingOfferRef) return;
+  const result = updateApplicationClass(currentViewingOfferRef, newArm);
+  if (result.success) {
+    const data = getAdmissionOfferData(currentViewingOfferRef);
+    if (data) {
+      displayOfferModal(data);
+      renderAdmissionsTable();
+    }
   }
 }
 
@@ -851,6 +1063,12 @@ function viewOfferLetter(reference) {
 function displayOfferModal(data) {
   const app = data.application;
   const config = data.config || BANTU_ADMISSIONS_CONFIG;
+  currentViewingOfferRef = app.ref;
+
+  const currentBadge = document.getElementById("modalClassCurrentBadge");
+  if (currentBadge) currentBadge.textContent = app.entryLevel;
+  const armSelect = document.getElementById("modalClassArmSelect");
+  if (armSelect) armSelect.value = app.entryLevel;
 
   const timestampText = (app.offerDate ? `${app.offerDate}${app.offerTime ? ' at ' + app.offerTime : ''}` : new Date().toLocaleDateString("en-GB")) + " (Automated Transmission)";
   document.getElementById("offerEmailTimestamp").textContent = timestampText;
