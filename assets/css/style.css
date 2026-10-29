@@ -1136,3 +1136,133 @@ details[open] summary {
     display: none !important;
   }
 }
+
+/* Modal and Destination Launchpad */
+.portal-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(15, 15, 15, 0.7);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 1.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.portal-modal-overlay.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+.portal-modal-card {
+  background: #ffffff;
+  border-radius: 20px;
+  max-width: 580px;
+  width: 100%;
+  padding: clamp(1.75rem, 5vw, 2.5rem);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(186, 147, 79, 0.3);
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.destination-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.destination-card {
+  background: rgba(43, 42, 66, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 14px;
+  padding: 1.25rem;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.destination-card:hover {
+  background: #ffffff;
+  border-color: var(--color-gold);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.1);
+}
+.destination-card h4 {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  color: var(--color-slate);
+  margin-bottom: 0.35rem;
+}
+.destination-card p {
+  font-size: 0.85rem;
+  color: #666;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Grade Badges */
+.portal-badge-a {
+  background: rgba(34, 197, 94, 0.15);
+  color: #15803d;
+}
+.portal-badge-b2 {
+  background: rgba(14, 165, 233, 0.15);
+  color: #0369a1;
+}
+.portal-badge-b3 {
+  background: rgba(186, 147, 79, 0.18);
+  color: var(--color-gold-dark);
+}
+.portal-badge-c {
+  background: rgba(234, 179, 8, 0.18);
+  color: #a16207;
+}
+.portal-badge-f {
+  background: rgba(230, 44, 32, 0.15);
+  color: var(--color-red);
+}
+
+/* Admin Portal Specifics */
+.admin-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: clamp(1.5rem, 4vw, 2.25rem);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 6px 20px -8px rgba(0, 0, 0, 0.06);
+  margin-bottom: 2rem;
+}
+.admin-stats-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+.admin-stat-box {
+  background: rgba(43, 42, 66, 0.03);
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+.admin-stat-box span {
+  font-size: 0.8rem;
+  color: #666;
+  text-transform: uppercase;
+  font-weight: 700;
+  display: block;
+}
+.admin-stat-box strong {
+  font-size: 1.5rem;
+  font-family: var(--font-heading);
+  color: var(--color-slate);
+  margin-top: 0.25rem;
+  display: block;
+}

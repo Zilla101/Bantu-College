@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Student Portal | Bantu College</title>
-<link rel="stylesheet" href="assets/css/style.css?v=6">
+<link rel="stylesheet" href="assets/css/style.css?v=7">
 
 <meta name="description" content="Official student portal for Bantu College. Check termly results, fee ledgers, sundry expenses, and disciplinary records.">
 <meta property="og:type" content="website">
@@ -26,6 +26,7 @@
 <li><a href="index.html">Main Website</a></li>
 <li><a href="academics.html">Academics</a></li>
 <li><a href="admissions.html">Admissions</a></li>
+<li><a href="admin-portal.html" style="color: var(--color-gold-dark); font-weight: 700;">Staff and Bursar Desk</a></li>
 </ul>
 </nav>
 <a href="index.html" class="btn-outline" style="padding: 0.6rem 1.2rem; font-size: 0.9rem;">Exit Portal</a>
@@ -57,6 +58,12 @@
       <button type="submit" class="btn-primary" style="width: 100%; padding: 0.95rem;">Access Student Portal</button>
     </form>
 
+    <div style="text-align: center; margin-top: 1rem;">
+      <button id="openForgotModalBtn" type="button" style="background: none; border: none; color: var(--color-gold-dark); font-weight: 700; font-size: 0.9rem; cursor: pointer; text-decoration: underline;">
+        Forgot Password or PIN?
+      </button>
+    </div>
+
     <div class="portal-demo-notice">
       <strong style="color: var(--color-slate); display: block; margin-bottom: 0.35rem;">Sample Test Logins for Demonstration:</strong>
       <p>Student 1: Admission No: <strong>BC/2026/014</strong> | PIN: <strong>1234</strong> (Basic 7)</p>
@@ -64,8 +71,75 @@
     </div>
 
     <p style="text-align: center; margin-top: 1.5rem; font-size: 0.85rem; color: #777;">
-      For lost access credentials or admission verification, contact the administrative office of Mr. Kwaghtongo D. A.
+      School Administration Portal: <a href="admin-portal.html" style="color: var(--color-slate); font-weight: 700;">Open Teacher and Bursar Desk</a>
     </p>
+  </div>
+</div>
+
+<!-- Forgot Password Modal -->
+<div id="forgotPasswordModal" class="portal-modal-overlay no-print">
+  <div class="portal-modal-card">
+    <h3 style="font-family: var(--font-heading); color: var(--color-slate); font-size: 1.4rem; margin-bottom: 0.5rem;">Reset Student Access PIN</h3>
+    <p style="font-size: 0.95rem; color: #555; line-height: 1.5; margin-bottom: 1.5rem;">
+      Enter your Student Admission Number below. A secure password reset link and temporary authentication token will be dispatched directly to your registered school email address.
+    </p>
+    
+    <form id="forgotPasswordForm">
+      <div class="form-group">
+        <label for="resetAdmissionNo">Student Admission Number</label>
+        <input type="text" id="resetAdmissionNo" required placeholder="e.g. BC/2026/014">
+      </div>
+      <div id="resetSuccessMsg" style="display: none; background: rgba(34, 197, 94, 0.12); color: #15803d; padding: 1rem; border-radius: 10px; margin-bottom: 1rem; font-size: 0.9rem; line-height: 1.5;"></div>
+      <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem;">
+        <button type="button" id="closeForgotModalBtn" class="btn-outline" style="padding: 0.7rem 1.4rem;">Cancel</button>
+        <button type="submit" class="btn-primary" style="padding: 0.7rem 1.4rem;">Send Reset Link</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Post Login Destination Selection Dialog -->
+<div id="destinationModal" class="portal-modal-overlay no-print">
+  <div class="portal-modal-card" style="max-width: 620px;">
+    <div style="text-align: center; margin-bottom: 1.5rem;">
+      <span style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase; color: var(--color-gold-dark); letter-spacing: 1px;">Access Navigation</span>
+      <h3 style="font-family: var(--font-heading); color: var(--color-slate); font-size: 1.6rem; margin: 0.35rem 0;" id="destModalGreeting">Welcome, Scholar</h3>
+      <p style="font-size: 0.95rem; color: #666; margin: 0;">Please select the section you wish to view right now:</p>
+    </div>
+
+    <div class="destination-grid">
+      <div class="destination-card" onclick="selectDestination('tabResults')">
+        <div>
+          <h4>Academic Report</h4>
+          <p>View your 15 subject terminal scores, position, and teacher remarks.</p>
+        </div>
+        <span style="color: var(--color-gold-dark); font-size: 0.85rem; font-weight: 700; margin-top: 1rem; display: block;">Open Results Sheet</span>
+      </div>
+
+      <div class="destination-card" onclick="selectDestination('tabFees')">
+        <div>
+          <h4>School Fees Ledger</h4>
+          <p>Check paid tuition, bank receipt references, and cleared balance.</p>
+        </div>
+        <span style="color: var(--color-gold-dark); font-size: 0.85rem; font-weight: 700; margin-top: 1rem; display: block;">Open Fees Ledger</span>
+      </div>
+
+      <div class="destination-card" onclick="selectDestination('tabSundry')">
+        <div>
+          <h4>Sundry Expenses</h4>
+          <p>Itemized charges for uniforms, practical manuals, and kits.</p>
+        </div>
+        <span style="color: var(--color-gold-dark); font-size: 0.85rem; font-weight: 700; margin-top: 1rem; display: block;">Open Sundry Statement</span>
+      </div>
+
+      <div class="destination-card" onclick="selectDestination('tabDiscipline')">
+        <div>
+          <h4>Conduct and Discipline</h4>
+          <p>Punctuality, neatness, attendance, and official behavioral log.</p>
+        </div>
+        <span style="color: var(--color-gold-dark); font-size: 0.85rem; font-weight: 700; margin-top: 1rem; display: block;">Open Conduct Log</span>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -83,8 +157,8 @@
         </p>
       </div>
     </div>
-    <div style="display: flex; gap: 0.75rem; align-items: center;">
-      <button onclick="window.print()" class="btn-outline" style="color: var(--color-white); border-color: rgba(255,255,255,0.4); padding: 0.55rem 1.1rem; font-size: 0.85rem;">Print Report</button>
+    <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+      <button onclick="triggerPrintCurrentTab()" class="btn-outline" style="color: var(--color-white); border-color: rgba(255,255,255,0.4); padding: 0.55rem 1.1rem; font-size: 0.85rem;">Print Current Section (PDF)</button>
       <button id="logoutBtn" class="btn-primary" style="padding: 0.55rem 1.1rem; font-size: 0.85rem; background: var(--color-red);">Sign Out</button>
     </div>
   </div>
@@ -93,8 +167,8 @@
   <div class="portal-kpi-grid no-print">
     <div class="portal-kpi-card">
       <div class="portal-kpi-label">Academic Average</div>
-      <div class="portal-kpi-val" id="kpiAverage">78.4%</div>
-      <div style="font-size: 0.85rem; color: #666; margin-top: 0.25rem;">Overall Grade: <strong id="kpiGrade">A</strong></div>
+      <div class="portal-kpi-val" id="kpiAverage">78.47%</div>
+      <div style="font-size: 0.85rem; color: #666; margin-top: 0.25rem;">Overall Grade: <strong id="kpiGrade">B2 (Very Good)</strong></div>
     </div>
     <div class="portal-kpi-card">
       <div class="portal-kpi-label">Tuition Fee Status</div>
@@ -103,13 +177,13 @@
     </div>
     <div class="portal-kpi-card">
       <div class="portal-kpi-label">Attendance Record</div>
-      <div class="portal-kpi-val" id="kpiAttendance">96%</div>
-      <div style="font-size: 0.85rem; color: #666; margin-top: 0.25rem;">62 of 64 Days Present</div>
+      <div class="portal-kpi-val" id="kpiAttendance">96.00%</div>
+      <div style="font-size: 0.85rem; color: #666; margin-top: 0.25rem;">62 of 64 School Days</div>
     </div>
     <div class="portal-kpi-card">
       <div class="portal-kpi-label">Conduct Assessment</div>
       <div class="portal-kpi-val" style="color: var(--color-gold-dark);" id="kpiConduct">Exemplary</div>
-      <div style="font-size: 0.85rem; color: #666; margin-top: 0.25rem;">Zero Infractions Recorded</div>
+      <div style="font-size: 0.85rem; color: #666; margin-top: 0.25rem;">Clean Discipline Record</div>
     </div>
   </div>
 
@@ -139,8 +213,18 @@
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; font-size: 0.95rem;">
         <div>Student Name: <strong id="reportStudentName">Terseer Audu</strong></div>
         <div>Admission Number: <strong id="reportStudentId">BC/2026/014</strong></div>
-        <div>Total Enrolled Subjects: <strong>15 Subjects</strong></div>
         <div>Class Position: <strong id="reportPosition">3rd of 42</strong></div>
+        <div>Term Average: <strong id="reportAverageVal">78.47%</strong></div>
+      </div>
+
+      <!-- Grading Scale Reference Table -->
+      <div class="no-print" style="background: rgba(0,0,0,0.02); padding: 0.75rem 1rem; border-radius: 8px; margin-bottom: 1rem; font-size: 0.85rem; display: flex; flex-wrap: wrap; gap: 1.25rem; color: #555;">
+        <span><strong>Grading System:</strong></span>
+        <span>A (80 to 100): Excellent</span>
+        <span>B2 (75 to 79.99): Very Good</span>
+        <span>B3 (70 to 74.99): Good</span>
+        <span>C (60 to 69.99): Credit</span>
+        <span>F (0 to 59.99): Fail</span>
       </div>
 
       <div class="table-responsive">
@@ -179,23 +263,23 @@
       </div>
 
       <div style="text-align: right; margin-top: 1.5rem;" class="no-print">
-        <button onclick="window.print()" class="btn-primary" style="padding: 0.75rem 1.5rem;">Print Official Report Sheet</button>
+        <button onclick="window.print()" class="btn-primary" style="padding: 0.75rem 1.5rem;">Print Academic Report (PDF)</button>
       </div>
 
     </div>
   </div>
 
   <!-- Tab 2: School Fees Ledger -->
-  <div id="tabFees" class="portal-tab-pane">
+  <div id="tabFees" class="portal-tab-pane printable-area">
     <div style="background: #ffffff; padding: clamp(1.5rem, 4vw, 2.5rem); border-radius: 18px; border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 6px 20px -8px rgba(0,0,0,0.06); margin-bottom: 2rem;">
       
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;">
         <div>
-          <h3 style="font-family: var(--font-heading); font-size: 1.5rem; color: var(--color-slate); margin: 0;">School Fees Ledger</h3>
-          <p style="color: #666; font-size: 0.95rem; margin-top: 0.25rem;">2026/2027 Session Fee Statement</p>
+          <h3 style="font-family: var(--font-heading); font-size: 1.5rem; color: var(--color-slate); margin: 0;">School Fees Statement</h3>
+          <p style="color: #666; font-size: 0.95rem; margin-top: 0.25rem;">2026/2027 Session Fee Statement | Bantu College Bursary</p>
         </div>
         <div style="background: rgba(34, 197, 94, 0.12); padding: 0.6rem 1.2rem; border-radius: 10px; border: 1px solid rgba(34, 197, 94, 0.3);">
-          <span style="font-size: 0.85rem; color: #15803d; font-weight: 700; text-transform: uppercase;">Ledger Status: Cleared</span>
+          <span style="font-size: 0.85rem; color: #15803d; font-weight: 700; text-transform: uppercase;">Ledger Status: Verified and Cleared</span>
         </div>
       </div>
 
@@ -228,11 +312,15 @@
         </div>
       </div>
 
+      <div style="text-align: right; margin-top: 1.5rem;" class="no-print">
+        <button onclick="window.print()" class="btn-primary" style="padding: 0.75rem 1.5rem;">Print Fee Statement (PDF)</button>
+      </div>
+
     </div>
   </div>
 
   <!-- Tab 3: Sundry Expenses -->
-  <div id="tabSundry" class="portal-tab-pane">
+  <div id="tabSundry" class="portal-tab-pane printable-area">
     <div style="background: #ffffff; padding: clamp(1.5rem, 4vw, 2.5rem); border-radius: 18px; border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 6px 20px -8px rgba(0,0,0,0.06); margin-bottom: 2rem;">
       
       <div style="margin-bottom: 1.5rem;">
@@ -257,11 +345,15 @@
         </table>
       </div>
 
+      <div style="text-align: right; margin-top: 1.5rem;" class="no-print">
+        <button onclick="window.print()" class="btn-primary" style="padding: 0.75rem 1.5rem;">Print Sundry Statement (PDF)</button>
+      </div>
+
     </div>
   </div>
 
   <!-- Tab 4: Conduct and Disciplinary Log -->
-  <div id="tabDiscipline" class="portal-tab-pane">
+  <div id="tabDiscipline" class="portal-tab-pane printable-area">
     <div style="background: #ffffff; padding: clamp(1.5rem, 4vw, 2.5rem); border-radius: 18px; border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 6px 20px -8px rgba(0,0,0,0.06); margin-bottom: 2rem;">
       
       <div style="margin-bottom: 1.5rem;">
@@ -296,6 +388,10 @@
         </p>
       </div>
 
+      <div style="text-align: right; margin-top: 1.5rem;" class="no-print">
+        <button onclick="window.print()" class="btn-primary" style="padding: 0.75rem 1.5rem;">Print Conduct Evaluation (PDF)</button>
+      </div>
+
     </div>
   </div>
 
@@ -313,19 +409,28 @@
 </footer>
 
 <script>
-// Mock Student Database
+// Official Bantu College Grading Engine
+function getGradeAndRemark(totalScore) {
+  const score = parseFloat(totalScore);
+  if (score >= 80.00) return { grade: "A", remark: "Excellent", badgeClass: "portal-badge-a" };
+  if (score >= 75.00) return { grade: "B2", remark: "Very Good", badgeClass: "portal-badge-b2" };
+  if (score >= 70.00) return { grade: "B3", remark: "Good", badgeClass: "portal-badge-b3" };
+  if (score >= 60.00) return { grade: "C", remark: "Credit", badgeClass: "portal-badge-c" };
+  return { grade: "F", remark: "Fail", badgeClass: "portal-badge-f" };
+}
+
+// Student Database
 const studentDatabase = {
   "BC/2026/014": {
     pin: "1234",
     name: "Terseer Audu",
     initials: "TA",
+    email: "t.audu@bantucollege.edu",
     class: "Basic 7 (JSS 1)",
     position: "3rd of 42",
-    average: "78.4%",
-    grade: "A",
     feeStatus: "Cleared",
     balance: "&#8358;0.00",
-    attendance: "96%",
+    attendance: "96.00%",
     conduct: "Exemplary",
     formTeacherRemark: "An exceptionally dedicated and attentive student who shows keen enthusiasm across Mathematics and Information Technology.",
     principalRemark: "Commendable academic effort. Maintain this focus and moral discipline in the upcoming term.",
@@ -334,22 +439,22 @@ const studentDatabase = {
     peers: "Respectful and Cooperative",
     leadership: "High Initiative",
     incidentText: "No negative disciplinary infractions or official reprimands have been recorded for this scholar during the current session.",
-    results: [
-      { subject: "English Studies", ca: 34, exam: 50, total: 84, grade: "A", remark: "Fluent oral and written expression" },
-      { subject: "Mathematics", ca: 36, exam: 52, total: 88, grade: "A", remark: "High arithmetic and algebraic precision" },
-      { subject: "Social and Citizenship Education", ca: 30, exam: 45, total: 75, grade: "B", remark: "Good grasp of civic duties" },
-      { subject: "Nigerian History", ca: 32, exam: 48, total: 80, grade: "A", remark: "Deep cultural and historical insight" },
-      { subject: "Physical and Health Education", ca: 35, exam: 46, total: 81, grade: "A", remark: "Active and disciplined sports participant" },
-      { subject: "Intermediate Science", ca: 31, exam: 47, total: 78, grade: "B", remark: "Careful laboratory observation skills" },
-      { subject: "Business Studies", ca: 28, exam: 44, total: 72, grade: "B", remark: "Understands introductory bookkeeping" },
-      { subject: "Pre Vocational Studies", ca: 33, exam: 45, total: 78, grade: "B", remark: "Good practical craftsmanship" },
-      { subject: "Cultural and Creative Arts", ca: 29, exam: 43, total: 72, grade: "B", remark: "Expressive artistic composition" },
-      { subject: "Information Technology", ca: 38, exam: 54, total: 92, grade: "A", remark: "Exceptional typing and basic coding logic" },
-      { subject: "Literature", ca: 31, exam: 46, total: 77, grade: "B", remark: "Analytical reading of assigned texts" },
-      { subject: "Christian Religious Studies (CRS)", ca: 34, exam: 50, total: 84, grade: "A", remark: "Strong moral comprehension" },
-      { subject: "French", ca: 26, exam: 40, total: 66, grade: "C", remark: "Fair pronunciation; needs more speaking drill" },
-      { subject: "Tiv Language", ca: 35, exam: 49, total: 84, grade: "A", remark: "Excellent native fluency and grammar" },
-      { subject: "Chinese Language", ca: 27, exam: 38, total: 65, grade: "C", remark: "Accurate stroke order; continue tones practice" }
+    rawScores: [
+      { subject: "English Studies", ca: 34, exam: 50 },
+      { subject: "Mathematics", ca: 36, exam: 52 },
+      { subject: "Social and Citizenship Education", ca: 30, exam: 45 },
+      { subject: "Nigerian History", ca: 32, exam: 48 },
+      { subject: "Physical and Health Education", ca: 35, exam: 46 },
+      { subject: "Intermediate Science", ca: 31, exam: 47 },
+      { subject: "Business Studies", ca: 28, exam: 44 },
+      { subject: "Pre Vocational Studies", ca: 33, exam: 45 },
+      { subject: "Cultural and Creative Arts", ca: 29, exam: 43 },
+      { subject: "Information Technology", ca: 38, exam: 54 },
+      { subject: "Literature", ca: 31, exam: 46 },
+      { subject: "Christian Religious Studies (CRS)", ca: 34, exam: 50 },
+      { subject: "French", ca: 26, exam: 40 },
+      { subject: "Tiv Language", ca: 35, exam: 49 },
+      { subject: "Chinese Language", ca: 27, exam: 38 }
     ],
     fees: [
       { date: "15 Sep 2026", desc: "First Term Tuition Fee", billed: "&#8358;150,000.00", paid: "&#8358;150,000.00", ref: "BNT/26/TX0104", status: "Paid" },
@@ -367,13 +472,12 @@ const studentDatabase = {
     pin: "5678",
     name: "Dooshima Iorfa",
     initials: "DI",
+    email: "d.iorfa@bantucollege.edu",
     class: "Basic 8 (JSS 2)",
     position: "1st of 38",
-    average: "84.2%",
-    grade: "A",
     feeStatus: "Cleared",
     balance: "&#8358;0.00",
-    attendance: "98%",
+    attendance: "98.00%",
     conduct: "Exemplary",
     formTeacherRemark: "A brilliant and responsible scholar who demonstrates remarkable leadership and diligence across all subjects.",
     principalRemark: "Outstanding academic performance. An exemplary representative of Bantu College values.",
@@ -382,22 +486,22 @@ const studentDatabase = {
     peers: "Warm and Helpful Leader",
     leadership: "Outstanding",
     incidentText: "No negative disciplinary infractions or official reprimands have been recorded for this scholar during the current session.",
-    results: [
-      { subject: "English Studies", ca: 37, exam: 54, total: 91, grade: "A", remark: "Outstanding literary comprehension" },
-      { subject: "Mathematics", ca: 38, exam: 55, total: 93, grade: "A", remark: "Mastery of mathematical problem solving" },
-      { subject: "Social and Citizenship Education", ca: 33, exam: 49, total: 82, grade: "A", remark: "Clear understanding of constitutional laws" },
-      { subject: "Nigerian History", ca: 36, exam: 52, total: 88, grade: "A", remark: "Superb historical analysis" },
-      { subject: "Physical and Health Education", ca: 34, exam: 48, total: 82, grade: "A", remark: "Great athletics coordination" },
-      { subject: "Intermediate Science", ca: 35, exam: 51, total: 86, grade: "A", remark: "Thorough scientific accuracy" },
-      { subject: "Business Studies", ca: 33, exam: 48, total: 81, grade: "A", remark: "Solid commercial calculation skills" },
-      { subject: "Pre Vocational Studies", ca: 32, exam: 47, total: 79, grade: "B", remark: "Neat execution in workshop lessons" },
-      { subject: "Cultural and Creative Arts", ca: 31, exam: 45, total: 76, grade: "B", remark: "Pleasing visual designs" },
-      { subject: "Information Technology", ca: 39, exam: 56, total: 95, grade: "A", remark: "Exceptional logic and computer programming" },
-      { subject: "Literature", ca: 36, exam: 52, total: 88, grade: "A", remark: "Deep essay and character critique" },
-      { subject: "Christian Religious Studies (CRS)", ca: 35, exam: 51, total: 86, grade: "A", remark: "Thoughtful scriptural reflection" },
-      { subject: "French", ca: 30, exam: 44, total: 74, grade: "B", remark: "Good grammatical structure" },
-      { subject: "Tiv Language", ca: 37, exam: 53, total: 90, grade: "A", remark: "Fluent and culturally articulate" },
-      { subject: "Chinese Language", ca: 29, exam: 43, total: 72, grade: "B", remark: "Commendable memorization of Chinese characters" }
+    rawScores: [
+      { subject: "English Studies", ca: 37, exam: 54 },
+      { subject: "Mathematics", ca: 38, exam: 55 },
+      { subject: "Social and Citizenship Education", ca: 33, exam: 49 },
+      { subject: "Nigerian History", ca: 36, exam: 52 },
+      { subject: "Physical and Health Education", ca: 34, exam: 48 },
+      { subject: "Intermediate Science", ca: 35, exam: 51 },
+      { subject: "Business Studies", ca: 33, exam: 48 },
+      { subject: "Pre Vocational Studies", ca: 32, exam: 47 },
+      { subject: "Cultural and Creative Arts", ca: 31, exam: 45 },
+      { subject: "Information Technology", ca: 39, exam: 56 },
+      { subject: "Literature", ca: 36, exam: 52 },
+      { subject: "Christian Religious Studies (CRS)", ca: 35, exam: 51 },
+      { subject: "French", ca: 30, exam: 44 },
+      { subject: "Tiv Language", ca: 37, exam: 53 },
+      { subject: "Chinese Language", ca: 29, exam: 43 }
     ],
     fees: [
       { date: "15 Sep 2026", desc: "First Term Tuition Fee", billed: "&#8358;150,000.00", paid: "&#8358;150,000.00", ref: "BNT/26/TX0189", status: "Paid" },
@@ -413,6 +517,8 @@ const studentDatabase = {
   }
 };
 
+let currentLoggedInStudent = null;
+
 // Authentication Handler
 document.getElementById("portalLoginForm").addEventListener("submit", function(e) {
   e.preventDefault();
@@ -422,27 +528,71 @@ document.getElementById("portalLoginForm").addEventListener("submit", function(e
 
   if (studentDatabase[idInput] && studentDatabase[idInput].pin === pinInput) {
     errorMsg.style.display = "none";
-    loadStudentDashboard(studentDatabase[idInput], idInput);
+    currentLoggedInStudent = studentDatabase[idInput];
+    currentLoggedInStudent.id = idInput;
+    
+    // Prepare Dashboard Data
+    loadStudentDashboard(currentLoggedInStudent);
+    
+    // Show Destination Selection Dialog
+    document.getElementById("authSection").style.display = "none";
+    document.getElementById("destModalGreeting").textContent = "Welcome, " + currentLoggedInStudent.name;
+    document.getElementById("destinationModal").classList.add("is-active");
   } else {
     errorMsg.textContent = "Invalid Admission Number or PIN. Please check credentials or contact the office.";
     errorMsg.style.display = "block";
   }
 });
 
-// Load Dashboard Data
-function loadStudentDashboard(data, studentId) {
-  document.getElementById("authSection").style.display = "none";
+// Destination Selection
+function selectDestination(tabId) {
+  document.getElementById("destinationModal").classList.remove("is-active");
   document.getElementById("dashboardSection").style.display = "block";
+  
+  // Switch to selected tab
+  tabBtns.forEach(b => b.classList.remove("is-active"));
+  tabPanes.forEach(p => p.classList.remove("is-active"));
+  
+  const targetBtn = document.querySelector(`.portal-tab-btn[data-tab="${tabId}"]`);
+  if (targetBtn) targetBtn.classList.add("is-active");
+  const targetPane = document.getElementById(tabId);
+  if (targetPane) targetPane.classList.add("is-active");
 
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Load Dashboard Data with 2 Decimal Places Average and Strict Remarks
+function loadStudentDashboard(data) {
   // Profile Header
   document.getElementById("studentAvatarInitials").textContent = data.initials;
   document.getElementById("studentFullName").textContent = data.name;
-  document.getElementById("studentDisplayId").textContent = studentId;
+  document.getElementById("studentDisplayId").textContent = data.id;
   document.getElementById("studentDisplayClass").textContent = data.class;
 
+  // Calculate Scores, Total, and Average to 2 Decimal Places
+  let grandTotal = 0;
+  const processedResults = data.rawScores.map(item => {
+    const total = item.ca + item.exam;
+    grandTotal += total;
+    const evaluation = getGradeAndRemark(total);
+    return {
+      subject: item.subject,
+      ca: item.ca,
+      exam: item.exam,
+      total: total,
+      grade: evaluation.grade,
+      remark: evaluation.remark,
+      badgeClass: evaluation.badgeClass
+    };
+  });
+
+  const subjectCount = processedResults.length;
+  const computedAverage = (grandTotal / subjectCount).toFixed(2);
+  const overallEval = getGradeAndRemark(computedAverage);
+
   // KPIs
-  document.getElementById("kpiAverage").textContent = data.average;
-  document.getElementById("kpiGrade").textContent = data.grade;
+  document.getElementById("kpiAverage").textContent = computedAverage + "%";
+  document.getElementById("kpiGrade").textContent = overallEval.grade + " (" + overallEval.remark + ")";
   document.getElementById("kpiFeeStatus").textContent = data.feeStatus;
   document.getElementById("kpiBalance").innerHTML = data.balance;
   document.getElementById("kpiAttendance").textContent = data.attendance;
@@ -451,22 +601,23 @@ function loadStudentDashboard(data, studentId) {
   // Report Header Details
   document.getElementById("reportHeaderClass").textContent = data.class;
   document.getElementById("reportStudentName").textContent = data.name;
-  document.getElementById("reportStudentId").textContent = studentId;
+  document.getElementById("reportStudentId").textContent = data.id;
   document.getElementById("reportPosition").textContent = data.position;
+  document.getElementById("reportAverageVal").textContent = computedAverage + "% (" + overallEval.grade + ")";
   document.getElementById("formTeacherRemark").textContent = data.formTeacherRemark;
   document.getElementById("principalRemark").textContent = data.principalRemark;
 
   // Populate 15 Subjects
   const resultsTbody = document.getElementById("resultsTableBody");
   resultsTbody.innerHTML = "";
-  data.results.forEach(item => {
+  processedResults.forEach(item => {
     const row = document.createElement("tr");
     row.innerHTML = `
       <td><strong>${item.subject}</strong></td>
       <td style="text-align: center;">${item.ca}</td>
       <td style="text-align: center;">${item.exam}</td>
       <td style="text-align: center; font-weight: 700;">${item.total}</td>
-      <td style="text-align: center;"><span class="portal-badge ${item.grade === 'A' ? 'portal-badge-green' : (item.grade === 'B' ? 'portal-badge-gold' : '')}">${item.grade}</span></td>
+      <td style="text-align: center;"><span class="portal-badge ${item.badgeClass}">${item.grade}</span></td>
       <td>${item.remark}</td>
     `;
     resultsTbody.appendChild(row);
@@ -514,8 +665,10 @@ function loadStudentDashboard(data, studentId) {
 // Sign Out Handler
 document.getElementById("logoutBtn").addEventListener("click", function() {
   document.getElementById("dashboardSection").style.display = "none";
+  document.getElementById("destinationModal").classList.remove("is-active");
   document.getElementById("authSection").style.display = "block";
   document.getElementById("portalLoginForm").reset();
+  currentLoggedInStudent = null;
 });
 
 // Tab Switcher Handler
@@ -531,6 +684,41 @@ tabBtns.forEach(btn => {
     const target = this.getAttribute("data-tab");
     document.getElementById(target).classList.add("is-active");
   });
+});
+
+// Print Current Tab
+function triggerPrintCurrentTab() {
+  window.print();
+}
+
+// Forgot Password Modal Handlers
+const forgotModal = document.getElementById("forgotPasswordModal");
+document.getElementById("openForgotModalBtn").addEventListener("click", function() {
+  forgotModal.classList.add("is-active");
+  document.getElementById("resetSuccessMsg").style.display = "none";
+  document.getElementById("forgotPasswordForm").reset();
+});
+
+document.getElementById("closeForgotModalBtn").addEventListener("click", function() {
+  forgotModal.classList.remove("is-active");
+});
+
+document.getElementById("forgotPasswordForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+  const resetId = document.getElementById("resetAdmissionNo").value.trim().toUpperCase();
+  const successBox = document.getElementById("resetSuccessMsg");
+  
+  let targetEmail = "student registered school email";
+  if (studentDatabase[resetId] && studentDatabase[resetId].email) {
+    targetEmail = studentDatabase[resetId].email;
+  }
+  
+  successBox.innerHTML = `<strong>Password Reset Link Sent:</strong><br>An official password reset token and verification instructions have been dispatched to <u>${targetEmail}</u>. Please access your inbox to set a new security PIN.`;
+  successBox.style.display = "block";
+  
+  setTimeout(() => {
+    forgotModal.classList.remove("is-active");
+  }, 4000);
 });
 </script>
 
