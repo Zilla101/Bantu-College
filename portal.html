@@ -65,12 +65,47 @@
     </div>
 
     <div class="portal-demo-notice">
-      <strong style="color: var(--color-slate); display: block; margin-bottom: 0.35rem;">Sample Test Logins for Demonstration:</strong>
-      <p>1. Terseer Audu: Admission No: <strong>BC/2026/014</strong> | PIN: <strong>1234</strong> (Basic 7A | Cleared Fees: &#8358;0 Balance)</p>
-      <p>2. Dooshima Iorfa: Admission No: <strong>BC/2026/021</strong> | PIN: <strong>5678</strong> (Basic 8A | &#8358;150,000 Balance for Atomic Payment Testing)</p>
-      <p>3. Kator Chia: Admission No: <strong>BC/2026/015</strong> | PIN: <strong>2468</strong> (Basic 7A | &#8358;150,000 Balance)</p>
-      <p>4. Bemgba Agber: Admission No: <strong>BC/2026/017</strong> | PIN: <strong>1357</strong> (Basic 7B | &#8358;300,000 Balance)</p>
-      <p>5. Msughter Tyover: Admission No: <strong>BC/2026/026</strong> | PIN: <strong>1234</strong> (Basic 7A | Newly Admitted Scholar)</p>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+        <strong style="color: var(--color-slate); font-size: 0.85rem;">Quick Test Accounts (Tap to Auto-Fill):</strong>
+        <span style="font-size: 0.72rem; color: #777;">Demo Access</span>
+      </div>
+      <div class="demo-pills-grid">
+        <button type="button" class="demo-pill-btn" onclick="quickFillStudentLogin('BC/2026/014', '1234')">
+          <div>
+            <strong>1. Terseer Audu</strong>
+            <span>Basic 7A &bull; Cleared Fees (&#8358;0 Balance)</span>
+          </div>
+          <span class="portal-badge portal-badge-green" style="font-size: 0.68rem; padding: 0.18rem 0.5rem;">Select</span>
+        </button>
+        <button type="button" class="demo-pill-btn" onclick="quickFillStudentLogin('BC/2026/021', '5678')">
+          <div>
+            <strong>2. Dooshima Iorfa</strong>
+            <span>Basic 8A &bull; &#8358;150,000 Balance (Test Payment)</span>
+          </div>
+          <span class="portal-badge portal-badge-gold" style="font-size: 0.68rem; padding: 0.18rem 0.5rem;">Select</span>
+        </button>
+        <button type="button" class="demo-pill-btn" onclick="quickFillStudentLogin('BC/2026/015', '2468')">
+          <div>
+            <strong>3. Kator Chia</strong>
+            <span>Basic 7A &bull; &#8358;150,000 Balance</span>
+          </div>
+          <span class="portal-badge portal-badge-gold" style="font-size: 0.68rem; padding: 0.18rem 0.5rem;">Select</span>
+        </button>
+        <button type="button" class="demo-pill-btn" onclick="quickFillStudentLogin('BC/2026/017', '1357')">
+          <div>
+            <strong>4. Bemgba Agber</strong>
+            <span>Basic 7B &bull; &#8358;300,000 Balance</span>
+          </div>
+          <span class="portal-badge portal-badge-gold" style="font-size: 0.68rem; padding: 0.18rem 0.5rem;">Select</span>
+        </button>
+        <button type="button" class="demo-pill-btn" onclick="quickFillStudentLogin('BC/2026/026', '1234')">
+          <div>
+            <strong>5. Msughter Tyover</strong>
+            <span>Basic 7A &bull; Newly Admitted Scholar</span>
+          </div>
+          <span class="portal-badge portal-badge-green" style="font-size: 0.68rem; padding: 0.18rem 0.5rem;">Select</span>
+        </button>
+      </div>
     </div>
 
     <p style="text-align: center; margin-top: 1.5rem; font-size: 0.85rem; color: #777;">
@@ -296,7 +331,7 @@
         </p>
       </div>
     </div>
-    <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+    <div class="portal-profile-actions" style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
       <button onclick="triggerPrintCurrentTab()" class="btn-outline" style="color: var(--color-white); border-color: rgba(255,255,255,0.4); padding: 0.55rem 1.1rem; font-size: 0.85rem;">Print Current Section (PDF)</button>
       <button id="logoutBtn" class="btn-primary" style="padding: 0.55rem 1.1rem; font-size: 0.85rem; background: var(--color-red);">Sign Out</button>
     </div>
@@ -366,11 +401,31 @@
         <span>F (0 to 59.99): Fail</span>
       </div>
 
-      <div class="table-responsive">
+      <!-- Results Display Format Switcher & Mobile Swipe Hint -->
+      <div class="results-view-switcher no-print">
+        <span style="font-size: 0.82rem; font-weight: 700; color: #555;">Results Display Format:</span>
+        <div class="view-toggle-pills">
+          <button type="button" id="btnViewTable" class="view-pill is-active" onclick="switchResultsView('table')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+            Table View
+          </button>
+          <button type="button" id="btnViewCards" class="view-pill" onclick="switchResultsView('cards')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            Mobile Cards
+          </button>
+        </div>
+      </div>
+
+      <div class="mobile-table-hint no-print" id="mobileTableSwipeHint">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>
+        <span>Swipe horizontally &rarr; to inspect Continuous Assessment, Exam & Remarks</span>
+      </div>
+
+      <div class="table-responsive" id="resultsTableContainer">
         <table class="portal-data-table">
           <thead>
             <tr>
-              <th>Subject</th>
+              <th class="sticky-col">Subject</th>
               <th style="text-align: center;">Continuous Assessment (40)</th>
               <th style="text-align: center;">Exam (60)</th>
               <th style="text-align: center;">Total (100)</th>
@@ -382,6 +437,11 @@
             <!-- Injected dynamically from Unified Database -->
           </tbody>
         </table>
+      </div>
+
+      <!-- Mobile Subject Cards Container -->
+      <div id="resultsCardsViewContainer" class="mobile-cards-wrap no-print" style="display: none;">
+        <!-- Injected dynamically for mobile cards view -->
       </div>
 
       <!-- Remarks and Endorsements -->
@@ -417,7 +477,7 @@
           <h3 style="font-family: var(--font-heading); font-size: 1.5rem; color: var(--color-slate); margin: 0;">School Fees Statement</h3>
           <p style="color: #666; font-size: 0.95rem; margin-top: 0.25rem;">2026/2027 Session Fee Statement | Bantu College Bursary</p>
         </div>
-        <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+        <div class="portal-profile-actions" style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
           <div id="feesLedgerBadgeBox" style="background: rgba(34, 197, 94, 0.12); padding: 0.6rem 1.2rem; border-radius: 10px; border: 1px solid rgba(34, 197, 94, 0.3);">
             <span style="font-size: 0.85rem; color: #15803d; font-weight: 700; text-transform: uppercase;" id="feesLedgerBadgeText">Ledger Status: Verified and Cleared</span>
           </div>
@@ -425,12 +485,32 @@
         </div>
       </div>
 
-      <div class="table-responsive">
+      <!-- Fees Display Format Switcher & Mobile Swipe Hint -->
+      <div class="results-view-switcher no-print">
+        <span style="font-size: 0.82rem; font-weight: 700; color: #555;">Ledger Display Format:</span>
+        <div class="view-toggle-pills">
+          <button type="button" id="btnFeeViewTable" class="view-pill is-active" onclick="switchFeesView('table')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+            Table View
+          </button>
+          <button type="button" id="btnFeeViewCards" class="view-pill" onclick="switchFeesView('cards')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            Cards View
+          </button>
+        </div>
+      </div>
+
+      <div class="mobile-table-hint no-print" id="mobileFeesSwipeHint">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>
+        <span>Swipe horizontally &rarr; to inspect payment status & receipt actions</span>
+      </div>
+
+      <div class="table-responsive" id="feesTableContainer">
         <table class="portal-data-table">
           <thead>
             <tr>
               <th>Date</th>
-              <th>Description</th>
+              <th class="sticky-col">Description</th>
               <th>Billed Amount</th>
               <th>Paid Amount</th>
               <th>Receipt Reference</th>
@@ -442,6 +522,11 @@
             <!-- Injected dynamically -->
           </tbody>
         </table>
+      </div>
+
+      <!-- Mobile Fees Cards Container -->
+      <div id="feesCardsViewContainer" class="mobile-cards-wrap no-print" style="display: none;">
+        <!-- Injected dynamically for mobile cards view -->
       </div>
 
       <div style="background: rgba(43, 42, 66, 0.03); border-radius: 14px; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
@@ -659,11 +744,15 @@ function refreshStudentDashboard() {
 
   // Populate 15 Subjects
   const resultsTbody = document.getElementById("resultsTableBody");
+  const resultsCardsContainer = document.getElementById("resultsCardsViewContainer");
   resultsTbody.innerHTML = "";
+  if (resultsCardsContainer) resultsCardsContainer.innerHTML = "";
+
   processedResults.forEach(item => {
+    // 1. Table Row (with sticky Subject header for mobile horizontal scroll)
     const row = document.createElement("tr");
     row.innerHTML = `
-      <td><strong>${item.subject}</strong></td>
+      <td class="sticky-col"><strong>${item.subject}</strong></td>
       <td style="text-align: center;">${item.ca.toFixed(2)}</td>
       <td style="text-align: center;">${item.exam.toFixed(2)}</td>
       <td style="text-align: center; font-weight: 700;">${item.total.toFixed(2)}</td>
@@ -671,16 +760,50 @@ function refreshStudentDashboard() {
       <td>${item.remark}</td>
     `;
     resultsTbody.appendChild(row);
+
+    // 2. Mobile Card (for zero-scroll touch view on phones)
+    if (resultsCardsContainer) {
+      const card = document.createElement("div");
+      card.className = "mobile-subject-card";
+      card.innerHTML = `
+        <div class="mobile-card-header">
+          <strong class="mobile-subject-title">${item.subject}</strong>
+          <span class="portal-badge ${item.badgeClass}">${item.grade} &bull; ${item.total.toFixed(1)}%</span>
+        </div>
+        <div class="mobile-score-breakdown">
+          <div class="mobile-score-stat">
+            <span>CA (40)</span>
+            <strong>${item.ca.toFixed(1)}</strong>
+          </div>
+          <div class="mobile-score-stat">
+            <span>Exam (60)</span>
+            <strong>${item.exam.toFixed(1)}</strong>
+          </div>
+          <div class="mobile-score-stat">
+            <span>Total (100)</span>
+            <strong style="color: var(--color-slate);">${item.total.toFixed(1)}</strong>
+          </div>
+        </div>
+        <div class="mobile-remark-bar">
+          <span>Remark:</span> "${item.remark}"
+        </div>
+      `;
+      resultsCardsContainer.appendChild(card);
+    }
   });
 
-  // Populate Fees Table
+  // Populate Fees Table & Mobile Fee Cards
   const feesTbody = document.getElementById("feesTableBody");
+  const feesCardsContainer = document.getElementById("feesCardsViewContainer");
   feesTbody.innerHTML = "";
+  if (feesCardsContainer) feesCardsContainer.innerHTML = "";
+
   data.fees.forEach(f => {
+    // 1. Table Row
     const row = document.createElement("tr");
     row.innerHTML = `
       <td>${f.date}</td>
-      <td><strong>${f.desc}</strong></td>
+      <td class="sticky-col"><strong>${f.desc}</strong></td>
       <td>&#8358;${f.billed.toLocaleString()}.00</td>
       <td style="color: #15803d; font-weight: 700;">&#8358;${f.paid.toLocaleString()}.00</td>
       <td><span style="font-family: monospace; font-size: 0.85rem; color: #555;">${f.ref}</span></td>
@@ -690,6 +813,36 @@ function refreshStudentDashboard() {
       </td>
     `;
     feesTbody.appendChild(row);
+
+    // 2. Mobile Fee Card
+    if (feesCardsContainer) {
+      const card = document.createElement("div");
+      card.className = "mobile-fee-card";
+      card.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem;">
+          <div>
+            <strong style="color: var(--color-slate); font-size: 0.95rem; display: block;">${f.desc}</strong>
+            <span style="font-size: 0.75rem; color: #777;">Date: ${f.date}</span>
+          </div>
+          <span class="portal-badge ${f.status === 'Verified' ? 'portal-badge-green' : 'portal-badge-gold'}">${f.status}</span>
+        </div>
+        <div class="mobile-score-breakdown" style="grid-template-columns: 1fr 1fr;">
+          <div class="mobile-score-stat">
+            <span>Billed Amount</span>
+            <strong>&#8358;${f.billed.toLocaleString()}.00</strong>
+          </div>
+          <div class="mobile-score-stat">
+            <span>Paid Amount</span>
+            <strong style="color: #15803d;">&#8358;${f.paid.toLocaleString()}.00</strong>
+          </div>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed rgba(0,0,0,0.08); padding-top: 0.5rem;">
+          <span style="font-family: monospace; font-size: 0.75rem; color: #666;">Ref: ${f.ref}</span>
+          <button type="button" class="btn-outline" style="padding: 0.35rem 0.8rem; font-size: 0.78rem;" onclick="viewReceiptByRef('${f.ref}')">View Receipt (PDF)</button>
+        </div>
+      `;
+      feesCardsContainer.appendChild(card);
+    }
   });
 
   // Total Billed, Paid, Balance
@@ -769,6 +922,69 @@ tabBtns.forEach(btn => {
 function triggerPrintCurrentTab() {
   window.print();
 }
+
+// Mobile View Switchers & Touch Helpers
+function switchResultsView(mode) {
+  const tableWrap = document.getElementById("resultsTableContainer");
+  const cardsWrap = document.getElementById("resultsCardsViewContainer");
+  const hint = document.getElementById("mobileTableSwipeHint");
+  const btnTable = document.getElementById("btnViewTable");
+  const btnCards = document.getElementById("btnViewCards");
+  if (mode === "cards") {
+    if (tableWrap) tableWrap.style.display = "none";
+    if (hint) hint.style.display = "none";
+    if (cardsWrap) cardsWrap.style.display = "flex";
+    if (btnTable) btnTable.classList.remove("is-active");
+    if (btnCards) btnCards.classList.add("is-active");
+  } else {
+    if (tableWrap) tableWrap.style.display = "block";
+    if (hint && window.innerWidth <= 768) hint.style.display = "flex";
+    if (cardsWrap) cardsWrap.style.display = "none";
+    if (btnTable) btnTable.classList.add("is-active");
+    if (btnCards) btnCards.classList.remove("is-active");
+  }
+}
+
+function switchFeesView(mode) {
+  const tableWrap = document.getElementById("feesTableContainer");
+  const cardsWrap = document.getElementById("feesCardsViewContainer");
+  const hint = document.getElementById("mobileFeesSwipeHint");
+  const btnTable = document.getElementById("btnFeeViewTable");
+  const btnCards = document.getElementById("btnFeeViewCards");
+  if (mode === "cards") {
+    if (tableWrap) tableWrap.style.display = "none";
+    if (hint) hint.style.display = "none";
+    if (cardsWrap) cardsWrap.style.display = "flex";
+    if (btnTable) btnTable.classList.remove("is-active");
+    if (btnCards) btnCards.classList.add("is-active");
+  } else {
+    if (tableWrap) tableWrap.style.display = "block";
+    if (hint && window.innerWidth <= 768) hint.style.display = "flex";
+    if (cardsWrap) cardsWrap.style.display = "none";
+    if (btnTable) btnTable.classList.add("is-active");
+    if (btnCards) btnCards.classList.remove("is-active");
+  }
+}
+
+function quickFillStudentLogin(admNo, pin) {
+  const admInput = document.getElementById("admissionNumber");
+  const pinInput = document.getElementById("accessPin");
+  if (admInput) admInput.value = admNo;
+  if (pinInput) pinInput.value = pin;
+  const submitBtn = document.querySelector("#portalLoginForm button[type='submit']");
+  if (submitBtn) {
+    submitBtn.classList.add("btn-pulse");
+    setTimeout(() => submitBtn.classList.remove("btn-pulse"), 400);
+  }
+}
+
+// Auto-activate Mobile Cards View on small screens on initial load
+document.addEventListener("DOMContentLoaded", function() {
+  if (window.innerWidth <= 640) {
+    switchResultsView("cards");
+    switchFeesView("cards");
+  }
+});
 
 // Atomic Online Payment Functions
 function openPaymentModal() {
