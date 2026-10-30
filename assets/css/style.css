@@ -56,51 +56,77 @@ a {
 .bg-slate { background-color: var(--color-slate); color: var(--color-white); }
 
 .btn-primary {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background-color: var(--color-red);
   color: #ffffff;
   font-family: var(--font-subheading);
   text-transform: uppercase;
   font-weight: 700;
-  padding: clamp(0.75rem, 2vw, 1rem) clamp(1.5rem, 4vw, 2.2rem);
-  letter-spacing: 0.1em;
-  min-height: 48px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  padding: 0.55rem 1.35rem;
+  font-size: 0.86rem;
+  letter-spacing: 0.04em;
+  min-height: 40px;
   transition: var(--transition);
   border: none;
-  border-radius: 980px;
-  box-shadow: 0 4px 14px rgba(230, 44, 32, 0.4);
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(230, 44, 32, 0.3);
+  cursor: pointer;
+  text-decoration: none;
 }
 
 .btn-primary:hover {
   background-color: var(--color-slate);
-  box-shadow: 0 6px 20px rgba(43, 42, 66, 0.4);
+  box-shadow: 0 6px 18px rgba(43, 42, 66, 0.35);
   color: #ffffff;
 }
 
 .btn-outline {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background-color: transparent;
   color: var(--color-gold);
   font-family: var(--font-subheading);
   text-transform: uppercase;
   font-weight: 700;
-  padding: clamp(0.75rem, 2vw, 1rem) clamp(1.5rem, 4vw, 2.2rem);
-  letter-spacing: 0.1em;
-  min-height: 48px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  padding: 0.55rem 1.35rem;
+  font-size: 0.86rem;
+  letter-spacing: 0.04em;
+  min-height: 40px;
   transition: var(--transition);
-  border: 2px solid var(--color-gold);
-  border-radius: 980px;
+  border: 1.5px solid var(--color-gold);
+  border-radius: 10px;
+  cursor: pointer;
+  text-decoration: none;
 }
 
 .btn-outline:hover {
   background-color: var(--color-gold);
   color: var(--color-white);
+}
+
+/* Proportional Button Size Modifiers */
+.btn-sm {
+  padding: 0.4rem 0.95rem !important;
+  font-size: 0.8rem !important;
+  min-height: 34px !important;
+  border-radius: 8px !important;
+  letter-spacing: 0.02em !important;
+  gap: 0.4rem;
+}
+
+.btn-xs {
+  padding: 0.28rem 0.65rem !important;
+  font-size: 0.74rem !important;
+  min-height: 28px !important;
+  border-radius: 6px !important;
+  letter-spacing: 0 !important;
+}
+
+.btn-block {
+  width: 100% !important;
 }
 
 /* Typography & Editorial Impact */
@@ -1746,42 +1772,55 @@ details[open] summary {
    STUDENT PORTAL MOBILE OPTIMIZATION SUITE
    ============================================================ */
 
-/* Touch-Optimized Demo Login Pills */
-.demo-pills-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.45rem;
-  margin-top: 0.65rem;
+/* Compact Touch Demo Login Selector */
+.demo-quick-select {
+  width: 100%;
+  height: 38px;
+  background: #ffffff;
+  border: 1px solid rgba(186, 147, 79, 0.45);
+  border-radius: 8px;
+  padding: 0 0.75rem;
+  font-size: 0.82rem;
+  color: var(--color-slate);
+  font-weight: 600;
+  outline: none;
+  cursor: pointer;
+  margin-top: 0.45rem;
+  font-family: inherit;
+  transition: border-color 0.2s ease;
 }
-.demo-pill-btn {
+.demo-quick-select:focus {
+  border-color: var(--color-gold);
+}
+.demo-chips-scroll {
+  display: flex;
+  gap: 0.35rem;
+  overflow-x: auto;
+  padding: 0.35rem 0 0.15rem;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.demo-chips-scroll::-webkit-scrollbar {
+  display: none;
+}
+.demo-chip {
   background: #ffffff;
   border: 1px solid rgba(186, 147, 79, 0.35);
-  border-radius: 10px;
-  padding: 0.6rem 0.85rem;
-  text-align: left;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  font-family: inherit;
-  transition: all 0.2s ease;
-  touch-action: manipulation;
-}
-.demo-pill-btn:hover, .demo-pill-btn:active {
-  background: rgba(186, 147, 79, 0.12);
-  border-color: var(--color-gold);
-  transform: translateY(-1px);
-}
-.demo-pill-btn strong {
-  font-size: 0.86rem;
+  border-radius: 6px;
+  padding: 0.26rem 0.55rem;
+  font-size: 0.72rem;
+  font-weight: 700;
   color: var(--color-slate);
-  display: block;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+  font-family: inherit;
 }
-.demo-pill-btn span {
-  font-size: 0.74rem;
-  color: #666;
-  font-weight: 600;
+.demo-chip:hover, .demo-chip:active {
+  background: rgba(186, 147, 79, 0.15);
+  border-color: var(--color-gold);
+  color: var(--color-slate);
 }
 .btn-pulse {
   animation: pulseTouch 0.35s ease;
@@ -1963,9 +2002,27 @@ details[open] summary {
     font-size: 16px !important;
     padding: 0.85rem 1rem !important;
   }
+  
+  /* Button Size Optimizations for Mobile */
+  .btn-primary, .btn-outline {
+    padding: 0.45rem 1rem !important;
+    font-size: 0.82rem !important;
+    min-height: 38px !important;
+    border-radius: 8px !important;
+    letter-spacing: 0.02em !important;
+  }
+  .btn-sm {
+    padding: 0.35rem 0.75rem !important;
+    font-size: 0.76rem !important;
+    min-height: 32px !important;
+    border-radius: 6px !important;
+  }
   .portal-auth-card button[type="submit"] {
-    min-height: 48px !important;
-    font-size: 1rem !important;
+    min-height: 42px !important;
+    font-size: 0.88rem !important;
+    padding: 0.55rem 1rem !important;
+    border-radius: 8px !important;
+    letter-spacing: 0.04em !important;
   }
   
   /* Profile Header */
@@ -1988,10 +2045,28 @@ details[open] summary {
     font-size: 1.35rem !important;
   }
   .portal-profile-actions {
-    display: grid !important;
-    grid-template-columns: 1fr auto !important;
-    gap: 0.5rem !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.45rem !important;
     width: 100% !important;
+  }
+
+  /* Compact Action Buttons in Tab Panes & Admissions */
+  .portal-tab-pane .btn-primary {
+    font-size: 0.8rem !important;
+    padding: 0.42rem 0.85rem !important;
+    min-height: 34px !important;
+    border-radius: 6px !important;
+  }
+  #submitAppBtn {
+    padding: 0.7rem 1.15rem !important;
+    font-size: 0.88rem !important;
+    min-height: 42px !important;
+    border-radius: 8px !important;
+  }
+  .view-pill {
+    padding: 0.28rem 0.6rem !important;
+    font-size: 0.72rem !important;
   }
 
   /* KPIs 2x2 Grid */
