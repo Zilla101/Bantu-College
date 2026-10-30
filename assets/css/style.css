@@ -1206,19 +1206,17 @@ details[open] summary {
     margin: 0 !important;
     background: transparent !important;
   }
+  .print-compact-header,
   .report-paper-header {
     display: block !important;
     visibility: visible !important;
   }
+  .print-biodata-grid,
   .report-paper-biodata {
     display: grid !important;
     visibility: visible !important;
   }
   .no-print,
-  .mobile-cards-wrap,
-  .mobile-results-hero,
-  .results-controls-bar,
-  .results-view-switcher,
   .mobile-table-hint,
   .portal-tab-pane:not(.is-active) {
     display: none !important;
@@ -1896,250 +1894,6 @@ details[open] summary {
   flex-shrink: 0;
 }
 
-/* Results View Format Switcher Pills */
-.results-view-switcher {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px dashed rgba(0, 0, 0, 0.08);
-}
-.view-toggle-pills {
-  display: inline-flex;
-  background: rgba(43, 42, 66, 0.06);
-  padding: 0.2rem;
-  border-radius: 10px;
-}
-.view-pill {
-  border: none;
-  background: none;
-  padding: 0.4rem 0.85rem;
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: #666;
-  border-radius: 8px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-family: inherit;
-  transition: all 0.2s ease;
-}
-.view-pill.is-active {
-  background: #ffffff;
-  color: var(--color-slate);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-}
-
-/* Mobile Cards Container & Proportional Academic Card Items */
-.mobile-cards-wrap {
-  display: flex;
-  flex-direction: column;
-  gap: 0.85rem;
-  margin-bottom: 1.5rem;
-}
-.mobile-subject-card {
-  background: #ffffff;
-  border: 1px solid rgba(43, 42, 66, 0.09);
-  border-radius: 14px;
-  padding: 0.95rem 1rem;
-  box-shadow: 0 4px 14px -4px rgba(43, 42, 66, 0.06);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  position: relative;
-  overflow: hidden;
-}
-.mobile-card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0.65rem;
-}
-.mobile-subject-info {
-  flex: 1;
-  min-width: 0;
-}
-.mobile-subject-title {
-  font-size: 1rem;
-  font-weight: 800;
-  color: var(--color-slate);
-  line-height: 1.25;
-  margin: 0;
-  white-space: normal;
-  word-break: break-word;
-}
-.mobile-subject-category {
-  font-size: 0.7rem;
-  color: #777;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-  margin-top: 2px;
-  display: block;
-}
-.mobile-grade-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.3rem 0.65rem;
-  border-radius: 980px;
-  font-weight: 800;
-  font-size: 0.78rem;
-  flex-shrink: 0;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-}
-.grade-letter {
-  font-size: 0.85rem;
-  font-weight: 900;
-}
-.grade-score {
-  font-size: 0.75rem;
-  opacity: 0.9;
-}
-
-/* Score Progress Meter */
-.mobile-score-meter-wrap {
-  margin: 0.6rem 0 0.75rem;
-}
-.mobile-score-meter-bar {
-  width: 100%;
-  height: 6px;
-  background: rgba(43, 42, 66, 0.07);
-  border-radius: 980px;
-  overflow: hidden;
-  position: relative;
-}
-.mobile-score-meter-fill {
-  height: 100%;
-  border-radius: 980px;
-  transition: width 0.4s ease;
-}
-.meter-a {
-  background: linear-gradient(90deg, #16a34a, #22c55e);
-}
-.meter-b2 {
-  background: linear-gradient(90deg, #0284c7, #38bdf8);
-}
-.meter-b3 {
-  background: linear-gradient(90deg, var(--color-gold-dark), var(--color-gold));
-}
-.meter-c {
-  background: linear-gradient(90deg, #d97706, #f59e0b);
-}
-.meter-f {
-  background: linear-gradient(90deg, #dc2626, var(--color-red));
-}
-
-/* Score Breakdown Tiles */
-.mobile-score-breakdown {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.5rem;
-  margin-bottom: 0.65rem;
-}
-.mobile-score-stat {
-  background: rgba(43, 42, 66, 0.03);
-  border: 1px solid rgba(43, 42, 66, 0.05);
-  border-radius: 9px;
-  padding: 0.45rem 0.35rem;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-.mobile-score-stat.total-stat {
-  background: rgba(186, 147, 79, 0.1);
-  border-color: rgba(186, 147, 79, 0.25);
-}
-.stat-label {
-  display: block;
-  font-size: 0.65rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: #777;
-  letter-spacing: 0.25px;
-  margin-bottom: 0.2rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.stat-value-group {
-  display: flex;
-  align-items: baseline;
-  justify-content: center;
-  gap: 2px;
-}
-.stat-score {
-  font-family: var(--font-heading);
-  font-size: 1.05rem;
-  font-weight: 800;
-  color: var(--color-slate);
-  line-height: 1;
-}
-.stat-score-total {
-  font-family: var(--font-heading);
-  font-size: 1.15rem;
-  font-weight: 900;
-  color: var(--color-slate);
-  line-height: 1;
-}
-.stat-max {
-  font-size: 0.68rem;
-  color: #888;
-  font-weight: 600;
-}
-
-/* Teacher Remark Bar */
-.mobile-remark-bar {
-  background: #faf8f5;
-  border: 1px solid rgba(186, 147, 79, 0.2);
-  border-left: 3px solid var(--color-gold);
-  border-radius: 7px;
-  padding: 0.45rem 0.65rem;
-  font-size: 0.78rem;
-  color: #3b3b4f;
-  line-height: 1.35;
-  display: flex;
-  align-items: flex-start;
-  gap: 0.4rem;
-}
-.remark-icon {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  font-weight: 800;
-  color: var(--color-gold-dark);
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-  flex-shrink: 0;
-  margin-top: 1px;
-}
-.remark-text {
-  font-style: italic;
-  color: #444;
-}
-
-/* Mobile Fee Cards */
-.mobile-fee-card {
-  background: #ffffff;
-  border: 1px solid rgba(43, 42, 66, 0.09);
-  border-radius: 14px;
-  padding: 0.95rem 1.1rem;
-  box-shadow: 0 4px 14px -4px rgba(43, 42, 66, 0.05);
-  display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
-}
-.mobile-fee-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.85rem;
-}
-
 /* Remarks & Endorsement Box Components */
 .portal-remark-card {
   background: rgba(43, 42, 66, 0.03);
@@ -2170,20 +1924,7 @@ details[open] summary {
   margin-top: 0.35rem;
 }
 
-/* Results Controls Bar */
-.results-controls-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.65rem;
-  margin-bottom: 1rem;
-}
 
-/* Mobile Academic Results Hero */
-.mobile-results-hero {
-  display: none;
-}
 
 /* General Mobile Breakpoint Overrides */
 @media (max-width: 768px) {
@@ -2217,144 +1958,16 @@ details[open] summary {
     padding: 0.85rem 1rem !important;
   }
   
-  /* Paper Elements Hidden on Mobile Screens */
-  .report-paper-header,
-  .report-paper-biodata,
-  .results-grading-legend-box {
-    display: none !important;
+  /* Mobile Results and Fee Table Proportions */
+  .portal-data-table {
+    font-size: 0.84rem !important;
+    min-width: 620px !important;
+  }
+  .portal-data-table th,
+  .portal-data-table td {
+    padding: 0.75rem 0.8rem !important;
   }
 
-  /* Mobile Academic Results Hero */
-  .mobile-results-hero {
-    display: block !important;
-    background: linear-gradient(135deg, var(--color-slate) 0%, #1a192c 100%);
-    border: 1px solid rgba(186, 147, 79, 0.4);
-    border-radius: 14px;
-    padding: 0.95rem 1.1rem;
-    margin-bottom: 1rem;
-    color: #ffffff;
-    box-shadow: 0 4px 16px -4px rgba(43, 42, 66, 0.25);
-  }
-  .mobile-results-hero-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.65rem;
-    padding-bottom: 0.55rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-  }
-  .mobile-results-hero-term {
-    display: flex;
-    align-items: center;
-    gap: 0.45rem;
-    font-size: 0.74rem;
-    font-weight: 700;
-    color: #ddd;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-  .hero-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--color-gold);
-    display: inline-block;
-  }
-  .mobile-results-hero-class {
-    background: rgba(186, 147, 79, 0.25);
-    border: 1px solid rgba(186, 147, 79, 0.5);
-    color: var(--color-gold);
-    padding: 0.18rem 0.6rem;
-    border-radius: 980px;
-    font-size: 0.72rem;
-    font-weight: 800;
-    letter-spacing: 0.4px;
-  }
-  .mobile-results-hero-body {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-  }
-  .mobile-results-hero-stat {
-    flex: 1;
-  }
-  .hero-stat-label {
-    display: block;
-    font-size: 0.68rem;
-    color: #bbb;
-    text-transform: uppercase;
-    font-weight: 700;
-    letter-spacing: 0.4px;
-    margin-bottom: 0.15rem;
-  }
-  .hero-stat-num {
-    font-family: var(--font-heading);
-    font-size: 1.85rem;
-    font-weight: 900;
-    color: var(--color-gold);
-    line-height: 1;
-    letter-spacing: -0.02em;
-  }
-  .mobile-results-hero-divider {
-    width: 1px;
-    height: 44px;
-    background: rgba(255, 255, 255, 0.15);
-  }
-  .mobile-results-hero-meta {
-    flex: 1.15;
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-  .hero-meta-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.74rem;
-  }
-  .meta-label {
-    color: #aaa;
-    font-weight: 600;
-  }
-  .meta-val {
-    color: #ffffff;
-    font-weight: 700;
-  }
-  .meta-val.highlight {
-    color: #38bdf8;
-  }
-
-  /* Results Controls Bar */
-  .results-controls-bar {
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    gap: 0.5rem !important;
-    margin-bottom: 0.85rem !important;
-  }
-  .view-toggle-pills {
-    background: rgba(43, 42, 66, 0.06) !important;
-    padding: 0.2rem !important;
-    border-radius: 10px !important;
-    display: inline-flex !important;
-    gap: 0.2rem !important;
-  }
-  .view-pill {
-    padding: 0.32rem 0.7rem !important;
-    font-size: 0.74rem !important;
-    font-weight: 700 !important;
-  }
-  .mobile-print-quick-btn {
-    padding: 0.35rem 0.85rem !important;
-    font-size: 0.76rem !important;
-    min-height: 32px !important;
-    border-radius: 8px !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: 0.35rem !important;
-  }
-  
   /* Button Size Optimizations for Mobile */
   .btn-primary, .btn-outline {
     padding: 0.45rem 1rem !important;
@@ -2499,15 +2112,6 @@ details[open] summary {
   .discipline-grid {
     grid-template-columns: repeat(2, 1fr) !important;
     gap: 0.65rem !important;
-  }
-}
-
-/* Tablet / Foldable Viewport: 2-Column Balanced Grid for Subject Cards */
-@media (min-width: 600px) and (max-width: 768px) {
-  .mobile-cards-wrap {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 0.75rem !important;
   }
 }
 
