@@ -1491,6 +1491,15 @@ details[open] summary {
   border-bottom: 4px solid var(--color-gold);
   position: relative;
 }
+.admissions-banner-crest-wrap img {
+  filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.45));
+}
+@media (max-width: 768px) {
+  .admissions-banner-crest-wrap {
+    margin-top: 0.75rem;
+    justify-content: flex-start !important;
+  }
+}
 .admissions-header-badge {
   display: inline-block;
   background: rgba(186, 147, 79, 0.2);

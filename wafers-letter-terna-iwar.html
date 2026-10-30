@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wafers Engineering - Project Handover & Requirements Letter to Mr. Terna Iwar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --text-primary: #1a1a1a;
+    --text-muted: #555555;
+    --border-color: #d1d5db;
+    --header-bg: #000000;
+  }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: var(--text-primary);
+    background: #f3f4f6;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .action-bar {
+    position: sticky;
+    top: 0;
+    background: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #000000;
+    color: #ffffff;
+    padding: 0.6rem 1.25rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+    border-radius: 6px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  .btn:hover {
+    background: #27272a;
+  }
+  .btn-outline {
+    background: #ffffff;
+    color: #000000;
+    border: 1px solid #000000;
+  }
+  .btn-outline:hover {
+    background: #f4f4f5;
+  }
+
+  .document-container {
+    max-width: 850px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+  }
+
+  .page-sheet {
+    background: #ffffff;
+    padding: 48px 56px;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    border-radius: 4px;
+    position: relative;
+    min-height: 1100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  /* Wafers Engineering Header */
+  .doc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+  }
+  .wafers-logo-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .wafers-badge-box {
+    background: #000000;
+    color: #ffffff;
+    padding: 0.45rem 0.85rem;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .wafers-script {
+    font-family: 'Caveat', cursive;
+    font-size: 2.2rem;
+    line-height: 1;
+    letter-spacing: 0.5px;
+  }
+  .wafers-brand-text {
+    font-family: 'Caveat', cursive;
+    font-size: 2.4rem;
+    color: #000000;
+    line-height: 1;
+  }
+
+  .doc-title-block {
+    margin-bottom: 1.75rem;
+  }
+  .doc-title-block h1 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #000000;
+    letter-spacing: -0.5px;
+    margin-bottom: 0.25rem;
+  }
+  .doc-title-block .subtitle {
+    font-size: 0.95rem;
+    color: #666666;
+    font-style: italic;
+    margin-bottom: 1.5rem;
+  }
+
+  .meta-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 0.75rem;
+    row-gap: 0.35rem;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+  .meta-grid strong {
+    color: #000000;
+  }
+
+  .salutation {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+  .intro-text {
+    font-size: 0.9rem;
+    color: #333333;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #000000;
+    margin: 1.5rem 0 0.85rem;
+    letter-spacing: -0.3px;
+  }
+
+  /* Formal Tables matching PDF */
+  .wafers-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.86rem;
+    margin-bottom: 1.5rem;
+  }
+  .wafers-table th {
+    background: #000000;
+    color: #ffffff;
+    font-weight: 700;
+    text-align: left;
+    padding: 0.65rem 0.85rem;
+    border: 1px solid #000000;
+  }
+  .wafers-table td {
+    padding: 0.65rem 0.85rem;
+    border: 1px solid #000000;
+    vertical-align: top;
+    line-height: 1.45;
+  }
+  .wafers-table tr:nth-child(even) td {
+    background: #fafafa;
+  }
+  .wafers-table td strong {
+    color: #000000;
+  }
+
+  .terms-list {
+    margin-left: 1.25rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: #333333;
+  }
+  .terms-list li {
+    margin-bottom: 0.5rem;
+  }
+
+  /* Signature Block matching PDF */
+  .signature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    margin-top: 2rem;
+    padding-top: 1rem;
+  }
+  .sig-col h4 {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 1.25rem;
+  }
+  .sig-line {
+    font-size: 0.86rem;
+    margin-bottom: 0.85rem;
+    color: #333333;
+  }
+  .sig-underline {
+    display: inline-block;
+    border-bottom: 1px solid #000000;
+    width: 180px;
+    margin-left: 0.5rem;
+  }
+
+  /* Footer on all pages */
+  .doc-footer {
+    border-top: 1px solid #e5e7eb;
+    padding-top: 0.75rem;
+    margin-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: #777777;
+  }
+
+  @media print {
+    body {
+      background: #ffffff;
+    }
+    .action-bar {
+      display: none !important;
+    }
+    .document-container {
+      max-width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    .page-sheet {
+      box-shadow: none;
+      padding: 30px 40px;
+      margin: 0;
+      page-break-after: always;
+      min-height: auto;
+      height: 100vh;
+    }
+    .page-sheet:last-child {
+      page-break-after: avoid;
+    }
+    @page {
+      size: A4 portrait;
+      margin: 10mm 15mm;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="action-bar">
+  <div>
+    <strong>Wafers Engineering Letterhead</strong> &bull; Bantu College Portal Implementation & Client Requirements
+  </div>
+  <div style="display: flex; gap: 0.75rem;">
+    <a href="admissions.html" class="btn btn-outline">Back to Admissions</a>
+    <button onclick="window.print()" class="btn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 6 2 18 2 18 9"></polyline>
+        <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+        <rect x="6" y="14" width="12" height="8"></rect>
+      </svg>
+      Print / Save as PDF
+    </button>
+  </div>
+</div>
+
+<div class="document-container">
+
+  <!-- PAGE 1: SCOPE OF WORK & ARCHITECTURE DELIVERED -->
+  <div class="page-sheet">
+    <div>
+      <div class="doc-header">
+        <div style="font-size: 0.75rem; color: #777; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
+          Wafers Engineering &bull; Technology & Systems Consulting
+        </div>
+        <div class="wafers-logo-badge">
+          <div class="wafers-badge-box">
+            <span class="wafers-script">Wafers</span>
+          </div>
+          <span class="wafers-brand-text">Wafers</span>
+        </div>
+      </div>
+
+      <div class="doc-title-block">
+        <h1>Bantu College Portal & Management System</h1>
+        <div class="subtitle">System Architecture, Delivered Milestones, and Administrative Requirements Handover</div>
+      </div>
+
+      <div class="meta-grid">
+        <div><strong>Prepared by:</strong></div>
+        <div>Wafers Engineering</div>
+        <div><strong>Prepared for:</strong></div>
+        <div>Bantu College Management & Governing Directorate</div>
+        <div><strong>Attention:</strong></div>
+        <div>Mr. Terna Iwar</div>
+        <div><strong>Date:</strong></div>
+        <div>30 October 2026</div>
+      </div>
+
+      <div class="salutation">Dear Mr. Terna Iwar,</div>
+      <p class="intro-text">
+        Thank you for entrusting Wafers Engineering with the architecture, digital branding, admissions intake funnel, and academic management portal for Bantu College. The platform has been custom-designed, engineered, and calibrated to meet the rigorous institutional standards of Nigerian secondary education. Below you will find the comprehensive scope of modules delivered, our milestone status, and the checklist of administrative deliverables required to transition the system to live production.
+      </p>
+
+      <h2 class="section-title">Scope of work delivered</h2>
+
+      <table class="wafers-table">
+        <thead>
+          <tr>
+            <th style="width: 28%;">Area</th>
+            <th>What we built</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Design and institutional branding</strong></td>
+            <td>Custom institutional identity using the official Bantu College crest, responsive layouts optimized across mobile smartphones, tablets, and desktop computers, and strict single-page A4 print calibration.</td>
+          </tr>
+          <tr>
+            <td><strong>Public institutional website</strong></td>
+            <td>Multi-page portal (Home, About Us, Academics, Admissions, Contact) featuring school philosophy, leadership address by Principal Mr. Kwaghtongo D. A., and comprehensive junior/senior secondary curriculum breakdowns.</td>
+          </tr>
+          <tr>
+            <td><strong>Admissions intake & candidate vetting</strong></td>
+            <td>Institutional five-section registration form with live four-stage progress tracking, demographic origin (State/LGA), residential address, tactile gender selection, clinical vitals (blood group, genotype, allergies), and drag-and-drop medical document upload slot.</td>
+          </tr>
+          <tr>
+            <td><strong>Entrance examination & registry desk</strong></td>
+            <td>Automated scheduling engine generating printable single-page A4 entrance screening dockets, candidate biodata summary, and official examination venue instructions upon registration.</td>
+          </tr>
+          <tr>
+            <td><strong>Administrative admissions command desk</strong></td>
+            <td>Centralized admissions desk with real-time candidate dossier inspection modal, entrance screening score recording, multi-stage decision engine (Full Offer, Probation, Decline), automated email audit trail, and single-page A4 admission letter generator.</td>
+          </tr>
+          <tr>
+            <td><strong>Student & parent academic portal</strong></td>
+            <td>Authenticated self-service portal with admission number and PIN authentication, password reset simulation, 15-subject academic report cards with Nigerian grading scale (A, B2, B3, C, F), and official A4 printable terminal report sheets.</td>
+          </tr>
+          <tr>
+            <td><strong>Atomic fee ledger & bursary desk</strong></td>
+            <td>ACID-compliant fee accounting engine tracking &#8358;450,000 annual tuition, atomic payment simulator with balance deduction, and official electronic receipts with currency converted to formal English words.</td>
+          </tr>
+          <tr>
+            <td><strong>Faculty gradebook desk</strong></td>
+            <td>Role-restricted staff portal with departmental subject locking, automated computation of total scores, letter grades, remarks, class highest, lowest, and class subject average.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="doc-footer">
+      <span>Wafers Engineering &bull; Technology & Systems Consulting</span>
+      <span>Bantu College Management System &bull; Page 1 of 2</span>
+    </div>
+  </div>
+
+  <!-- PAGE 2: VALUATION, CLIENT REQUIREMENTS CHECKLIST & SIGN-OFF -->
+  <div class="page-sheet">
+    <div>
+      <div class="doc-header">
+        <div style="font-size: 0.75rem; color: #777; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
+          Wafers Engineering &bull; Technology & Systems Consulting
+        </div>
+        <div class="wafers-logo-badge">
+          <div class="wafers-badge-box">
+            <span class="wafers-script">Wafers</span>
+          </div>
+          <span class="wafers-brand-text">Wafers</span>
+        </div>
+      </div>
+
+      <div class="doc-title-block">
+        <h1>Administrative Deliverables & Client Requirements</h1>
+        <div class="subtitle">Checklist of assets, credentials, and institutional policies needed from Bantu College</div>
+      </div>
+
+      <p class="intro-text">
+        To transition the deployed platform from local institutional testing to full live cloud synchronization, automated email delivery, and active payment gateway settlements, Wafers Engineering requires the following deliverables from Bantu College leadership:
+      </p>
+
+      <table class="wafers-table">
+        <thead>
+          <tr>
+            <th style="width: 32%;">Required Item</th>
+            <th>Description & Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1. Official School Email & SMTP</strong></td>
+            <td>Designated institutional admissions email address (e.g. admissions@bantucollege.edu) and SMTP/app credentials so automated examination dockets and admission letters land directly in applicants' email inboxes.</td>
+          </tr>
+          <tr>
+            <td><strong>2. Official School Bank Account Details</strong></td>
+            <td>Corporate bank account name, bank name, and account number to embed on official fee schedules, provisional admission offer letters, and bank payment invoices.</td>
+          </tr>
+          <tr>
+            <td><strong>3. Payment Gateway API Key (Optional)</strong></td>
+            <td>Registered Paystack or Flutterwave merchant public key (pk_live_...) if the school wishes to accept direct online tuition payments via debit card, USSD, and bank transfer.</td>
+          </tr>
+          <tr>
+            <td><strong>4. Principal's Signature & Official Stamp</strong></td>
+            <td>High-resolution transparent PNG scan of Principal Mr. Kwaghtongo D. A.'s signature and the school's circular rubber stamp to replace placeholders on official A4 Report Cards, Admission Letters, and Bursary Receipts.</td>
+          </tr>
+          <tr>
+            <td><strong>5. Confirmed Fee & Sundry Schedule</strong></td>
+            <td>Final breakdown of tuition per term/session across Junior (Basic 7-9) and Senior (SS1-3) cohorts, including sundry charges: acceptance fee, uniform kit, textbook levies, development fund, and PTA dues.</td>
+          </tr>
+          <tr>
+            <td><strong>6. Academic Calendar & Entrance Dates</strong></td>
+            <td>Confirmed dates, time, and venue for the 2026/2027 Entrance Screening Assessment, screening subject papers, and official resumption dates.</td>
+          </tr>
+          <tr>
+            <td><strong>7. Domain Name & Production Hosting</strong></td>
+            <td>Registered institutional domain name (e.g. bantucollege.edu.ng) and access credentials to the school's cPanel or cloud hosting server for live deployment.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 class="section-title">Terms & Handover Conditions</h2>
+      <ol class="terms-list">
+        <li>The delivered architecture encompasses all nine functional modules outlined in the Scope of Work table.</li>
+        <li>Integration of client-provided assets (email credentials, bank details, signatures, and domain) will be executed immediately upon receipt at no additional engineering charge.</li>
+        <li>Two rounds of administrative adjustments and workflow fine-tuning are included in this milestone.</li>
+        <li>Upon final settlement and project sign-off, full source code, database architecture, and design assets belong exclusively to Bantu College.</li>
+        <li>Wafers Engineering provides 30 calendar days of post-handover technical support, maintenance, and bug rectification at no additional cost.</li>
+      </ol>
+
+      <p style="font-size: 0.9rem; margin-top: 1rem; color: #333;">
+        We are proud of the robust, dignified, and enterprise-grade portal engineered for Bantu College. Kindly review this document, furnish the required deliverables above, and execute the endorsement below so we can proceed with live production activation.
+      </p>
+
+      <div class="signature-grid">
+        <div class="sig-col">
+          <h4>For Wafers Engineering</h4>
+          <div class="sig-line">Name: <span class="sig-underline"></span></div>
+          <div class="sig-line">Signature: <span class="sig-underline"></span></div>
+          <div class="sig-line">Date: <span style="font-weight: 600; margin-left: 0.5rem;">30 October 2026</span></div>
+        </div>
+        <div class="sig-col">
+          <h4>For Bantu College</h4>
+          <div class="sig-line">Name: <span style="font-weight: 600; margin-left: 0.5rem;">Mr. Terna Iwar</span></div>
+          <div class="sig-line">Signature: <span class="sig-underline"></span></div>
+          <div class="sig-line">Date: <span class="sig-underline"></span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="doc-footer">
+      <span>Wafers Engineering &bull; Technology & Systems Consulting</span>
+      <span>Bantu College Management System &bull; Page 2 of 2</span>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

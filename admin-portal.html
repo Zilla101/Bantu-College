@@ -388,6 +388,12 @@
             <option value="Basic 8B">Basic 8B (JSS 2B)</option>
             <option value="Basic 9A">Basic 9A (JSS 3A)</option>
             <option value="Basic 9B">Basic 9B (JSS 3B)</option>
+            <option value="SS 1A">SS 1A (Senior Sec 1A)</option>
+            <option value="SS 1B">SS 1B (Senior Sec 1B)</option>
+            <option value="SS 2A">SS 2A (Senior Sec 2A)</option>
+            <option value="SS 2B">SS 2B (Senior Sec 2B)</option>
+            <option value="SS 3A">SS 3A (Senior Sec 3A)</option>
+            <option value="SS 3B">SS 3B (Senior Sec 3B)</option>
           </select>
         </div>
       </div>
@@ -953,12 +959,27 @@ let currentAdmissionsStatusFilter = "ALL";
 let currentViewingOfferRef = null;
 
 const CLASS_ARM_PRIORITY = {
+  "Basic 7": 9,
   "Basic 7A": 10,
   "Basic 7B": 11,
+  "Basic 8": 19,
   "Basic 8A": 20,
   "Basic 8B": 21,
+  "Basic 9": 29,
   "Basic 9A": 30,
-  "Basic 9B": 31
+  "Basic 9B": 31,
+  "Senior Secondary 1": 39,
+  "SS 1": 39,
+  "SS 1A": 40,
+  "SS 1B": 41,
+  "Senior Secondary 2": 49,
+  "SS 2": 49,
+  "SS 2A": 50,
+  "SS 2B": 51,
+  "Senior Secondary 3": 59,
+  "SS 3": 59,
+  "SS 3A": 60,
+  "SS 3B": 61
 };
 
 function onAdmissionsClassDropdownChange() {
@@ -1074,10 +1095,11 @@ function renderAdmissionsTable() {
     else if (app.status === "Exam Scheduled") badgeClass = "portal-badge-b3";
 
     let classBadgeColor = "portal-badge-gold";
-    if (app.entryLevel && app.entryLevel.includes("7A")) classBadgeColor = "portal-badge-a";
+    if (app.entryLevel && (app.entryLevel.includes("7A") || app.entryLevel === "Basic 7")) classBadgeColor = "portal-badge-a";
     else if (app.entryLevel && app.entryLevel.includes("7B")) classBadgeColor = "portal-badge-b3";
-    else if (app.entryLevel && app.entryLevel.includes("8A")) classBadgeColor = "portal-badge-b2";
+    else if (app.entryLevel && (app.entryLevel.includes("8A") || app.entryLevel === "Basic 8")) classBadgeColor = "portal-badge-b2";
     else if (app.entryLevel && app.entryLevel.includes("8B")) classBadgeColor = "portal-badge-c";
+    else if (app.entryLevel && (app.entryLevel.includes("9") || app.entryLevel.includes("SS"))) classBadgeColor = "portal-badge-gold";
 
     // Score Column Content
     let scoreHtml = "";
@@ -1130,12 +1152,18 @@ function renderAdmissionsTable() {
       decisionHtml = `
         <div class="admissions-actions-group">
           <select class="portal-select-compact" id="assignArm_${app.ref}" title="Assign Specific Class Arm">
-            <option value="Basic 7A" ${app.entryLevel === 'Basic 7A' ? 'selected' : ''}>Basic 7A</option>
+            <option value="Basic 7A" ${(app.entryLevel === 'Basic 7' || app.entryLevel === 'Basic 7A') ? 'selected' : ''}>Basic 7A</option>
             <option value="Basic 7B" ${app.entryLevel === 'Basic 7B' ? 'selected' : ''}>Basic 7B</option>
-            <option value="Basic 8A" ${app.entryLevel === 'Basic 8A' ? 'selected' : ''}>Basic 8A</option>
+            <option value="Basic 8A" ${(app.entryLevel === 'Basic 8' || app.entryLevel === 'Basic 8A') ? 'selected' : ''}>Basic 8A</option>
             <option value="Basic 8B" ${app.entryLevel === 'Basic 8B' ? 'selected' : ''}>Basic 8B</option>
-            <option value="Basic 9A" ${app.entryLevel === 'Basic 9A' ? 'selected' : ''}>Basic 9A</option>
+            <option value="Basic 9A" ${(app.entryLevel === 'Basic 9' || app.entryLevel === 'Basic 9A') ? 'selected' : ''}>Basic 9A</option>
             <option value="Basic 9B" ${app.entryLevel === 'Basic 9B' ? 'selected' : ''}>Basic 9B</option>
+            <option value="SS 1A" ${(app.entryLevel === 'Senior Secondary 1' || app.entryLevel === 'SS 1' || app.entryLevel === 'SS 1A') ? 'selected' : ''}>SS 1A</option>
+            <option value="SS 1B" ${app.entryLevel === 'SS 1B' ? 'selected' : ''}>SS 1B</option>
+            <option value="SS 2A" ${(app.entryLevel === 'Senior Secondary 2' || app.entryLevel === 'SS 2' || app.entryLevel === 'SS 2A') ? 'selected' : ''}>SS 2A</option>
+            <option value="SS 2B" ${app.entryLevel === 'SS 2B' ? 'selected' : ''}>SS 2B</option>
+            <option value="SS 3A" ${(app.entryLevel === 'Senior Secondary 3' || app.entryLevel === 'SS 3' || app.entryLevel === 'SS 3A') ? 'selected' : ''}>SS 3A</option>
+            <option value="SS 3B" ${app.entryLevel === 'SS 3B' ? 'selected' : ''}>SS 3B</option>
           </select>
           <button class="btn-primary" onclick="handleGrantFullAdmission('${app.ref}')" title="Grant Full Admission Offer">Full Offer</button>
           <button class="btn-outline" style="border-color: #d97706; color: #b45309;" onclick="handleAdmitOnProbation('${app.ref}')" title="Admit conditionally on Academic Probation">Probation</button>

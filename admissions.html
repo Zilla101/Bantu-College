@@ -150,8 +150,8 @@ Admission forms are processed as they are received. We advise early registration
     
     <!-- Official Registry Banner Header -->
     <div class="admissions-header-banner">
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
-        <div>
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.25rem;">
+        <div style="flex: 1 1 500px;">
           <span class="admissions-header-badge">Office of the Principal & Registry &bull; 2026/2027 Session</span>
           <h2 style="font-family: var(--font-heading); font-size: clamp(1.6rem, 3vw, 2.2rem); color: var(--color-white); margin: 0 0 0.5rem 0;">
             Official Scholar Registration & Intake Form
@@ -160,8 +160,8 @@ Admission forms are processed as they are received. We advise early registration
             Please complete the four verification sections below. Submitted applications automatically schedule the candidate's entrance screening assessment and generate their official examination docket.
           </p>
         </div>
-        <div style="text-align: right;" class="no-print">
-          <img src="assets/Bantu%20College%20Crest-01a.png" alt="Bantu College Crest" style="height: 52px; filter: brightness(0) invert(1); opacity: 0.85;">
+        <div class="admissions-banner-crest-wrap no-print" style="display: flex; align-items: center; justify-content: flex-end;">
+          <img src="assets/Bantu%20College%20Crest-01c.png" alt="Bantu College Crest" style="height: 58px; width: auto; max-width: 240px; object-fit: contain; display: block;">
         </div>
       </div>
     </div>
@@ -234,17 +234,17 @@ Admission forms are processed as they are received. We advise early registration
             </div>
 
             <div class="form-group">
-              <label for="entryLevel">Proposed Class Arm Stream <span style="color: var(--color-red);">*</span></label>
+              <label for="entryLevel">Class of Admission <span style="color: var(--color-red);">*</span></label>
               <select id="entryLevel" name="entryLevel" required>
-                <option value="">Select Academic Class Arm</option>
-                <option value="Basic 7A">Basic 7A (JSS 1A)</option>
-                <option value="Basic 7B">Basic 7B (JSS 1B)</option>
-                <option value="Basic 8A">Basic 8A (JSS 2A)</option>
-                <option value="Basic 8B">Basic 8B (JSS 2B)</option>
-                <option value="Basic 9A">Basic 9A (JSS 3A)</option>
-                <option value="Basic 9B">Basic 9B (JSS 3B)</option>
+                <option value="">Select Class</option>
+                <option value="Basic 7">Basic 7 (JSS 1)</option>
+                <option value="Basic 8">Basic 8 (JSS 2)</option>
+                <option value="Basic 9">Basic 9 (JSS 3)</option>
+                <option value="Senior Secondary 1">Senior Secondary 1 (SS 1)</option>
+                <option value="Senior Secondary 2">Senior Secondary 2 (SS 2)</option>
+                <option value="Senior Secondary 3">Senior Secondary 3 (SS 3)</option>
               </select>
-              <span style="font-size: 0.75rem; color: #777; margin-top: 4px; display: block;">Stream assignment subject to entrance screening score.</span>
+              <span style="font-size: 0.75rem; color: #777; margin-top: 4px; display: block;">Specific class arm (e.g. 7A, 7B) is assigned by the Academic Directorate upon admission clearance.</span>
             </div>
 
             <div class="form-group full-width" style="margin-bottom: 0;">
@@ -377,6 +377,7 @@ Admission forms are processed as they are received. We advise early registration
             <div class="form-group">
               <label for="bloodGroup">Blood Group <span style="color: var(--color-red);">*</span></label>
               <select id="bloodGroup" name="bloodGroup" required>
+                <option value="">Select Blood Group</option>
                 <option value="O+" selected>O Positive (O+)</option>
                 <option value="O-">O Negative (O-)</option>
                 <option value="A+">A Positive (A+)</option>
@@ -385,19 +386,21 @@ Admission forms are processed as they are received. We advise early registration
                 <option value="B-">B Negative (B-)</option>
                 <option value="AB+">AB Positive (AB+)</option>
                 <option value="AB-">AB Negative (AB-)</option>
-                <option value="Pending Clinical Test">Pending Clinical Test at Sick Bay</option>
+                <option value="Pending Clinical Test">Pending Clinical Test (School Sick Bay)</option>
               </select>
             </div>
 
             <div class="form-group">
               <label for="genotype">Genotype <span style="color: var(--color-red);">*</span></label>
               <select id="genotype" name="genotype" required>
-                <option value="AA" selected>AA (Optimal)</option>
-                <option value="AS">AS (Carrier)</option>
-                <option value="SS">SS (Sickle Cell - Clinic Supported)</option>
-                <option value="AC">AC</option>
-                <option value="SC">SC</option>
-                <option value="Pending Clinical Assessment">Pending Clinical Assessment</option>
+                <option value="">Select Genotype</option>
+                <option value="AA" selected>AA (Genotype AA)</option>
+                <option value="AS">AS (Genotype AS - Sickle Cell Trait)</option>
+                <option value="SS">SS (Genotype SS - Sickle Cell)</option>
+                <option value="AC">AC (Genotype AC - Carrier Trait)</option>
+                <option value="SC">SC (Genotype SC - Disease Variant)</option>
+                <option value="CC">CC (Genotype CC - Rare)</option>
+                <option value="Pending Clinical Assessment">Pending Clinical Assessment (School Sick Bay)</option>
               </select>
             </div>
 

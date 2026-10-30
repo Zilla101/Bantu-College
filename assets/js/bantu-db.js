@@ -991,7 +991,7 @@ function submitAdmissionApplication(data) {
     minute: "2-digit"
   });
 
-  const entryLevelFormatted = data.entryLevel || "Basic 7A";
+  const entryLevelFormatted = data.entryLevel || "Basic 7";
   const examDate = "Saturday, 14 Nov 2026";
   const examTime = "09:00 AM WAT";
   const examVenue = "Bantu College Central Examination Hall, Academic Complex, Makurdi";
