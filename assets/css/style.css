@@ -64,13 +64,13 @@ a {
   font-family: var(--font-subheading);
   text-transform: uppercase;
   font-weight: 700;
-  padding: 0.55rem 1.35rem;
+  padding: 0.55rem 1.45rem;
   font-size: 0.86rem;
   letter-spacing: 0.04em;
   min-height: 40px;
   transition: var(--transition);
   border: none;
-  border-radius: 10px;
+  border-radius: 980px;
   box-shadow: 0 4px 12px rgba(230, 44, 32, 0.3);
   cursor: pointer;
   text-decoration: none;
@@ -91,13 +91,13 @@ a {
   font-family: var(--font-subheading);
   text-transform: uppercase;
   font-weight: 700;
-  padding: 0.55rem 1.35rem;
+  padding: 0.55rem 1.45rem;
   font-size: 0.86rem;
   letter-spacing: 0.04em;
   min-height: 40px;
   transition: var(--transition);
   border: 1.5px solid var(--color-gold);
-  border-radius: 10px;
+  border-radius: 980px;
   cursor: pointer;
   text-decoration: none;
 }
@@ -109,19 +109,19 @@ a {
 
 /* Proportional Button Size Modifiers */
 .btn-sm {
-  padding: 0.4rem 0.95rem !important;
+  padding: 0.38rem 1rem !important;
   font-size: 0.8rem !important;
   min-height: 34px !important;
-  border-radius: 8px !important;
+  border-radius: 980px !important;
   letter-spacing: 0.02em !important;
   gap: 0.4rem;
 }
 
 .btn-xs {
-  padding: 0.28rem 0.65rem !important;
+  padding: 0.28rem 0.75rem !important;
   font-size: 0.74rem !important;
   min-height: 28px !important;
-  border-radius: 6px !important;
+  border-radius: 980px !important;
   letter-spacing: 0 !important;
 }
 
@@ -1076,13 +1076,13 @@ details[open] summary {
 .portal-tab-btn {
   background: none;
   border: none;
-  padding: 0.75rem 1.25rem;
+  padding: 0.65rem 1.35rem;
   font-family: var(--font-subheading);
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: #555;
   cursor: pointer;
-  border-radius: 10px;
+  border-radius: 980px;
   transition: all 0.25s ease;
   white-space: nowrap;
 }
@@ -1693,7 +1693,7 @@ details[open] summary {
   gap: 0.5rem;
   padding: 0.75rem 1rem;
   border: 1.5px solid #d1d1d6;
-  border-radius: 12px;
+  border-radius: 980px;
   background: #ffffff;
   color: var(--color-slate);
   font-family: var(--font-subheading);
@@ -1837,8 +1837,8 @@ details[open] summary {
 .demo-chip {
   background: #ffffff;
   border: 1px solid rgba(186, 147, 79, 0.35);
-  border-radius: 6px;
-  padding: 0.26rem 0.55rem;
+  border-radius: 980px;
+  padding: 0.28rem 0.65rem;
   font-size: 0.72rem;
   font-weight: 700;
   color: var(--color-slate);
@@ -1970,23 +1970,23 @@ details[open] summary {
 
   /* Button Size Optimizations for Mobile */
   .btn-primary, .btn-outline {
-    padding: 0.45rem 1rem !important;
+    padding: 0.45rem 1.15rem !important;
     font-size: 0.82rem !important;
     min-height: 38px !important;
-    border-radius: 8px !important;
+    border-radius: 980px !important;
     letter-spacing: 0.02em !important;
   }
   .btn-sm {
-    padding: 0.35rem 0.75rem !important;
+    padding: 0.35rem 0.85rem !important;
     font-size: 0.76rem !important;
     min-height: 32px !important;
-    border-radius: 6px !important;
+    border-radius: 980px !important;
   }
   .portal-auth-card button[type="submit"] {
     min-height: 42px !important;
     font-size: 0.88rem !important;
-    padding: 0.55rem 1rem !important;
-    border-radius: 8px !important;
+    padding: 0.55rem 1.25rem !important;
+    border-radius: 980px !important;
     letter-spacing: 0.04em !important;
   }
   
@@ -2018,20 +2018,21 @@ details[open] summary {
     flex: 1 !important;
     justify-content: center !important;
     text-align: center !important;
+    border-radius: 980px !important;
   }
 
   /* Compact Action Buttons in Tab Panes & Admissions */
   .portal-tab-pane .btn-primary {
     font-size: 0.8rem !important;
-    padding: 0.42rem 0.85rem !important;
+    padding: 0.42rem 0.95rem !important;
     min-height: 34px !important;
-    border-radius: 6px !important;
+    border-radius: 980px !important;
   }
   #submitAppBtn {
-    padding: 0.7rem 1.15rem !important;
+    padding: 0.7rem 1.35rem !important;
     font-size: 0.88rem !important;
     min-height: 42px !important;
-    border-radius: 8px !important;
+    border-radius: 980px !important;
   }
 
   /* KPIs 2x2 Grid with Balanced Aspect Ratio */
@@ -2068,7 +2069,7 @@ details[open] summary {
     gap: 0.4rem !important;
     padding: 0.35rem !important;
     background: rgba(43, 42, 66, 0.05) !important;
-    border-radius: 12px !important;
+    border-radius: 980px !important;
     border: 1px solid rgba(0, 0, 0, 0.06) !important;
     overflow-x: auto !important;
     -webkit-overflow-scrolling: touch !important;
@@ -2079,9 +2080,9 @@ details[open] summary {
     display: none !important;
   }
   .portal-tab-btn {
-    padding: 0.55rem 0.85rem !important;
+    padding: 0.55rem 0.95rem !important;
     font-size: 0.82rem !important;
-    border-radius: 8px !important;
+    border-radius: 980px !important;
     flex-shrink: 0 !important;
   }
 
