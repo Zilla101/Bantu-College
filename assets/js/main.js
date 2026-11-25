@@ -1,41 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // 1. Mobile Nav Toggle
-  const navToggle = document.getElementById("nav-toggle");
-  const mainNav = document.getElementById("main-nav");
-  if (navToggle && mainNav) {
-    navToggle.addEventListener("click", () => {
-      const isExpanded = navToggle.getAttribute("aria-expanded") === "true";
-      navToggle.setAttribute("aria-expanded", !isExpanded);
-      mainNav.classList.toggle("is-open");
-    });
-  }
-
-  // 2. Admission Form Validation
-  const admissionForm = document.getElementById("admission-form");
-  if (admissionForm) {
-    admissionForm.addEventListener("submit", (e) => {
-      let isValid = true;
-      const emailInput = document.getElementById("guardian-email");
-      const nameInput = document.getElementById("student-name");
-      const gradeInput = document.getElementById("grade-level");
-      const formError = document.getElementById("form-error");
-      if(formError) formError.textContent = "";
-
-      if (nameInput && !nameInput.value.trim()) isValid = false;
-      if (gradeInput && !gradeInput.value.trim()) isValid = false;
-      if (emailInput && !emailInput.value.trim()) {
-        isValid = false;
-      } else if (emailInput) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(emailInput.value.trim())) isValid = false;
-      }
-      if (!isValid) {
-        e.preventDefault();
-        if(formError) formError.textContent = "Please fill in all required fields and provide a valid email address.";
-      }
-    });
-  }
-
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // 3. Blur Text / Split Text Animation

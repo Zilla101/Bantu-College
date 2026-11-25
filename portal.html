@@ -3,14 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
 <title>Student Portal | Bantu College</title>
-<link rel="stylesheet" href="assets/css/style.css?v=10">
+<link rel="stylesheet" href="assets/css/style.css?v=11">
 
 <meta name="description" content="Official student portal for Bantu College. Check termly results, fee ledgers, sundry expenses, and disciplinary records.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Bantu College | Student Portal">
+<meta property="og:title" content="Student Portal | Bantu College">
 <meta property="og:description" content="Access student academic results, tuition records, and conduct evaluations.">
 <meta property="og:image" content="https://www.bantucollege.com/assets/Bantu%20College%20Crest-01a.png">
+<meta property="og:url" content="https://www.bantucollege.com/portal.html">
+<meta property="og:site_name" content="Bantu College">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" href="assets/Bantu%20College%20Crest-02d.png">
 </head>
@@ -30,8 +33,25 @@
 </ul>
 </nav>
 <a href="index.html" class="btn-outline btn-sm">Exit Portal</a>
+<button class="hamburger" aria-label="Toggle Navigation" aria-expanded="false">
+<span class="line"></span><span class="line"></span><span class="line"></span>
+</button>
 </div>
 </header>
+<div class="mobile-drawer no-print">
+<div class="drawer-header">
+<h2 style="color: var(--color-gold); font-family: var(--font-heading); margin-bottom: 0; font-size: 2rem;">Menu</h2>
+</div>
+<nav class="drawer-nav">
+<a href="index.html">Home</a>
+<a href="academics.html">Academics</a>
+<a href="admissions.html">Admissions</a>
+<a href="admin-portal.html">Faculty &amp; Bursar Desk</a>
+</nav>
+<div class="drawer-footer">
+<a href="index.html" class="btn-outline" style="width: 100%; text-align: center;">Exit Portal</a>
+</div>
+</div>
 
 <main class="portal-wrapper">
 <div class="container">
@@ -64,27 +84,29 @@
       </button>
     </div>
 
-    <div class="portal-demo-notice">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
-        <strong style="color: var(--color-slate); font-size: 0.82rem;">Demo Test Accounts:</strong>
-        <span style="font-size: 0.72rem; color: #777;">Tap chip to test</span>
+    <details class="demo-disclosure">
+      <summary>
+        <span>Demonstration Accounts<span class="demo-disclosure-hint">&nbsp;(testing only)</span></span>
+      </summary>
+      <div class="demo-disclosure-body">
+        <div class="demo-chips-scroll">
+          <button type="button" class="demo-chip" onclick="quickFillStudentLogin('BC/2026/014', '1234')">Terseer (B7A)</button>
+          <button type="button" class="demo-chip" onclick="quickFillStudentLogin('BC/2026/021', '5678')">Dooshima (B8A)</button>
+          <button type="button" class="demo-chip" onclick="quickFillStudentLogin('BC/2026/015', '2468')">Kator (B7A)</button>
+          <button type="button" class="demo-chip" onclick="quickFillStudentLogin('BC/2026/017', '1357')">Bemgba (B7B)</button>
+          <button type="button" class="demo-chip" onclick="quickFillStudentLogin('BC/2026/026', '1234')">Msughter (B7A)</button>
+        </div>
+        <select id="demoAccountSelect" class="demo-quick-select" onchange="if(this.value){ const p=this.value.split('|'); quickFillStudentLogin(p[0], p[1]); }">
+          <option value="">-- Or Choose From Student List --</option>
+          <option value="BC/2026/014|1234">1. Terseer Audu &bull; Basic 7A (Cleared Fees)</option>
+          <option value="BC/2026/021|5678">2. Dooshima Iorfa &bull; Basic 8A (&#8358;150k Balance)</option>
+          <option value="BC/2026/015|2468">3. Kator Chia &bull; Basic 7A (&#8358;150k Balance)</option>
+          <option value="BC/2026/017|1357">4. Bemgba Agber &bull; Basic 7B (&#8358;300k Balance)</option>
+          <option value="BC/2026/026|1234">5. Msughter Tyover &bull; Basic 7A (New Scholar)</option>
+        </select>
+        <p style="font-size: 0.72rem; color: #777; margin-top: 0.6rem;">Evaluation credentials only. Live student PINs are issued by the school registry and are never displayed.</p>
       </div>
-      <div class="demo-chips-scroll">
-        <button type="button" class="demo-chip" onclick="quickFillStudentLogin('BC/2026/014', '1234')">Terseer (B7A)</button>
-        <button type="button" class="demo-chip" onclick="quickFillStudentLogin('BC/2026/021', '5678')">Dooshima (B8A)</button>
-        <button type="button" class="demo-chip" onclick="quickFillStudentLogin('BC/2026/015', '2468')">Kator (B7A)</button>
-        <button type="button" class="demo-chip" onclick="quickFillStudentLogin('BC/2026/017', '1357')">Bemgba (B7B)</button>
-        <button type="button" class="demo-chip" onclick="quickFillStudentLogin('BC/2026/026', '1234')">Msughter (B7A)</button>
-      </div>
-      <select id="demoAccountSelect" class="demo-quick-select" onchange="if(this.value){ const p=this.value.split('|'); quickFillStudentLogin(p[0], p[1]); }">
-        <option value="">-- Or Choose From Student List --</option>
-        <option value="BC/2026/014|1234">1. Terseer Audu &bull; Basic 7A (Cleared Fees)</option>
-        <option value="BC/2026/021|5678">2. Dooshima Iorfa &bull; Basic 8A (&#8358;150k Balance)</option>
-        <option value="BC/2026/015|2468">3. Kator Chia &bull; Basic 7A (&#8358;150k Balance)</option>
-        <option value="BC/2026/017|1357">4. Bemgba Agber &bull; Basic 7B (&#8358;300k Balance)</option>
-        <option value="BC/2026/026|1234">5. Msughter Tyover &bull; Basic 7A (New Scholar)</option>
-      </select>
-    </div>
+    </details>
 
     <p style="text-align: center; margin-top: 1.5rem; font-size: 0.85rem; color: #777;">
       School Administration Portal: <a href="admin-portal.html" style="color: var(--color-slate); font-weight: 700;">Open Faculty and Bursar Desk</a>
@@ -451,7 +473,7 @@
 
       <div class="mobile-table-hint no-print">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>
-        <span>Swipe horizontally &rarr; to inspect Billed Amount, Paid Amount, Reference, and Receipts</span>
+        <span>Swipe horizontally &rarr; to inspect Session Billed, Amount Paid, Balance After, Reference, and Receipts</span>
       </div>
 
       <div class="table-responsive" id="feesTableContainer">
@@ -460,8 +482,9 @@
             <tr>
               <th>Date</th>
               <th class="sticky-col">Description</th>
-              <th>Billed Amount</th>
-              <th>Paid Amount</th>
+              <th>Session Billed</th>
+              <th>Amount Paid</th>
+              <th>Balance After</th>
               <th>Receipt Reference</th>
               <th>Status</th>
               <th style="text-align: center;">Official Receipt</th>
@@ -615,7 +638,8 @@
 </div>
 </footer>
 
-<script src="assets/js/bantu-db.js?v=10"></script>
+<script src="assets/js/bantu-db.js?v=11"></script>
+<script src="assets/js/bc-ui.js?v=1"></script>
 <script>
 let activeLoggedInStudentId = null;
 
@@ -744,11 +768,15 @@ function refreshStudentDashboard() {
 
   data.fees.forEach(f => {
     const row = document.createElement("tr");
+    const balanceAfter = (typeof f.balance === "number")
+      ? f.balance
+      : Math.max(0, f.billed - f.paid);
     row.innerHTML = `
       <td>${f.date}</td>
       <td class="sticky-col"><strong>${f.desc}</strong></td>
-      <td>&#8358;${f.billed.toLocaleString()}.00</td>
+      <td title="Your full tuition for this session. It repeats on each row so you can see the total you are paying against.">&#8358;${f.billed.toLocaleString()}.00</td>
       <td style="color: #15803d; font-weight: 700;">&#8358;${f.paid.toLocaleString()}.00</td>
+      <td style="font-weight: 700; color: ${balanceAfter === 0 ? '#15803d' : 'var(--color-red)'};">&#8358;${balanceAfter.toLocaleString()}.00</td>
       <td><span style="font-family: monospace; font-size: 0.85rem; color: #555;">${f.ref}</span></td>
       <td><span class="portal-badge ${f.status === 'Verified' ? 'portal-badge-green' : 'portal-badge-gold'}">${f.status}</span></td>
       <td style="text-align: center;">
@@ -902,7 +930,7 @@ document.getElementById("atomicPaymentForm").addEventListener("submit", function
       refreshStudentDashboard();
       displayReceiptModal(result);
     } else {
-      alert("Payment Failed: " + result.message);
+      bcError("Payment failed: " + result.message);
     }
   }, 1200);
 });
@@ -942,7 +970,7 @@ function viewReceiptByRef(reference) {
   if (receipt) {
     displayReceiptModal(receipt);
   } else {
-    alert("Receipt not found for reference: " + reference);
+    bcError("Receipt not found for reference: " + reference);
   }
 }
 
@@ -956,7 +984,7 @@ function printReceiptDirectly() {
     <head>
       <meta charset="UTF-8">
       <base href="${baseUrl}">
-      <title>Bantu College - Official Electronic Payment Receipt</title>
+      <title>Bantu College | Official Electronic Payment Receipt</title>
       <style>
         :root {
           --color-slate: #2B2A42;

@@ -477,7 +477,7 @@ const defaultDatabaseSeed = {
           sender: "admissions@bantucollege.edu",
           recipient: "s.tyover@gmail.com",
           timestamp: "12 Oct 2026 at 10:15",
-          subject: "ENTRANCE EXAMINATION SCHEDULE: Bantu College (Msughter Tyover - Ref: BC/ADM/2026/001)"
+          subject: "ENTRANCE EXAMINATION SCHEDULE: Bantu College (Msughter Tyover | Ref: BC/ADM/2026/001)"
         },
         {
           type: "OFFER_GRANTED",
@@ -531,7 +531,7 @@ const defaultDatabaseSeed = {
           sender: "admissions@bantucollege.edu",
           recipient: "a.igbawase@yahoo.com",
           timestamp: "19 Oct 2026 at 11:20",
-          subject: "ENTRANCE EXAMINATION SCHEDULE: Bantu College (Seember Igbawase - Ref: BC/ADM/2026/002)"
+          subject: "ENTRANCE EXAMINATION SCHEDULE: Bantu College (Seember Igbawase | Ref: BC/ADM/2026/002)"
         },
         {
           type: "OFFER_PROBATION",
@@ -581,7 +581,7 @@ const defaultDatabaseSeed = {
           sender: "admissions@bantucollege.edu",
           recipient: "t.kwaghtondo@gmail.com",
           timestamp: "25 Oct 2026 at 09:30",
-          subject: "ENTRANCE EXAMINATION SCHEDULE: Bantu College (Aondona Kwaghtondo - Ref: BC/ADM/2026/003)"
+          subject: "ENTRANCE EXAMINATION SCHEDULE: Bantu College (Aondona Kwaghtondo | Ref: BC/ADM/2026/003)"
         }
       ]
     },
@@ -625,7 +625,7 @@ const defaultDatabaseSeed = {
           sender: "admissions@bantucollege.edu",
           recipient: "e.gbande@gmail.com",
           timestamp: "27 Oct 2026 at 12:45",
-          subject: "ENTRANCE EXAMINATION SCHEDULE: Bantu College (Terungwa Gbande - Ref: BC/ADM/2026/004)"
+          subject: "ENTRANCE EXAMINATION SCHEDULE: Bantu College (Terungwa Gbande | Ref: BC/ADM/2026/004)"
         },
         {
           type: "OFFER_DECLINED",
@@ -675,7 +675,7 @@ const defaultDatabaseSeed = {
           sender: "admissions@bantucollege.edu",
           recipient: "d.tarhule@yahoo.com",
           timestamp: "28 Oct 2026 at 15:10",
-          subject: "ENTRANCE EXAMINATION SCHEDULE: Bantu College (Hembadoon Tarhule - Ref: BC/ADM/2026/005)"
+          subject: "ENTRANCE EXAMINATION SCHEDULE: Bantu College (Hembadoon Tarhule | Ref: BC/ADM/2026/005)"
         }
       ]
     },
@@ -717,7 +717,7 @@ const defaultDatabaseSeed = {
           sender: "admissions@bantucollege.edu",
           recipient: "p.iornumbe@gmail.com",
           timestamp: "29 Oct 2026 at 16:30",
-          subject: "ENTRANCE EXAMINATION SCHEDULE: Bantu College (Wandoo Iornumbe - Ref: BC/ADM/2026/006)"
+          subject: "ENTRANCE EXAMINATION SCHEDULE: Bantu College (Wandoo Iornumbe | Ref: BC/ADM/2026/006)"
         }
       ]
     }
@@ -821,11 +821,15 @@ function processAtomicFeePayment(studentId, paymentAmount, paymentChannel, narra
   const channelDesc = paymentChannel || "Paystack Automated Gateway";
   const narrative = narrativeNote || "Tuition Installment Payment";
 
+  // A payment row is not a new charge: it carries the session billed total and the
+  // resulting balance so the student ledger adds up to totalTuitionBilled.
   const newFeeEntry = {
     date: currentDate,
     desc: narrative,
-    billed: amount,
+    billed: student.totalTuitionBilled,
+    previousBalance: previousBalance,
     paid: amount,
+    balance: newBalance,
     ref: transactionRef,
     status: "Verified",
     channel: channelDesc
@@ -1035,7 +1039,7 @@ function submitAdmissionApplication(data) {
         sender: BANTU_ADMISSIONS_CONFIG.officialSenderEmail,
         recipient: data.email,
         timestamp: `${currentDate} at ${currentTime}`,
-        subject: `ENTRANCE EXAMINATION SCHEDULE: Bantu College (${data.studentName} - Ref: ${applicationRef})`
+        subject: `ENTRANCE EXAMINATION SCHEDULE: Bantu College (${data.studentName} | Ref: ${applicationRef})`
       }
     ]
   };
@@ -1376,7 +1380,7 @@ function resendExamDocketInDb(applicationRef) {
     sender: BANTU_ADMISSIONS_CONFIG.officialSenderEmail,
     recipient: app.email,
     timestamp: `${currentDate} at ${currentTime}`,
-    subject: `ENTRANCE EXAMINATION SCHEDULE: Bantu College (${app.studentName} - Ref: ${app.ref})`
+    subject: `ENTRANCE EXAMINATION SCHEDULE: Bantu College (${app.studentName} | Ref: ${app.ref})`
   });
 
   saveBantuDatabase(db);

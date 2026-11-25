@@ -4,15 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admissions and Enrollment | Bantu College</title>
-<link rel="stylesheet" href="assets/css/style.css?v=10">
+<link rel="stylesheet" href="assets/css/style.css?v=11">
 
+<link rel="canonical" href="https://www.bantucollege.com/admissions.html">
 <meta name="description" content="Apply for admission to Basic 7 (JSS 1) and Basic 8 (JSS 2) at Bantu College. Review entry guidelines and submit the application form.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Bantu College | Admissions and Enrollment">
+<meta property="og:title" content="Admissions and Enrollment | Bantu College">
 <meta property="og:description" content="Admissions open for Basic 7 and Basic 8 at our 10 acre school compound in Benue State.">
 <meta property="og:image" content="https://www.bantucollege.com/assets/Bantu%20College%20Crest-01a.png">
+<meta property="og:url" content="https://www.bantucollege.com/admissions.html">
+<meta property="og:site_name" content="Bantu College">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" href="assets/Bantu%20College%20Crest-02d.png">
+<link rel="apple-touch-icon" href="assets/Bantu%20College%20Crest-02d.png">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -69,7 +73,7 @@
 </div>
 </div>
 
-<section class="banner-break" style="background-image: url('https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1920&q=80&fm=webp'); min-height: 40vh;">
+<section class="banner-break" style="background-image: url('assets/img/school-building.jpg'); min-height: 40vh;">
 <div class="banner-content">
 <h1 class="huge-heading blur-text" style="color: var(--color-white); margin-bottom: 0;">Admissions</h1>
 </div>
@@ -370,7 +374,7 @@ Admission forms are processed as they are received. We advise early registration
           </div>
 
           <div style="background: rgba(186, 147, 79, 0.08); border-left: 4px solid var(--color-gold); padding: 0.85rem 1.15rem; border-radius: 0 10px 10px 0; margin-bottom: 1.25rem; font-size: 0.85rem; color: #444; line-height: 1.5;">
-            Bantu College operates an equipped on-campus sick bay staffed by registered nursing personnel. Submitting clinical vitals enables rapid emergency preparedness, medical safety, and sports classification.
+            Bantu College operates an equipped sick bay within the campus, staffed by registered nursing personnel. Submitting clinical vitals enables rapid emergency preparedness, medical safety, and sports classification.
           </div>
 
           <div class="form-grid">
@@ -395,17 +399,17 @@ Admission forms are processed as they are received. We advise early registration
               <select id="genotype" name="genotype" required>
                 <option value="">Select Genotype</option>
                 <option value="AA" selected>AA (Genotype AA)</option>
-                <option value="AS">AS (Genotype AS - Sickle Cell Trait)</option>
-                <option value="SS">SS (Genotype SS - Sickle Cell)</option>
-                <option value="AC">AC (Genotype AC - Carrier Trait)</option>
-                <option value="SC">SC (Genotype SC - Disease Variant)</option>
-                <option value="CC">CC (Genotype CC - Rare)</option>
+                <option value="AS">AS (Sickle Cell Trait)</option>
+                <option value="SS">SS (Sickle Cell)</option>
+                <option value="AC">AC (Carrier Trait)</option>
+                <option value="SC">SC (Disease Variant)</option>
+                <option value="CC">CC (Rare)</option>
                 <option value="Pending Clinical Assessment">Pending Clinical Assessment (School Sick Bay)</option>
               </select>
             </div>
 
             <div class="form-group full-width">
-              <label for="medicalConditions">Known Allergies or Pre-Existing Medical Conditions <span class="label-optional">(If applicable)</span></label>
+              <label for="medicalConditions">Known Allergies or Pre Existing Medical Conditions <span class="label-optional">(If applicable)</span></label>
               <textarea id="medicalConditions" name="medicalConditions" rows="2" placeholder="List any food or drug allergies (e.g. peanuts, penicillin, dust), chronic conditions (e.g. asthma, sickle cell), or write 'None reported'."></textarea>
             </div>
 
@@ -542,7 +546,8 @@ Admission forms are processed as they are received. We advise early registration
 <p style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem;">&copy; 2026 Bantu College. All rights reserved.</p>
 </div>
 </footer>
-<script src="assets/js/bantu-db.js?v=10"></script>
+<script src="assets/js/bantu-db.js?v=11"></script>
+<script src="assets/js/bc-ui.js?v=1"></script>
 <script src="assets/js/main.js?v=5" defer></script>
 <script>
 let uploadedMedicalFile = {
@@ -555,7 +560,7 @@ function handleMedicalFileSelected(input) {
   if (input.files && input.files[0]) {
     const file = input.files[0];
     if (file.size > 5 * 1024 * 1024) {
-      alert("File size exceeds 5MB limit. Please attach a smaller file.");
+      bcError("File size exceeds 5MB limit. Please attach a smaller file.");
       input.value = "";
       return;
     }
@@ -656,7 +661,7 @@ document.addEventListener("DOMContentLoaded", function() {
       
       const affirmation = document.getElementById("affirmationCheckbox");
       if (!affirmation || !affirmation.checked) {
-        alert("Please confirm the affirmation checkbox certifying candidate accuracy.");
+        bcError("Please confirm the affirmation checkbox certifying candidate accuracy.");
         if (affirmation) affirmation.focus();
         return;
       }
@@ -709,7 +714,7 @@ document.addEventListener("DOMContentLoaded", function() {
         sessionStorage.setItem("bantu_last_application", JSON.stringify(result.application));
         window.location.href = "success.html?ref=" + encodeURIComponent(result.reference);
       } else {
-        alert("Registration could not be completed. Please review input fields.");
+        bcError("Registration could not be completed. Please review input fields.");
         submitBtn.disabled = false;
         submitBtn.innerHTML = "Submit Application & Generate Official Examination Docket";
       }

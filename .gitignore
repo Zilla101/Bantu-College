@@ -1,0 +1,5 @@
+# Local-only working material. Never published, never pushed.
+.backups/
+_archive/
+*.log
+.DS_Store

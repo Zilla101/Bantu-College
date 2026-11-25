@@ -3,14 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
 <title>Faculty and Bursar Desk | Bantu College</title>
-<link rel="stylesheet" href="assets/css/style.css?v=10">
+<link rel="stylesheet" href="assets/css/style.css?v=11">
 
 <meta name="description" content="Secure faculty grade entry engine and bursary verification desk for Bantu College staff.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Bantu College | Faculty Portal">
+<meta property="og:title" content="Faculty and Bursar Desk | Bantu College">
 <meta property="og:description" content="Subject restricted teacher grade recording and bursary management for authorized personnel.">
 <meta property="og:image" content="https://www.bantucollege.com/assets/Bantu%20College%20Crest-01a.png">
+<meta property="og:url" content="https://www.bantucollege.com/admin-portal.html">
+<meta property="og:site_name" content="Bantu College">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" href="assets/Bantu%20College%20Crest-02d.png">
 </head>
@@ -29,8 +32,25 @@
 </ul>
 </nav>
 <a href="portal.html" class="btn-outline" style="padding: 0.6rem 1.2rem; font-size: 0.9rem;">Student Portal</a>
+<button class="hamburger" aria-label="Toggle Navigation" aria-expanded="false">
+<span class="line"></span><span class="line"></span><span class="line"></span>
+</button>
 </div>
 </header>
+<div class="mobile-drawer no-print">
+<div class="drawer-header">
+<h2 style="color: var(--color-gold); font-family: var(--font-heading); margin-bottom: 0; font-size: 2rem;">Menu</h2>
+</div>
+<nav class="drawer-nav">
+<a href="index.html">Home</a>
+<a href="portal.html">Student Portal</a>
+<a href="academics.html">Academics</a>
+<a href="admissions.html">Admissions</a>
+</nav>
+<div class="drawer-footer">
+<a href="portal.html" class="btn-outline" style="width: 100%; text-align: center;">Student Portal</a>
+</div>
+</div>
 
 <main class="portal-wrapper">
 <div class="container">
@@ -58,14 +78,19 @@
       <button type="submit" class="btn-primary" style="width: 100%; padding: 0.95rem;">Access Staff Workspace</button>
     </form>
 
-    <div class="portal-demo-notice" style="margin-top: 1.5rem;">
-      <strong style="color: var(--color-slate); display: block; margin-bottom: 0.35rem;">Authorized Faculty Demonstration Logins:</strong>
-      <p>1. Principal: ID: <strong>PRN/EXEC/01</strong> | PIN: <strong>1001</strong> (Full Access: Admissions Intake, Academic Scores, Bursary)</p>
-      <p>2. Mathematics Master: ID: <strong>TCH/MTH/01</strong> | PIN: <strong>1122</strong> (Mathematics Only)</p>
-      <p>3. English and Literature Master: ID: <strong>TCH/ENG/02</strong> | PIN: <strong>3344</strong> (English and Literature Only)</p>
-      <p>4. Science Master: ID: <strong>TCH/SCI/03</strong> | PIN: <strong>5566</strong> (Intermediate Science Only)</p>
-      <p>5. Bursar Officer: ID: <strong>BUR/FIN/01</strong> | PIN: <strong>9900</strong> (Bursary Verification Desk and Admissions)</p>
-    </div>
+    <details class="demo-disclosure">
+      <summary>
+        <span>Demonstration Faculty Logins<span class="demo-disclosure-hint">&nbsp;(testing only)</span></span>
+      </summary>
+      <div class="demo-disclosure-body">
+        <p>1. Principal: ID: <strong>PRN/EXEC/01</strong> | PIN: <strong>1001</strong> (Full Access: Admissions Intake, Academic Scores, Bursary)</p>
+        <p>2. Mathematics Master: ID: <strong>TCH/MTH/01</strong> | PIN: <strong>1122</strong> (Mathematics Only)</p>
+        <p>3. English and Literature Master: ID: <strong>TCH/ENG/02</strong> | PIN: <strong>3344</strong> (English and Literature Only)</p>
+        <p>4. Science Master: ID: <strong>TCH/SCI/03</strong> | PIN: <strong>5566</strong> (Intermediate Science Only)</p>
+        <p>5. Bursar Officer: ID: <strong>BUR/FIN/01</strong> | PIN: <strong>9900</strong> (Bursary Verification Desk and Admissions)</p>
+        <p style="font-size: 0.72rem; color: #777; margin-top: 0.6rem;">Evaluation credentials only. Live staff PINs are issued by the registrar and are never displayed.</p>
+      </div>
+    </details>
 
     <p style="text-align: center; margin-top: 1.5rem; font-size: 0.85rem; color: #777;">
       Strict access policies enforced. Teachers can only view and record scores for their assigned academic disciplines.
@@ -220,7 +245,7 @@
             Direct debit card, bank transfer, and USSD payments can be enabled for parents with instant auto verification.
           </p>
         </div>
-        <button class="btn-outline" style="border-color: #15803d; color: #15803d; font-size: 0.85rem; padding: 0.55rem 1.1rem;" onclick="alert('Paystack Gateway configuration is ready for live API keys.')">Configure Gateway</button>
+        <button class="btn-outline" style="border-color: #15803d; color: #15803d; font-size: 0.85rem; padding: 0.55rem 1.1rem;" onclick="bcInfo('Paystack Gateway configuration is ready for live API keys.', { title: 'Paystack Gateway' })">Configure Gateway</button>
       </div>
 
       <!-- Transactions Table -->
@@ -310,7 +335,7 @@
               <option value="class-desc">Sort by Class (Reverse Order)</option>
               <option value="date-desc">Application Date (Newest First)</option>
               <option value="date-asc">Application Date (Oldest First)</option>
-              <option value="name-asc">Candidate Name (Alphabetical A-Z)</option>
+              <option value="name-asc">Candidate Name (Alphabetical A to Z)</option>
               <option value="status-asc">Status</option>
             </select>
           </div>
@@ -536,7 +561,7 @@
           <div class="dossier-item"><span>Genotype</span><strong id="dossierGenotype" style="color: #15803d;">AA</strong></div>
           <div class="dossier-item"><span>Emergency Medical Contact</span><strong id="dossierEmergencyContact">Mrs. V. Tyover (+234 803 214 5591)</strong></div>
           <div class="dossier-item"><span>Medical Fitness Document</span><div id="dossierMedicalDocSlot"><strong style="color: #555;">Pending Physical Submission</strong></div></div>
-          <div class="dossier-item" style="grid-column: span 2;"><span>Known Allergies / Pre-Existing Medical Conditions</span><strong id="dossierAllergies">None reported.</strong></div>
+          <div class="dossier-item" style="grid-column: span 2;"><span>Known Allergies / Pre Existing Medical Conditions</span><strong id="dossierAllergies">None reported.</strong></div>
         </div>
       </div>
 
@@ -578,7 +603,8 @@
 </div>
 </footer>
 
-<script src="assets/js/bantu-db.js?v=10"></script>
+<script src="assets/js/bantu-db.js?v=11"></script>
+<script src="assets/js/bc-ui.js?v=1"></script>
 <script>
 // Staff Credentials and Role Based Subject Mapping
 const staffAccounts = {
@@ -723,35 +749,56 @@ function loadStaffWorkspace() {
 // Tab Switching Listener for Staff Tab Bar
 document.querySelectorAll("#staffTabBar .portal-tab-btn").forEach(btn => {
   btn.addEventListener("click", function() {
-    if (hasUnsavedScoreChanges) {
-      const leave = confirm("You have unsaved score changes. Do you want to switch sections without saving?");
-      if (!leave) return;
+    const clickedTab = this;
+
+    function activateStaffPane() {
+      document.querySelectorAll("#staffTabBar .portal-tab-btn").forEach(b => b.classList.remove("is-active"));
+      document.querySelectorAll("#staffWorkspaceSection .portal-tab-pane").forEach(p => p.classList.remove("is-active"));
+
+      clickedTab.classList.add("is-active");
+      const targetPaneId = clickedTab.getAttribute("data-staff-pane");
+      const targetPane = document.getElementById(targetPaneId);
+      if (targetPane) targetPane.classList.add("is-active");
+
+      if (targetPaneId === "teacherPane") loadSubjectScoresForClass();
+      if (targetPaneId === "bursarPane") renderBursarTransactions();
+      if (targetPaneId === "admissionsPane") renderAdmissionsTable();
     }
-    document.querySelectorAll("#staffTabBar .portal-tab-btn").forEach(b => b.classList.remove("is-active"));
-    document.querySelectorAll("#staffWorkspaceSection .portal-tab-pane").forEach(p => p.classList.remove("is-active"));
 
-    this.classList.add("is-active");
-    const targetPaneId = this.getAttribute("data-staff-pane");
-    const targetPane = document.getElementById(targetPaneId);
-    if (targetPane) targetPane.classList.add("is-active");
+    if (hasUnsavedScoreChanges) {
+      bcConfirm("You have unsaved score changes. Switch sections without saving?", activateStaffPane, {
+        title: "Unsaved changes",
+        confirmLabel: "Switch anyway",
+        danger: true
+      });
+      return;
+    }
 
-    if (targetPaneId === "teacherPane") loadSubjectScoresForClass();
-    if (targetPaneId === "bursarPane") renderBursarTransactions();
-    if (targetPaneId === "admissionsPane") renderAdmissionsTable();
+    activateStaffPane();
   });
 });
 
 // Staff Logout Handler
 document.getElementById("staffLogoutBtn").addEventListener("click", function() {
-  if (hasUnsavedScoreChanges) {
-    const confirmLeave = confirm("You have unsaved score changes. Are you sure you want to sign out without saving?");
-    if (!confirmLeave) return;
+  function performStaffLogout() {
+    document.getElementById("staffWorkspaceSection").style.display = "none";
+    document.getElementById("staffAuthSection").style.display = "block";
+    document.getElementById("staffLoginForm").reset();
+    currentLoggedInStaff = null;
+    hasUnsavedScoreChanges = false;
+    bcInfo("You have been signed out of the staff workspace.");
   }
-  document.getElementById("staffWorkspaceSection").style.display = "none";
-  document.getElementById("staffAuthSection").style.display = "block";
-  document.getElementById("staffLoginForm").reset();
-  currentLoggedInStaff = null;
-  hasUnsavedScoreChanges = false;
+
+  if (hasUnsavedScoreChanges) {
+    bcConfirm("You have unsaved score changes. Sign out without saving?", performStaffLogout, {
+      title: "Sign out without saving?",
+      confirmLabel: "Sign out",
+      danger: true
+    });
+    return;
+  }
+
+  performStaffLogout();
 });
 
 // Load Scores for Selected Class and Subject from Unified Database
@@ -882,11 +929,11 @@ function commitClassScores() {
     const examVal = currentStagedScores[i].exam;
 
     if (isNaN(caVal) || caVal < 0 || caVal > 40) {
-      alert(`Invalid Continuous Assessment score for ${currentStagedScores[i].name}. Must be between 0 and 40.`);
+      bcError(`Invalid Continuous Assessment score for ${currentStagedScores[i].name}. Must be between 0 and 40.`);
       return;
     }
     if (isNaN(examVal) || examVal < 0 || examVal > 60) {
-      alert(`Invalid Examination score for ${currentStagedScores[i].name}. Must be between 0 and 60.`);
+      bcError(`Invalid Examination score for ${currentStagedScores[i].name}. Must be between 0 and 60.`);
       return;
     }
   }
@@ -899,7 +946,7 @@ function commitClassScores() {
       document.getElementById(`rowStatusCell_${i}`).innerHTML = `<span class="portal-badge portal-badge-green">Committed</span>`;
     }
     setUnsavedState(false);
-    alert(`Success: Scores for ${selectedSubject} in ${selectedClass} have been officially saved and committed to student record sheets.`);
+    bcSuccess(`Scores for ${selectedSubject} in ${selectedClass} have been saved and committed to student record sheets.`);
   }
 }
 
@@ -913,7 +960,11 @@ function renderBursarTransactions() {
 
   db.transactions.forEach((tx) => {
     const student = db.students[tx.studentId];
-    const liveBalance = student ? student.balance : (typeof tx.balance !== "undefined" ? tx.balance : Math.max(0, tx.billed - tx.paid));
+    // Show the balance as it stood immediately AFTER this transaction (audit trail),
+    // not the student's current balance, which would make every past row look identical.
+    const balanceAfter = (typeof tx.balance === "number")
+      ? tx.balance
+      : (student ? student.balance : Math.max(0, tx.billed - tx.paid));
     const txAmount = tx.amount || (tx.paid > 150000 ? 150000 : tx.paid);
 
     if (tx.verified) {
@@ -927,7 +978,7 @@ function renderBursarTransactions() {
       <td><span style="font-family: monospace; color: #555;">${tx.studentId}</span></td>
       <td>&#8358;${tx.billed.toLocaleString()}.00</td>
       <td style="color: #15803d; font-weight: 700;">&#8358;${txAmount.toLocaleString()}.00</td>
-      <td style="color: ${liveBalance === 0 ? '#15803d' : 'var(--color-red)'}; font-weight: 700;">&#8358;${liveBalance.toLocaleString()}.00</td>
+      <td style="color: ${balanceAfter === 0 ? '#15803d' : 'var(--color-red)'}; font-weight: 700;">&#8358;${balanceAfter.toLocaleString()}.00</td>
       <td><span style="font-family: monospace; font-size: 0.85rem; color: #555;">${tx.ref}</span></td>
       <td>
         ${tx.verified 
@@ -946,9 +997,9 @@ function verifyPayment(reference) {
   const result = verifyBursarTransactionById(reference);
   if (result.success) {
     renderBursarTransactions();
-    alert(`Payment reference ${reference} verified successfully. Student ledger updated.`);
+    bcSuccess(`Payment reference ${reference} verified successfully. Student ledger updated.`);
   } else {
-    alert(result.message);
+    bcError(result.message);
   }
 }
 
@@ -1197,27 +1248,37 @@ function renderAdmissionsTable() {
 function saveScoreDirectly(reference) {
   const input = document.getElementById("scoreInput_" + reference);
   if (!input || !input.value.trim()) {
-    alert("Please enter a valid screening percentage score.");
+    bcError("Please enter a valid screening percentage score.");
     return;
   }
   const result = saveApplicantEntranceScore(reference, input.value);
   if (result.success) {
     renderAdmissionsTable();
+    bcSuccess("Entrance screening score recorded for " + reference + ".");
   } else {
-    alert(result.message);
+    bcError(result.message);
   }
 }
 
 function promptEditScore(reference, currentScore) {
-  const newScore = prompt(`Enter updated entrance screening score for ${reference}:`, currentScore);
-  if (newScore !== null && newScore.trim() !== "") {
-    const result = saveApplicantEntranceScore(reference, newScore);
-    if (result.success) {
-      renderAdmissionsTable();
-    } else {
-      alert(result.message);
+  bcPrompt({
+    title: "Update screening score",
+    message: "Enter the updated entrance screening score for " + reference + ".",
+    inputLabel: "Screening score (%)",
+    value: currentScore,
+    inputType: "number",
+    confirmLabel: "Save score",
+    onConfirm: function (newScore) {
+      if (newScore === null || String(newScore).trim() === "") return;
+      const result = saveApplicantEntranceScore(reference, newScore);
+      if (result.success) {
+        renderAdmissionsTable();
+        bcSuccess("Screening score updated for " + reference + ".");
+      } else {
+        bcError(result.message);
+      }
     }
-  }
+  });
 }
 
 function handleGrantFullAdmission(reference) {
@@ -1228,7 +1289,7 @@ function handleGrantFullAdmission(reference) {
     renderAdmissionsTable();
     displayOfferModal(result);
   } else {
-    alert(result.message || "Unable to grant full admission at this time.");
+    bcError(result.message || "Unable to grant full admission at this time.");
   }
 }
 
@@ -1241,21 +1302,25 @@ function handleAdmitOnProbation(reference) {
     renderAdmissionsTable();
     displayOfferModal(result);
   } else {
-    alert(result.message || "Unable to process probationary admission.");
+    bcError(result.message || "Unable to process probationary admission.");
   }
 }
 
 function handleDeclineAdmission(reference) {
-  const confirmDecline = confirm(`Are you sure you want to decline admission for candidate ${reference}? This will transmit a formal Notice of Non-Admission.`);
-  if (!confirmDecline) return;
-
-  const result = declineAdmissionInDb(reference);
-  if (result.success) {
-    renderAdmissionsTable();
-    displayOfferModal(result);
-  } else {
-    alert(result.message || "Unable to record decline decision.");
-  }
+  bcConfirm(`Decline admission for candidate ${reference}? This will transmit a formal Notice of Non-Admission.`, function() {
+    const result = declineAdmissionInDb(reference);
+    if (result.success) {
+      renderAdmissionsTable();
+      displayOfferModal(result);
+    } else {
+      bcError(result.message || "Unable to record decline decision.");
+    }
+  }, {
+    title: "Decline admission?",
+    confirmLabel: "Decline candidate",
+    cancelLabel: "Keep candidate",
+    danger: true
+  });
 }
 
 function reopenDecision(reference) {
@@ -1274,7 +1339,7 @@ function viewDecisionDocument(reference, requestedType) {
   if (data && data.application) {
     displayOfferModal(data);
   } else {
-    alert("Admission document record could not be retrieved for " + reference);
+    bcError("Admission document record could not be retrieved for " + reference);
   }
 }
 
@@ -1539,7 +1604,7 @@ function openCandidateDossier(reference) {
   const db = getBantuDatabase();
   const app = (db.applications || []).find(a => a.ref === reference);
   if (!app) {
-    alert("Candidate dossier record not found for " + reference);
+    bcError("Candidate dossier record not found for " + reference);
     return;
   }
   currentDossierRef = reference;
@@ -1666,7 +1731,7 @@ function printAdmissionLetterDirectly() {
     <head>
       <meta charset="UTF-8">
       <base href="${baseUrl}">
-      <title>Bantu College - ${docTitle}</title>
+      <title>Bantu College | ${docTitle}</title>
       <style>
         :root {
           --color-slate: #2B2A42;
